@@ -1,26 +1,38 @@
-<script setup lang="ts">
-import Versions from './components/Versions.vue'
-
-const ipcHandle = () => window.electron.ipcRenderer.send('ping')
-</script>
-
 <template>
-  <img alt="logo" class="logo" src="./assets/electron.svg" />
-  <div class="creator">Powered by electron-vite</div>
-  <div class="text">
-    Build an Electron app with
-    <span class="vue">Vue</span>
-    and
-    <span class="ts">TypeScript</span>
-  </div>
-  <p class="tip">Please try pressing <code>F12</code> to open the devTool</p>
-  <div class="actions">
-    <div class="action">
-      <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">Documentation</a>
-    </div>
-    <div class="action">
-      <a target="_blank" rel="noreferrer" @click="ipcHandle">Send IPC</a>
+  <div class="app-wrapper">
+    <userHeader />
+    <div class="flex justify-between app-content">
+      <div class="drag"><dragger></dragger></div>
+      <div class="edit"><richEdit></richEdit></div>
     </div>
   </div>
-  <Versions />
 </template>
+
+<script setup lang="ts">
+import userHeader from './components/header.vue'
+import richEdit from './views/rich-edit.vue'
+import dragger from './views/dragger.vue'
+</script>
+<style scoped>
+.app-wrapper {
+  background-color: #dde3e9;
+  min-height: 100vh;
+  .app-content {
+    margin: 10px;
+    min-height: calc(100vh - 70px);
+    border-radius: 5px;
+    overflow: auto;
+    .drag {
+      min-width: 700px;
+      max-width: 700px;
+      background-color: #fff;
+      border-right: 1px solid #f0f0f0;
+    }
+
+    .edit {
+      width: 100%;
+      background-color: #fff;
+    }
+  }
+}
+</style>
