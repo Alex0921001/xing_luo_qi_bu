@@ -232,18 +232,19 @@
         <a-button @click="handleSet('gong')" style="margin-left: 10px" type="primary"
           >排宫</a-button
         >
-        <a-button @click="handleClear('gong')" style="margin-left: 10px">清空</a-button>
+        <a-button @click="handleClear('gong')" style="margin-left: 10px">清宫</a-button>
       </div>
       <div v-if="activeKey === '2'">
         <a-button @click="handleSet('star')" style="margin-left: 10px" type="primary"
           >布星</a-button
         >
-        <a-button @click="handleClear('star')" style="margin-left: 10px">清空</a-button>
+        <a-button @click="handleClear('star')" style="margin-left: 10px">清星</a-button>
       </div>
       <div v-if="activeKey === '3'">
         <a-button @click="handleSet('gan')" style="margin-left: 10px" type="primary">列干</a-button>
-        <a-button @click="handleClear('gan')" style="margin-left: 10px">清空</a-button>
+        <a-button @click="handleClear('gan')" style="margin-left: 10px">清干</a-button>
       </div>
+      <a-button @click="handleClear()" danger style="margin-left: 10px">清空</a-button>
     </div>
   </div>
 </template>
@@ -479,13 +480,15 @@ const dropBox = (Id: number) => {
 }
 
 // 清空 0: 全部 1: 原局 2: 大限 3: 流年 4: 星
-const handleClear = (type: string) => {
+const handleClear = (type?: string) => {
   item_info.value.forEach((it) => {
     if (!type) {
       it.stars = []
       it.boxName = ''
       it.everyYearName = ''
       it.tenYearsName = ''
+      it.ganName = ''
+      shengNianGan.value = 0
     } else if (type === 'gong') {
       if (filterGongType.value === '命') {
         it.boxName = ''
