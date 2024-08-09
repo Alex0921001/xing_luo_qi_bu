@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import userHeader from './components/header.vue'
 import richEdit from './views/rich-edit.vue'
 import dragger from './views/dragger.vue'
 </script>

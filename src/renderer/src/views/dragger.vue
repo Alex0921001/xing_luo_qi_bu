@@ -555,7 +555,7 @@ const handleDelete = (name: string, type: number, Id: number) => {
 // 宫职分布
 const handleSetGongs = () => {
   // 获取当前公职顺序
-  const _GongsSort = gongs.value.filter((item, index) => {
+  const _GongsSort = gongs.value.filter((item) => {
     return item.subType === filterGongType.value
   })
   // 获取当前填写的宫职
@@ -599,6 +599,7 @@ const handleSetGongs = () => {
       else item_info.value[currentNum].everyYearName = currentStar.fullName
     }
   }
+  return
 }
 // 北斗
 const NorthStars = computed(() => {
@@ -648,6 +649,7 @@ const handleSetStars = () => {
   } else {
     return message.error('请保持当前南/北斗有且仅有一个置于命盘之上')
   }
+  return
 }
 
 // 排布北斗星
@@ -740,6 +742,7 @@ const handleGans = () => {
     item_info.value[1].ganName = item_info.value[3].ganName
     item_info.value[2].ganName = item_info.value[4].ganName
   }
+  return
 }
 
 // 布局
@@ -747,6 +750,7 @@ const handleSet = (type: string) => {
   if (type === 'star') return handleSetStars()
   if (type === 'gong') return handleSetGongs()
   if (type === 'gan') return handleGans()
+  return
 }
 
 const currentClickBox = ref<Item | null>(null)

@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { onBeforeUnmount, ref, shallowRef } from 'vue'
+import { Editor } from '@wangeditor/editor-for-vue'
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -21,7 +21,6 @@ const editorRef = shallowRef()
 // 内容 HTML
 const valueHtml = ref('')
 
-const toolbarConfig = {}
 const editorConfig = { placeholder: '请输入内容...' }
 
 // 组件销毁时，也及时销毁编辑器
