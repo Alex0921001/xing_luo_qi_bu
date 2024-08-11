@@ -1,9 +1,16 @@
 <template>
   <div class="ziwei">
-    <a-tabs v-model:activeKey="activeKey">
-      <a-tab-pane key="1" tab="宫 垣">
+    <div class="main-filter">
+      <div class="item" @click="activeKey = '1'" :class="{ active: activeKey === '1' }">宫</div>
+      <div class="item" @click="activeKey = '2'" :class="{ active: activeKey === '2' }">星</div>
+      <div class="item" @click="activeKey = '3'" :class="{ active: activeKey === '3' }">干</div>
+      <div class="item" @click="activeKey = '4'" :class="{ active: activeKey === '4' }">因</div>
+    </div>
+    <div class="filter-items">
+      <template v-if="activeKey === '1'">
         <div class="content">
           <div class="filter">
+            <a-input v-model:value="filterGongText" placeholder="搜索宫职" allow-clear></a-input>
             <a-radio-group v-model:value="filterGongType" button-style="solid">
               <a-radio-button value="命">原局</a-radio-button>
               <a-radio-button value="限">大限</a-radio-button>
@@ -24,18 +31,11 @@
             </div>
           </div>
         </div>
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="星 辰">
-        <div class="content">
+      </template>
+      <template v-if="activeKey === '2'"
+        ><div class="content">
           <div class="filter">
-            <a-radio-group v-model:value="filterStarsType" button-style="solid">
-              <a-radio-button :value="''">全部</a-radio-button>
-              <a-radio-button value="北">北斗</a-radio-button>
-              <a-radio-button value="南">南斗</a-radio-button>
-              <a-radio-button value="辅">辅星</a-radio-button>
-              <a-radio-button value="煞">煞星</a-radio-button>
-              <a-radio-button value="杂">杂耀</a-radio-button>
-            </a-radio-group>
+            <a-input v-model:value="filterStarText" placeholder="搜索星辰" allow-clear></a-input>
           </div>
 
           <div class="items">
@@ -51,9 +51,9 @@
               {{ it.name }}
             </div>
           </div>
-        </div></a-tab-pane
+        </div></template
       >
-      <a-tab-pane key="3" tab="籍 干">
+      <template v-if="activeKey === '3'">
         <div class="content">
           <div class="items">
             <div
@@ -67,44 +67,48 @@
               {{ it.name }}
             </div>
           </div>
-        </div></a-tab-pane
-      >
-      <a-tab-pane key="4" tab="来 因">
+        </div>
+      </template>
+      <template v-if="activeKey === '4'">
         <div class="content">
-          <div class="filter">
-            <a-radio-group v-model:value="shengNianGan" button-style="solid">
-              <a-radio-button :value="0">无</a-radio-button>
-              <a-radio-button :value="1">甲</a-radio-button>
-              <a-radio-button :value="2">乙</a-radio-button>
-              <a-radio-button :value="3">丙</a-radio-button>
-              <a-radio-button :value="4">丁</a-radio-button>
-              <a-radio-button :value="5">戊</a-radio-button>
-              <a-radio-button :value="6">己</a-radio-button>
-              <a-radio-button :value="7">庚</a-radio-button>
-              <a-radio-button :value="8">辛</a-radio-button>
-              <a-radio-button :value="9">壬</a-radio-button>
-              <a-radio-button :value="10">癸</a-radio-button>
-            </a-radio-group>
+          <div class="sheng-nian">
+            <div class="item" :class="{ active: shengNianGan === 0 }" @click="shengNianGan = 0">
+              无
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 1 }" @click="shengNianGan = 1">
+              甲
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 2 }" @click="shengNianGan = 2">
+              乙
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 3 }" @click="shengNianGan = 3">
+              丙
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 4 }" @click="shengNianGan = 4">
+              丁
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 5 }" @click="shengNianGan = 5">
+              戊
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 6 }" @click="shengNianGan = 6">
+              己
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 7 }" @click="shengNianGan = 7">
+              庚
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 8 }" @click="shengNianGan = 8">
+              辛
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 9 }" @click="shengNianGan = 9">
+              壬
+            </div>
+            <div class="item" :class="{ active: shengNianGan === 10 }" @click="shengNianGan = 10">
+              癸
+            </div>
           </div>
         </div>
-      </a-tab-pane>
-      <template #rightExtra>
-        <a-input
-          v-if="activeKey === '1'"
-          v-model:value="filterGongText"
-          placeholder="搜索宫职"
-          style="width: 200px; margin-right: 10px"
-          allow-clear
-        ></a-input>
-        <a-input
-          v-else-if="activeKey === '2'"
-          v-model:value="filterStarText"
-          placeholder="搜索星辰"
-          style="width: 200px; margin-right: 10px"
-          allow-clear
-        ></a-input>
       </template>
-    </a-tabs>
+    </div>
 
     <div class="paipan">
       <div class="context">
@@ -225,26 +229,27 @@
           ></unitItem>
         </div>
       </div>
-    </div>
-
-    <div class="foot-tools">
-      <div v-if="activeKey === '1'">
-        <a-button @click="handleSet('gong')" style="margin-left: 10px" type="primary"
-          >排宫</a-button
-        >
-        <a-button @click="handleClear('gong')" style="margin-left: 10px">清宫</a-button>
+      <div class="foot-tools">
+        <div v-if="activeKey === '1'">
+          <a-button @click="handleSet('gong')" style="margin-left: 10px" type="primary"
+            >排宫</a-button
+          >
+          <a-button @click="handleClear('gong')" style="margin-left: 10px">清宫</a-button>
+        </div>
+        <div v-if="activeKey === '2'">
+          <a-button @click="handleSet('star')" style="margin-left: 10px" type="primary"
+            >布星</a-button
+          >
+          <a-button @click="handleClear('star')" style="margin-left: 10px">清星</a-button>
+        </div>
+        <div v-if="activeKey === '3'">
+          <a-button @click="handleSet('gan')" style="margin-left: 10px" type="primary"
+            >列干</a-button
+          >
+          <a-button @click="handleClear('gan')" style="margin-left: 10px">清干</a-button>
+        </div>
+        <a-button @click="handleClear()" style="margin-left: 10px" danger>清空</a-button>
       </div>
-      <div v-if="activeKey === '2'">
-        <a-button @click="handleSet('star')" style="margin-left: 10px" type="primary"
-          >布星</a-button
-        >
-        <a-button @click="handleClear('star')" style="margin-left: 10px">清星</a-button>
-      </div>
-      <div v-if="activeKey === '3'">
-        <a-button @click="handleSet('gan')" style="margin-left: 10px" type="primary">列干</a-button>
-        <a-button @click="handleClear('gan')" style="margin-left: 10px">清干</a-button>
-      </div>
-      <a-button @click="handleClear()" danger style="margin-left: 10px">清空</a-button>
     </div>
   </div>
 </template>
@@ -260,7 +265,6 @@ const xings = ref(XINGS)
 const gans = ref(GANS)
 
 const activeKey = ref('1')
-const filterStarsType = ref('北')
 const filterStarText = ref('')
 const filterGongType = ref('命')
 const filterGongText = ref('')
@@ -401,9 +405,6 @@ const filterXings = computed(() => {
       return !item_info.value.some((item) => {
         return item.stars.some((star) => star.Id === it.Id)
       })
-    })
-    .filter((star) => {
-      return filterStarsType.value === '' || star.subType === filterStarsType.value
     })
     .filter((star) => {
       return filterStarText.value === '' || star.fullName.includes(filterStarText.value)
@@ -765,12 +766,89 @@ const handleClickBox = (item: Item) => {
 <style lang="less" scoped>
 .ziwei {
   position: relative;
-  height: 100%;
-  :deep(.ant-tabs-nav-wrap) {
-    padding: 0 10px;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  .main-filter {
+    height: 100%;
+    width: 50px;
+    background-color: #097aff;
+    .item {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      font-size: larger;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+    .active {
+      background-color: #f0f0f0;
+      color: #097aff;
+      border-bottom-left-radius: 10px;
+      border-top-left-radius: 10px;
+    }
+  }
+  .filter-items {
+    height: 100%;
+    width: 210px;
+    background-color: #f0f0f0;
+    border-right: 1px solid #c5c5c5;
+    padding: 10px;
+    overflow: auto;
+    .content {
+      min-height: 50px;
+      line-height: 50px;
+      .sheng-nian {
+        .item {
+          padding: 0 2px;
+          margin: 3px;
+          height: 45px;
+          min-width: 45px;
+          line-height: 45px;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+          color: #097aff;
+          background-color: white;
+          &:hover {
+            background-color: #a2cdff;
+          }
+        }
+        .active {
+          background-color: #097aff !important;
+          color: white;
+        }
+      }
+      .items {
+        width: 100%;
+        display: inline-block;
+        border-radius: 5px;
+        min-height: 62px;
+        .item {
+          padding: 0 2px;
+          margin: 3px;
+          height: 45px;
+          min-width: 45px;
+          line-height: 45px;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+          background-color: white;
+          cursor: move;
+          &:hover {
+            box-shadow: 0 0 5px #5f5f5f;
+          }
+        }
+      }
+    }
   }
   .paipan {
-    height: 550px;
+    height: 100%;
+    width: calc(100% - 250px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -779,54 +857,17 @@ const handleClickBox = (item: Item) => {
       min-width: 500px;
     }
   }
-  .content {
-    min-height: 50px;
-    line-height: 50px;
-    margin-top: -5px;
-    padding: 0 10px;
-    .filter {
-      height: 30px;
-      line-height: 30px;
-      margin-bottom: 10px;
-    }
-    .items {
-      width: 100%;
-      display: inline-block;
-      background-color: #c5c5c5;
-      padding: 5px;
-      border-radius: 5px;
-      min-height: 62px;
-      .item {
-        display: inline-block;
-        padding: 0 2px;
-        margin: 3px;
-        height: 45px;
-        min-width: 45px;
-        line-height: 45px;
-        border-radius: 5px;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        background-color: white;
-        cursor: move;
-        &:hover {
-          box-shadow: 2px 2px 3px #888888;
-          color: #000 !important;
-        }
-      }
-    }
-  }
+
   .foot-tools {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #c5c5c5;
     position: absolute;
-    width: 100%;
+    width: calc(100% - 260px);
     height: 50px;
     bottom: 0;
     display: flex;
     align-items: center;
     justify-content: right;
     padding: 0 10px;
-    background-color: #fff;
   }
 }
 </style>

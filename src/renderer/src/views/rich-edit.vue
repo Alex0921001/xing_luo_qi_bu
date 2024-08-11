@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
     <Editor
-      style="height: 100%; overflow-y: hidden"
+      style="height: 100%; overflow-y: hidden; background-color: #c5c5c5"
       v-model="valueHtml"
       :defaultConfig="editorConfig"
       mode="default"
@@ -34,3 +34,4 @@ const handleCreated = (editor: any) => {
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 </script>
+<script lang="less" scoped></script>

@@ -18,16 +18,13 @@ import dragger from './views/dragger.vue'
   overflow: hidden;
   .app-content {
     display: flex;
-    justify-content: center;
-    margin: 10px;
-    min-height: calc(100vh - 20px);
+    min-height: 100vh;
     border-radius: 5px;
     overflow: auto;
     .drag {
-      min-width: 700px;
-      max-width: 700px;
+      min-width: 900px;
       background-color: #fff;
-      border-right: 1px solid #f0f0f0;
+      border-right: 1px solid #c5c5c5;
     }
 
     .edit {
