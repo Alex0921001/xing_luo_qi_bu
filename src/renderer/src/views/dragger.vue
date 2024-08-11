@@ -48,6 +48,7 @@
               @dragstart="dragstart(it)"
               :style="{ color: getColor(it), backgroundColor: getBackgroundColor(it) }"
             >
+              <div class="sub-item">{{ it.subType }}</div>
               {{ it.name }}
             </div>
           </div>
@@ -228,6 +229,7 @@
             @onClick="handleClickBox"
           ></unitItem>
         </div>
+        <div class="line"><lineCanvas :currentClickBox="currentClickBox"></lineCanvas></div>
       </div>
       <div class="foot-tools">
         <div v-if="activeKey === '1'">
@@ -255,6 +257,7 @@
 </template>
 <script lang="ts" setup>
 import unitItem from '../components/unit-item.vue'
+import lineCanvas from '../components/line-canvas.vue'
 import { ref, reactive } from 'vue'
 import { GONGS, XINGS, GANS } from '../enums'
 import { computed } from 'vue'
@@ -769,10 +772,11 @@ const handleClickBox = (item: Item) => {
   height: 100vh;
   display: flex;
   overflow: hidden;
+  background-color: #f5f5f5;
   .main-filter {
     height: 100%;
     width: 50px;
-    background-color: #097aff;
+    background-color: #282828;
     .item {
       width: 50px;
       height: 50px;
@@ -838,9 +842,17 @@ const handleClickBox = (item: Item) => {
           font-size: 18px;
           font-weight: bold;
           background-color: white;
+          position: relative;
           cursor: move;
           &:hover {
             box-shadow: 0 0 5px #5f5f5f;
+          }
+          .sub-item {
+            font-size: 15px;
+            position: absolute;
+            bottom: -3px;
+            right: 10px;
+            height: 100%;
           }
         }
       }
@@ -853,8 +865,15 @@ const handleClickBox = (item: Item) => {
     justify-content: center;
     align-items: center;
     .context {
+      background-color: white;
       max-height: 500px;
       min-width: 500px;
+      position: relative;
+      .line {
+        position: absolute;
+        top: 125px;
+        left: 150px;
+      }
     }
   }
 

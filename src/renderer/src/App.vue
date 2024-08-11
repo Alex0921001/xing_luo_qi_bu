@@ -19,7 +19,6 @@ import dragger from './views/dragger.vue'
   .app-content {
     display: flex;
     min-height: 100vh;
-    border-radius: 5px;
     overflow: auto;
     .drag {
       min-width: 900px;

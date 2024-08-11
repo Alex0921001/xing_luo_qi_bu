@@ -295,6 +295,7 @@ function getDuiZihuaXing(ganIndex: number) {
   return duiZihuaXings
 }
 
+// 设置自化箭头
 function handleSetZiHua() {
   const ganIndex = SHENGNIANGANNAME.findIndex((it) => it === props.ganName)
   let zihuaXings: any[] = getZihuaXing(ganIndex)
