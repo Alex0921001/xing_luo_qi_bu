@@ -22,6 +22,9 @@
           >
             {{ it.fullName }}
           </span>
+          <span style="color: #5f5f5f; font-size: 12px">
+            {{ getStatStatus(it.Id) }}
+          </span>
           <span
             v-if="getShengNianSiHua(it.Id)"
             class="sihua"
@@ -77,7 +80,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import { SIHUA, ALL_ZIHUA } from '../enums'
+import { SIHUA, ALL_ZIHUA, STATUS } from '../enums'
 import { ArrowUpOutlined } from '@ant-design/icons-vue'
 
 type Props = {
@@ -108,6 +111,15 @@ interface Item {
   ganName: string
 }
 const props = defineProps<Props>()
+
+const getStatStatus = computed(() => {
+  return function (Id: number) {
+    if (STATUS[Id] && STATUS[Id][props.Id]) {
+      return STATUS[Id][props.Id]
+    }
+    return ''
+  }
+})
 
 const emit = defineEmits(['dropBox', 'onDelete', 'onClick'])
 const handleDrop = (e: DragEvent) => {
