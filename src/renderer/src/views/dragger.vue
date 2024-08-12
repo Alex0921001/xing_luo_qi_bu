@@ -1,10 +1,38 @@
 <template>
   <div class="ziwei">
     <div class="main-filter">
-      <div class="item" @click="activeKey = '1'" :class="{ active: activeKey === '1' }">宫</div>
-      <div class="item" @click="activeKey = '2'" :class="{ active: activeKey === '2' }">星</div>
-      <div class="item" @click="activeKey = '3'" :class="{ active: activeKey === '3' }">干</div>
-      <div class="item" @click="activeKey = '4'" :class="{ active: activeKey === '4' }">因</div>
+      <div
+        class="item"
+        @click="activeKey = '1'"
+        :class="{ active: activeKey === '1' }"
+        title="宫垣"
+      >
+        <i class="iconfont icon-xlqbsangezhengfangxing item-font"></i>
+      </div>
+      <div
+        class="item"
+        @click="activeKey = '2'"
+        :class="{ active: activeKey === '2' }"
+        title="星象"
+      >
+        <i class="iconfont icon-xlqbxingqiu item-font"></i>
+      </div>
+      <div
+        class="item"
+        @click="activeKey = '3'"
+        :class="{ active: activeKey === '3' }"
+        title="天干"
+      >
+        <i class="iconfont icon-xlqbdashujuzhengfangxing item-font"></i>
+      </div>
+      <div
+        class="item"
+        @click="activeKey = '4'"
+        :class="{ active: activeKey === '4' }"
+        title="生年"
+      >
+        <i class="iconfont icon-xlqbyinguofenxi item-font"></i>
+      </div>
     </div>
     <div class="filter-items">
       <template v-if="activeKey === '1'">
@@ -48,8 +76,7 @@
               @dragstart="dragstart(it)"
               :style="{ color: getColor(it), backgroundColor: getBackgroundColor(it) }"
             >
-              <div class="sub-item">{{ it.subType }}</div>
-              {{ it.name }}
+              <span>{{ it.name }}</span>
             </div>
           </div>
         </div></template
@@ -776,22 +803,26 @@ const handleClickBox = (item: Item) => {
   .main-filter {
     height: 100%;
     width: 50px;
-    background-color: #282828;
+    background-color: #494949;
     .item {
       width: 50px;
       height: 50px;
       line-height: 50px;
       text-align: center;
-      font-size: larger;
-      font-weight: bold;
-      color: white;
       cursor: pointer;
+      .item-font {
+        color: white;
+        font-size: 23px;
+      }
     }
     .active {
       background-color: #f0f0f0;
-      color: #097aff;
       border-bottom-left-radius: 10px;
       border-top-left-radius: 10px;
+      .item-font {
+        color: #097aff;
+        font-weight: bold;
+      }
     }
   }
   .filter-items {
@@ -832,10 +863,11 @@ const handleClickBox = (item: Item) => {
         border-radius: 5px;
         min-height: 62px;
         .item {
-          padding: 0 2px;
-          margin: 3px;
+          display: inline-block;
+          padding: 0 10px;
+          margin: 1px 2px;
           height: 45px;
-          min-width: 45px;
+          min-width: 40px;
           line-height: 45px;
           border-radius: 5px;
           text-align: center;
@@ -846,13 +878,6 @@ const handleClickBox = (item: Item) => {
           cursor: move;
           &:hover {
             box-shadow: 0 0 5px #5f5f5f;
-          }
-          .sub-item {
-            font-size: 15px;
-            position: absolute;
-            bottom: -3px;
-            right: 10px;
-            height: 100%;
           }
         }
       }
