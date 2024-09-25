@@ -1,11 +1,11 @@
 <template>
   <div style="height: 100%">
     <Editor
-      style="height: 100%; overflow-y: hidden; background-color: #c5c5c5"
       v-model="valueHtml"
-      :defaultConfig="editorConfig"
+      style="height: 100%; overflow-y: hidden; background-color: #c5c5c5"
+      :default-config="editorConfig"
       mode="default"
-      @onCreated="handleCreated"
+      @on-created="handleCreated"
     />
   </div>
 </template>
@@ -30,7 +30,7 @@ onBeforeUnmount(() => {
   editor.destroy()
 })
 
-const handleCreated = (editor: any) => {
+const handleCreated = (editor) => {
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 </script>

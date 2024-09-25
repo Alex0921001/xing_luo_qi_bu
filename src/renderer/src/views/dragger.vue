@@ -3,33 +3,33 @@
     <div class="main-filter">
       <div
         class="item"
-        @click="activeKey = '1'"
         :class="{ active: activeKey === '1' }"
         title="宫垣"
+        @click="activeKey = '1'"
       >
         <i class="iconfont icon-xlqbsangezhengfangxing item-font"></i>
       </div>
       <div
         class="item"
-        @click="activeKey = '2'"
         :class="{ active: activeKey === '2' }"
         title="星象"
+        @click="activeKey = '2'"
       >
         <i class="iconfont icon-xlqbxingqiu item-font"></i>
       </div>
       <div
         class="item"
-        @click="activeKey = '3'"
         :class="{ active: activeKey === '3' }"
         title="天干"
+        @click="activeKey = '3'"
       >
         <i class="iconfont icon-xlqbdashujuzhengfangxing item-font"></i>
       </div>
       <div
         class="item"
-        @click="activeKey = '4'"
         :class="{ active: activeKey === '4' }"
         title="生年"
+        @click="activeKey = '4'"
       >
         <i class="iconfont icon-xlqbyinguofenxi item-font"></i>
       </div>
@@ -52,8 +52,8 @@
               class="item"
               :type="it.type"
               draggable="true"
-              @dragstart="dragstart(it)"
               :style="{ color: getColor(it), backgroundColor: getBackgroundColor(it) }"
+              @dragstart="dragstart(it)"
             >
               {{ it.name }}
             </div>
@@ -73,8 +73,8 @@
               class="item"
               :type="it.type"
               draggable="true"
-              @dragstart="dragstart(it)"
               :style="{ color: getColor(it), backgroundColor: getBackgroundColor(it) }"
+              @dragstart="dragstart(it)"
             >
               <span>{{ it.name }}</span>
             </div>
@@ -89,8 +89,8 @@
               :key="it.Id"
               class="item"
               draggable="true"
-              @dragstart="dragstart(it)"
               :style="{ color: getColor(it), backgroundColor: getBackgroundColor(it) }"
+              @dragstart="dragstart(it)"
             >
               {{ it.name }}
             </div>
@@ -143,141 +143,141 @@
         <div>
           <unitItem
             v-bind="item_info[6]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[12]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[12]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[7]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[1]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[1]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[8]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[2]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[2]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[9]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[3]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[3]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
         </div>
         <div class="flex justify-between">
           <unitItem
             v-bind="item_info[5]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[11]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[11]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[10]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[4]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[4]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
         </div>
         <div class="flex justify-between">
           <unitItem
             v-bind="item_info[4]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[10]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[10]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[11]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[5]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[5]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
         </div>
         <div>
           <unitItem
             v-bind="item_info[3]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[9]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[9]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[2]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[8]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[8]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[1]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[7]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[7]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
           <unitItem
             v-bind="item_info[12]"
-            :shengNianGan="shengNianGan"
-            :currentClickBox="currentClickBox"
-            :duiGong="item_info[6]"
-            @dropBox="dropBox"
-            @onDelete="handleDelete"
-            @onClick="handleClickBox"
+            :sheng-nian-gan="shengNianGan"
+            :current-click-box="currentClickBox"
+            :dui-gong="item_info[6]"
+            @drop-box="dropBox"
+            @on-delete="handleDelete"
+            @on-click="handleClickBox"
           ></unitItem>
         </div>
-        <div class="line"><lineCanvas :currentClickBox="currentClickBox"></lineCanvas></div>
+        <div class="line"><lineCanvas :current-click-box="currentClickBox"></lineCanvas></div>
       </div>
       <div class="foot-tools">
         <div v-if="activeKey === '1'">
-          <a-button @click="handleSet('gong')" style="margin-left: 10px" type="primary"
+          <a-button style="margin-left: 10px" type="primary" @click="handleSet('gong')"
             >排宫</a-button
           >
-          <a-button @click="handleClear('gong')" style="margin-left: 10px">清宫</a-button>
+          <a-button style="margin-left: 10px" @click="handleClear('gong')">清宫</a-button>
         </div>
         <div v-if="activeKey === '2'">
-          <a-button @click="handleSet('star')" style="margin-left: 10px" type="primary"
+          <a-button style="margin-left: 10px" type="primary" @click="handleSet('star')"
             >布星</a-button
           >
-          <a-button @click="handleClear('star')" style="margin-left: 10px">清星</a-button>
+          <a-button style="margin-left: 10px" @click="handleClear('star')">清星</a-button>
         </div>
         <div v-if="activeKey === '3'">
-          <a-button @click="handleSet('gan')" style="margin-left: 10px" type="primary"
+          <a-button style="margin-left: 10px" type="primary" @click="handleSet('gan')"
             >列干</a-button
           >
-          <a-button @click="handleClear('gan')" style="margin-left: 10px">清干</a-button>
+          <a-button style="margin-left: 10px" @click="handleClear('gan')">清干</a-button>
         </div>
-        <a-button @click="handleClear()" style="margin-left: 10px" danger>清空</a-button>
+        <a-button style="margin-left: 10px" danger @click="handleClear()">清空</a-button>
       </div>
     </div>
   </div>
@@ -536,7 +536,7 @@ const handleClear = (type?: string) => {
   })
 }
 // 颜色选择
-const getColor = (it: any) => {
+const getColor = (it) => {
   if (it.subType === '北' || it.subType === '南') {
     return '#ff0000'
   } else if (it.subType === '辅') {
@@ -552,7 +552,7 @@ const getColor = (it: any) => {
   }
 }
 // 颜色选择
-const getBackgroundColor = (it: any) => {
+const getBackgroundColor = (it) => {
   if (it.subType === '北' || it.subType === '南') {
     return '#e79f9f'
   } else if (it.subType === '辅') {
@@ -641,7 +641,7 @@ const SouthStar = computed(() => {
   return xings.value.filter((item) => item.subType === '南')
 })
 // 南北都转换
-const ZiWeiMapTianFu = [, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6]
+const ZiWeiMapTianFu = [null, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6]
 // 布星
 const handleSetStars = () => {
   // 获取当前填写的星辰
@@ -685,7 +685,7 @@ const handleSetStars = () => {
 
 // 排布北斗星
 const handleNorthStars = (star: CurrentItem, position: number) => {
-  const _NorthStarSort = [1, 2, , 3, 4, 5, , , 6]
+  const _NorthStarSort = [1, 2, null, 3, 4, 5, null, null, 6]
   const currentStarIndex = _NorthStarSort.findIndex((item) => item === star.Id)
   const firstStarIndex = position + 12 + currentStarIndex //紫薇星的位置
   for (let i = 0; i < 9; i++) {
@@ -709,7 +709,7 @@ const handleNorthStars = (star: CurrentItem, position: number) => {
 }
 // 排布南斗星
 const handleSouthStars = (star: CurrentItem, position: number) => {
-  const _SouthStarSort = [7, 8, 9, 10, 11, 12, 13, , , , 14]
+  const _SouthStarSort = [7, 8, 9, 10, 11, 12, 13, null, null, null, 14]
   const currentStarIndex = _SouthStarSort.findIndex((item) => item === star.Id)
   const firstStarIndex = position + 12 - currentStarIndex //天府星的位置
   for (let i = 0; i < 14; i++) {
