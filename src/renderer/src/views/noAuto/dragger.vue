@@ -33,6 +33,9 @@
       >
         <i class="iconfont icon-xlqbyinguofenxi item-font"></i>
       </div>
+      <div class="logout" @click="logout">
+        <LogoutOutlined title="返回" />
+      </div>
     </div>
     <div class="filter-items">
       <template v-if="activeKey === '1'">
@@ -285,10 +288,12 @@
 <script lang="ts" setup>
 import unitItem from '@render/components/unit-item.vue'
 import lineCanvas from '@render/components/line-canvas.vue'
+import { LogoutOutlined } from '@ant-design/icons-vue'
 import { ref, reactive } from 'vue'
 import { GONGS, XINGS, GANS } from '@render/enums'
 import { computed } from 'vue'
 import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
 
 const gongs = ref(GONGS)
 const xings = ref(XINGS)
@@ -792,6 +797,12 @@ const handleClickBox = (item: Item) => {
     currentClickBox.value = item
   }
 }
+
+// 返回
+const router = useRouter()
+const logout = () => {
+  router.push('/home')
+}
 </script>
 <style lang="less" scoped>
 .ziwei {
@@ -823,6 +834,15 @@ const handleClickBox = (item: Item) => {
         color: #097aff;
         font-weight: bold;
       }
+    }
+    .logout {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      cursor: pointer;
     }
   }
   .filter-items {

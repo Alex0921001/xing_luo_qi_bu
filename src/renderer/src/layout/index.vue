@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <router-view #="{ Component }">
       <component :is="Component" :key="route.name" />
     </router-view>
