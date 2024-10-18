@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <stars class="stars"></stars>
+    <background class="bg"></background>
     <div class="auto text" @click="clickNoAuto">
       <span>手动</span>
       <span>排盘</span>
@@ -17,6 +19,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import background from './background.vue'
+import stars from './stars.vue'
 
 const router = useRouter()
 const clickAuto = () => {
@@ -34,9 +38,26 @@ const historyRecord = () => {
   position: relative;
   height: 100vh;
   background-color: black;
-  background-image: url('@render/assets/images/bg.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  touch-action: none;
+  // background-image: url('@render/assets/images/bg.png');
+  // background-repeat: no-repeat;
+  // background-size: 100% 100%;
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
   .auto {
     position: absolute;
     bottom: 20px;
@@ -71,6 +92,7 @@ const historyRecord = () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 3;
     &:hover {
       background-color: #5496ff;
     }
