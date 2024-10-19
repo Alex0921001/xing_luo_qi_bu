@@ -42,7 +42,11 @@
         <div class="content">
           <div class="filter">
             <a-input v-model:value="filterGongText" placeholder="搜索宫职" allow-clear></a-input>
-            <a-radio-group v-model:value="filterGongType" button-style="solid">
+            <a-radio-group
+              v-model:value="filterGongType"
+              button-style="solid"
+              @change="changeGongtype"
+            >
               <a-radio-button value="命">原局</a-radio-button>
               <a-radio-button value="限">大限</a-radio-button>
               <a-radio-button value="年">流年</a-radio-button>
@@ -446,6 +450,9 @@ const filterXings = computed(() => {
     })
 })
 
+const changeGongtype = (e) => {
+  filterGongType.value = e.target.value
+}
 const filterGongs = computed(() => {
   return gongs.value
     .filter((it) => {

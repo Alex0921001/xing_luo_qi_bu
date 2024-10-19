@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, nextTick } from 'vue'
 
 class Star {
   constructor(x, y, brightness, type) {
@@ -119,18 +119,20 @@ function animateShootingStar() {
   requestAnimationFrame(animateShootingStar)
 }
 
-let ctx = reactive()
-let canvas = reactive()
+let ctx = reactive({})
+let canvas = reactive({})
 
 onMounted(() => {
-  canvas = document.getElementById('canvas')
-  ctx = canvas.getContext('2d')
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  nextTick(() => {
+    canvas = document.getElementById('canvas')
+    ctx = canvas.getContext('2d')
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
 
-  createStars()
-  animateStars()
-  animateShootingStar()
+    createStars()
+    animateStars()
+    animateShootingStar()
+  })
 })
 </script>
 <style scoped></style>

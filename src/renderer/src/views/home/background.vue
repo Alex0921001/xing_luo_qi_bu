@@ -3,7 +3,7 @@
 </template>
 
 <script setup ts>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import * as THREE from 'three'
 import { XINGS } from '@render/enums'
 
@@ -328,27 +328,6 @@ const onTouchEnd = (event) => {
   }
 }
 
-// 事件监听
-window.addEventListener('mousedown', onMouseDown)
-window.addEventListener('mousemove', onMouseMove)
-window.addEventListener('mouseup', onMouseUp)
-window.addEventListener('touchstart', onTouchStart)
-window.addEventListener('touchmove', onTouchMove)
-window.addEventListener('touchend', onTouchEnd)
-document.addEventListener('gesturestart', function (e) {
-  e.preventDefault()
-})
-
-// 添加点击事件监听
-window.addEventListener('click', onMouseClick)
-
-// 处理窗口大小调整
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
-})
-
 function onMouseClick(event) {
   event.preventDefault()
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1
@@ -434,58 +413,6 @@ function animate() {
 
 animate()
 
-// function getRandomBrightColor() {
-//   const hue = Math.floor(Math.random() * 360)
-//   const saturation = Math.floor(Math.random() * 40 + 10)
-//   const lightness = Math.floor(Math.random() * 40 + 40)
-
-//   const rgb = hslToRgb(hue, saturation, lightness)
-
-//   return (rgb.r << 16) | (rgb.g << 8) | rgb.b
-// }
-
-// function hslToRgb(h, s, l) {
-//   s /= 100
-//   l /= 100
-
-//   const c = (1 - Math.abs(2 * l - 1)) * s
-//   const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
-//   const m = l - c / 2
-
-//   let r, g, b
-//   if (h >= 0 && h < 60) {
-//     r = c
-//     g = x
-//     b = 0
-//   } else if (h >= 60 && h < 120) {
-//     r = x
-//     g = c
-//     b = 0
-//   } else if (h >= 120 && h < 180) {
-//     r = 0
-//     g = c
-//     b = x
-//   } else if (h >= 180 && h < 240) {
-//     r = 0
-//     g = x
-//     b = c
-//   } else if (h >= 240 && h < 300) {
-//     r = x
-//     g = 0
-//     b = c
-//   } else {
-//     r = c
-//     g = 0
-//     b = x
-//   }
-
-//   return {
-//     r: Math.round((r + m) * 255),
-//     g: Math.round((g + m) * 255),
-//     b: Math.round((b + m) * 255)
-//   }
-// }
-
 // 颜色选择
 function getColor(it) {
   if (it.subType === '北' || it.subType === '南') {
@@ -502,6 +429,44 @@ function getColor(it) {
 onMounted(() => {
   const background = document.querySelector('.background')
   background.appendChild(renderer.domElement)
+
+  // 事件监听
+  window.addEventListener('mousedown', onMouseDown)
+  window.addEventListener('mousemove', onMouseMove)
+  window.addEventListener('mouseup', onMouseUp)
+  window.addEventListener('touchstart', onTouchStart)
+  window.addEventListener('touchmove', onTouchMove)
+  window.addEventListener('touchend', onTouchEnd)
+  document.addEventListener('gesturestart', function (e) {
+    e.preventDefault()
+  })
+
+  // 添加点击事件监听
+  window.addEventListener('click', onMouseClick)
+
+  // 处理窗口大小调整
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+  })
+})
+
+onUnmounted(() => {
+  // 事件监听
+  window.removeEventListener('mousedown', onMouseDown)
+  window.removeEventListener('mousemove', onMouseMove)
+  window.removeEventListener('mouseup', onMouseUp)
+  window.removeEventListener('touchstart', onTouchStart)
+  window.removeEventListener('touchmove', onTouchMove)
+  window.removeEventListener('touchend', onTouchEnd)
+  document.removeEventListener('gesturestart', () => {})
+
+  // 添加点击事件监听
+  window.removeEventListener('click', onMouseClick)
+
+  // 处理窗口大小调整
+  window.removeEventListener('resize', () => {})
 })
 </script>
 <style scoped>
