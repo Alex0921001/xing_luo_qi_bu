@@ -5,6 +5,7 @@
 <script setup ts>
 import { onMounted } from 'vue'
 import * as THREE from 'three'
+import { XINGS } from '@render/enums'
 
 // 创建场景
 const scene = new THREE.Scene()
@@ -57,7 +58,7 @@ const smallBalls = []
 const labelSprites = []
 
 const radius = 5
-const numPoints = 88
+const numPoints = XINGS.length
 const goldenRatio = (1 + Math.sqrt(5)) / 2
 const maxWidth = 160
 const textSpeed = 0.002
@@ -135,7 +136,7 @@ for (let i = 0; i < numPoints; i++) {
   const x = Math.cos(theta) * radiusAtY
   const z = Math.sin(theta) * radiusAtY
   const smallBallMaterial = new THREE.MeshBasicMaterial({
-    color: getRandomBrightColor(),
+    color: getColor(XINGS[i]),
     depthWrite: true,
     depthTest: true,
     side: THREE.FrontSide
@@ -145,9 +146,9 @@ for (let i = 0; i < numPoints; i++) {
   sphere.add(smallBall)
   smallBalls.push(smallBall)
 
-  const labelText = getRandomNickname()
+  const labelText = XINGS[i].name
   const { texture, needMarquee, HWRate } = createTextTexture(labelText, {
-    fontSize: 28,
+    fontSize: 30,
     fontFace: 'PingFang SC, Microsoft YaHei, Noto Sans, Arial, sans-serif',
     textColor: '#bbbbbb',
     maxWidth: maxWidth
@@ -433,96 +434,69 @@ function animate() {
 
 animate()
 
-function getRandomBrightColor() {
-  const hue = Math.floor(Math.random() * 360)
-  const saturation = Math.floor(Math.random() * 40 + 10)
-  const lightness = Math.floor(Math.random() * 40 + 40)
+// function getRandomBrightColor() {
+//   const hue = Math.floor(Math.random() * 360)
+//   const saturation = Math.floor(Math.random() * 40 + 10)
+//   const lightness = Math.floor(Math.random() * 40 + 40)
 
-  const rgb = hslToRgb(hue, saturation, lightness)
+//   const rgb = hslToRgb(hue, saturation, lightness)
 
-  return (rgb.r << 16) | (rgb.g << 8) | rgb.b
-}
+//   return (rgb.r << 16) | (rgb.g << 8) | rgb.b
+// }
 
-function hslToRgb(h, s, l) {
-  s /= 100
-  l /= 100
+// function hslToRgb(h, s, l) {
+//   s /= 100
+//   l /= 100
 
-  const c = (1 - Math.abs(2 * l - 1)) * s
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
-  const m = l - c / 2
+//   const c = (1 - Math.abs(2 * l - 1)) * s
+//   const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
+//   const m = l - c / 2
 
-  let r, g, b
-  if (h >= 0 && h < 60) {
-    r = c
-    g = x
-    b = 0
-  } else if (h >= 60 && h < 120) {
-    r = x
-    g = c
-    b = 0
-  } else if (h >= 120 && h < 180) {
-    r = 0
-    g = c
-    b = x
-  } else if (h >= 180 && h < 240) {
-    r = 0
-    g = x
-    b = c
-  } else if (h >= 240 && h < 300) {
-    r = x
-    g = 0
-    b = c
+//   let r, g, b
+//   if (h >= 0 && h < 60) {
+//     r = c
+//     g = x
+//     b = 0
+//   } else if (h >= 60 && h < 120) {
+//     r = x
+//     g = c
+//     b = 0
+//   } else if (h >= 120 && h < 180) {
+//     r = 0
+//     g = c
+//     b = x
+//   } else if (h >= 180 && h < 240) {
+//     r = 0
+//     g = x
+//     b = c
+//   } else if (h >= 240 && h < 300) {
+//     r = x
+//     g = 0
+//     b = c
+//   } else {
+//     r = c
+//     g = 0
+//     b = x
+//   }
+
+//   return {
+//     r: Math.round((r + m) * 255),
+//     g: Math.round((g + m) * 255),
+//     b: Math.round((b + m) * 255)
+//   }
+// }
+
+// 颜色选择
+function getColor(it) {
+  if (it.subType === '北' || it.subType === '南') {
+    return '#ff0000'
+  } else if (it.subType === '辅') {
+    return '#800080'
+  } else if (it.subType === '煞') {
+    return '#fff'
   } else {
-    r = c
-    g = 0
-    b = x
+    return '#097AFF'
   }
-
-  return {
-    r: Math.round((r + m) * 255),
-    g: Math.round((g + m) * 255),
-    b: Math.round((b + m) * 255)
-  }
-}
-
-function getRandomNickname() {
-  const adjectives = [
-    'Cool',
-    'Crazy',
-    'Mysterious',
-    'Happy',
-    'Silly',
-    'Brave',
-    'Smart',
-    'Swift',
-    'Fierce',
-    'Gentle'
-  ]
-  const nouns = [
-    'Tiger',
-    'Lion',
-    'Dragon',
-    'Wizard',
-    'Ninja',
-    'Pirate',
-    'Hero',
-    'Ghost',
-    'Phantom',
-    'Knight'
-  ]
-
-  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)]
-  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)]
-
-  const nickname = `${randomAdjective} ${randomNoun}`
-
-  if (nickname.length < 2) {
-    return getRandomNickname()
-  } else if (nickname.length > 22) {
-    return nickname.slice(0, 22)
-  }
-
-  return nickname
 }
 
 onMounted(() => {

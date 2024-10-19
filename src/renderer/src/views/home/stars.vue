@@ -71,7 +71,7 @@ function createShootingStar() {
   const startX = Math.random() * canvas.width * 0.5 // 从左侧开始
   const startY = 0 // 从顶部开始
   const speed = 4 + Math.random() * 6
-  const angle = Math.PI / 6 + (Math.random() * Math.PI) / 2 // 修改划过的角度范围
+  const angle = Math.PI / 4 + (Math.random() * Math.PI) / 4 // 修改划过的角度范围
 
   // 增加长度、宽度和颜色属性
   shootingStar = {
