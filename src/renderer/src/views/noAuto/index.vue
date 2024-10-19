@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="NoAuto">
 import richEdit from './rich-edit.vue'
 import dragger from './dragger.vue'
 </script>

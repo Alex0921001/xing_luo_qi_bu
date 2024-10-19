@@ -289,15 +289,12 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="dragger">
 import unitItem from '@render/components/unit-item.vue'
 import lineCanvas from '@render/components/line-canvas.vue'
 import { LogoutOutlined } from '@ant-design/icons-vue'
-import { ref, reactive } from 'vue'
 import { GONGS, XINGS, GANS } from '@render/enums'
-import { computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
 
 const gongs = ref(GONGS)
 const xings = ref(XINGS)

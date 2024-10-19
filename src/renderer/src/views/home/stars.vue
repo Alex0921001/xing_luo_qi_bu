@@ -2,9 +2,7 @@
   <canvas id="canvas"></canvas>
 </template>
 
-<script setup lang="ts">
-import { onMounted, reactive, nextTick } from 'vue'
-
+<script setup lang="ts" name="Stars">
 class Star {
   constructor(x, y, brightness, type) {
     this.x = x

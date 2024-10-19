@@ -10,9 +10,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="RichEdit">
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { onBeforeUnmount, ref, shallowRef } from 'vue'
 import { Editor } from '@wangeditor/editor-for-vue'
 
 // 编辑器实例，必须用 shallowRef

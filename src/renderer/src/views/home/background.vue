@@ -2,8 +2,7 @@
   <div class="background"></div>
 </template>
 
-<script setup ts>
-import { onMounted, onUnmounted } from 'vue'
+<script setup ts name="Background">
 import * as THREE from 'three'
 import { XINGS } from '@render/enums'
 

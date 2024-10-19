@@ -17,8 +17,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
+<script setup lang="ts" name="Home">
 import background from './background.vue'
 import stars from './stars.vue'
 
