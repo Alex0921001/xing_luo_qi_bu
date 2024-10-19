@@ -2,13 +2,13 @@
   <div class="app-wrapper">
     <div class="app-content">
       <div class="drag"><dragger></dragger></div>
-      <!-- <div class="edit"><richEdit></richEdit></div> -->
+      <div class="edit"><richEdit></richEdit></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// import richEdit from './rich-edit.vue'
+import richEdit from './rich-edit.vue'
 import dragger from './dragger.vue'
 </script>
 <style scoped>
