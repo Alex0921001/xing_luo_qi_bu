@@ -34,7 +34,7 @@
         <i class="iconfont icon-xlqbyinguofenxi item-font"></i>
       </div>
       <div class="logout" @click="logout">
-        <LogoutOutlined title="返回" />
+        <HomeOutlined title="返回" />
       </div>
     </div>
     <div class="filter-items">
@@ -292,7 +292,7 @@
 <script lang="ts" setup name="dragger">
 import unitItem from '@render/components/unit-item.vue'
 import lineCanvas from '@render/components/line-canvas.vue'
-import { LogoutOutlined } from '@ant-design/icons-vue'
+import { HomeOutlined } from '@ant-design/icons-vue'
 import { GONGS, XINGS, GANS } from '@render/enums'
 import { message } from 'ant-design-vue'
 

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8791338",
+      "name": "手动",
+      "font_class": "shoudong",
+      "unicode": "e729",
+      "unicode_decimal": 59177
+    },
+    {
       "icon_id": "1906918",
       "name": "三个正方形",
       "font_class": "sangezhengfangxing",
