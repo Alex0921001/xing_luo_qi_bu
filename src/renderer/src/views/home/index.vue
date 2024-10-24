@@ -10,12 +10,8 @@
       </a-input>
     </div>
     <div class="entry-items">
-      <div class="entry small-text" @click="clickNoAuto">
-        <i
-          class="iconfont icon-xlqbshoudong"
-          style="font-size: 26px; color: white"
-          title="手动排盘"
-        ></i>
+      <div class="entry small-text" title="手动排盘" @click="clickNoAuto">
+        <i class="iconfont icon-xlqbshoudong" style="font-size: 26px; color: white"></i>
       </div>
       <div class="entry small-text" @click="clickAuto">
         <GatewayOutlined style="font-size: 30px" title="自动排盘" />
@@ -35,7 +31,6 @@ import {
   SearchOutlined,
   SettingOutlined,
   FileTextOutlined,
-  AppstoreAddOutlined,
   GatewayOutlined
 } from '@ant-design/icons-vue'
 import background from './background.vue'

@@ -10,10 +10,14 @@ function createWindow(): void {
     height: 750,
     show: false,
     autoHideMenuBar: true,
+    // frame: false, // 无边框
+    // transparent: true, // 透明
+    // resizable: false, // 禁止调整窗口大小
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: true
     }
   })
 
@@ -35,16 +39,20 @@ function createWindow(): void {
   }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// 这段代码描述了一个应用程序在 Electron 框架中的初始化流程
+// 包括设置应用程序的用户模型 ID
+// 创建登录窗口和系统托盘
+// 并在需要时激活登录窗口
 app.whenReady().then(() => {
-  // Set app user model id for windows
+  // 设置应用程序的用户模型 ID
+  // 这个 ID 用于在 Windows 操作系统中标识应用程序
+  // 可以帮助操作系统区分不同的应用程序实例
   electronApp.setAppUserModelId('com.electron')
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+  // 监听 Electron 应用程序中 browser-window-created 事件
+  // 每当创建一个新的浏览器窗口（BrowserWindow）实例时，这个事件会被触发
+  // 在这里，使用了一个箭头函数来定义事件处理函数
+  // 这个函数会接收两个参数：事件对象和新建的 BrowserWindow 实例
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
@@ -52,11 +60,14 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
+  // 调用创建窗口函数
   createWindow()
 
+  // 监听 Electron 应用程序的 activate 事件
+  // 当应用程序被激活时，这个事件会被触发。激活事件通常发生在用户点击应用程序的图标时
+  // 这里的事件处理函数检查当前是否没有打开的窗口
+  // 如果没有，它将调用 createLoginWindow 函数，再次创建登录窗口
   app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
