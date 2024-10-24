@@ -290,10 +290,10 @@
   </div>
 </template>
 <script lang="ts" setup name="dragger">
-import unitItem from '@render/components/unit-item.vue'
-import lineCanvas from '@render/components/line-canvas.vue'
+import unitItem from '@renderer/components/unit-item.vue'
+import lineCanvas from '@renderer/components/line-canvas.vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
-import { GONGS, XINGS, GANS } from '@render/enums'
+import { GONGS, XINGS, GANS } from '@renderer/enums'
 import { message } from 'ant-design-vue'
 
 const gongs = ref(GONGS)

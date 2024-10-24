@@ -4,7 +4,7 @@
 
 <script setup ts name="Background">
 import * as THREE from 'three'
-import { XINGS } from '@render/enums'
+import { XINGS } from '@renderer/enums'
 
 // 创建场景
 const scene = new THREE.Scene()

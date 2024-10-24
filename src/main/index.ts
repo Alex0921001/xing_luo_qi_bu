@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { startServer, stopServer } from './express'
 
 function createWindow(): void {
   // Create the browser window.
@@ -43,7 +44,7 @@ function createWindow(): void {
 // 包括设置应用程序的用户模型 ID
 // 创建登录窗口和系统托盘
 // 并在需要时激活登录窗口
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // 设置应用程序的用户模型 ID
   // 这个 ID 用于在 Windows 操作系统中标识应用程序
   // 可以帮助操作系统区分不同的应用程序实例
@@ -59,6 +60,8 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  await startServer()
 
   // 调用创建窗口函数
   createWindow()
@@ -80,6 +83,8 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+app.on('will-quit', stopServer)
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

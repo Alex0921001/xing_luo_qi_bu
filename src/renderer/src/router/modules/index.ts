@@ -2,7 +2,7 @@ export default [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@render/views/home/index.vue'),
+    component: () => import('@renderer/views/home/index.vue'),
     meta: {
       title: '首页'
     }
@@ -10,7 +10,7 @@ export default [
   {
     path: '/noauto',
     name: 'noauto',
-    component: () => import('@render/views/noAuto/index.vue'),
+    component: () => import('@renderer/views/noAuto/index.vue'),
     meta: {
       title: '手动排盘'
     }

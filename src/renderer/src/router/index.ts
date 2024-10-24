@@ -5,7 +5,7 @@ import routers from './modules/index'
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    component: () => import('@render/layout/index.vue'),
+    component: () => import('@renderer/layout/index.vue'),
     children: [...routers],
     redirect: '/home',
     meta: {
