@@ -14,7 +14,7 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        '@render': resolve('src/renderer/src')
+        '@render': resolve('src/renderer/src/*')
       }
     },
     css: {
