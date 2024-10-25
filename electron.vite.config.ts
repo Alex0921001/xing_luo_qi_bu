@@ -6,7 +6,12 @@ import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    resolve: {
+      alias: {
+        '@main': resolve('src/main')
+      }
+    }
   },
   preload: {
     plugins: [externalizeDepsPlugin()]

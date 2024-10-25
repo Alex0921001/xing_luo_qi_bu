@@ -1,3 +1,5 @@
+import routers from './routes'
+
 // 引入express框架
 const express = require('express')
 const app = express()
@@ -15,30 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 const cors = require('cors')
 app.use(cors())
 
-// 导入路由模块
-// const autoRouter = require('./routes/auto')
-// const homeRouter = require('./routes/home')
-// const noautoRouter = require('./routes/noauto')
-// const userRouter = require('./routes/user')
-// app.use('/auto', autoRouter)
-// app.use('/home', homeRouter)
-// app.use('/noauto', noautoRouter)
-// app.use('/user', userRouter)
-
-// 定义一个简单的 API
-app.get('/api/data', (_req, res) => {
-  res.json({
-    code: 200,
-    data: [
-      {
-        name: '测试姓名',
-        age: 25,
-        address: '北京市'
-      }
-    ],
-    message: '请求成功！'
-  })
-})
+// 引入路由
+app.use('/api', routers)
 
 const PORT = 3000
 // 保存服务器实例，以便在需要时可以访问

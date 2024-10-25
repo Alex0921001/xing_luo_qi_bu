@@ -5,4 +5,4 @@ const api = createAxiosByinterceptors({
 })
 
 // 测试接口
-export const appList = (params: any): Promise<any> => api.get('/data', { params })
+export const appList = (params: any): Promise<any> => api.get('/user/get', { params })
