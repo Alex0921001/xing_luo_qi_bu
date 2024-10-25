@@ -1,20 +1,20 @@
 import routers from './routes'
+import express from 'express'
+import bodyParser from 'body-parser'
+import path from 'path'
+import cors from 'cors'
 
 // 引入express框架
-const express = require('express')
 const app = express()
 
 // 解析 JSON 请求体
-const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // 设置静态文件目录
-const path = require('path')
 app.use(express.static(path.join(__dirname, 'public')))
 
 // 设置跨域
-const cors = require('cors')
 app.use(cors())
 
 // 引入路由
