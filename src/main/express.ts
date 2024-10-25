@@ -1,3 +1,4 @@
+// 引入express框架
 const express = require('express')
 const app = express()
 
@@ -18,6 +19,11 @@ app.use(cors())
 // app.use('/home', homeRouter)
 // app.use('/noauto', noautoRouter)
 // app.use('/user', userRouter)
+
+// 定义一个简单的 API
+app.get('/api/data', (_req, res) => {
+  res.json({ message: 'Hello from your Node server!' })
+})
 
 // 保存服务器实例，以便在需要时可以访问
 let serverInstance

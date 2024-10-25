@@ -7,17 +7,24 @@ import { startServer, stopServer } from './express'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 750,
-    show: false,
-    autoHideMenuBar: true,
+    width: 1000, // 设置窗口的宽度为1000像素
+    height: 750, // 设置窗口的高度为750像素
+    show: false, // 初始时不显示窗口，可以在窗口内容加载完成后再显示
+    autoHideMenuBar: true, // 自动隐藏菜单栏。
     // frame: false, // 无边框
     // transparent: true, // 透明
     // resizable: false, // 禁止调整窗口大小
+
+    // 根据操作系统平台，可能需要设置窗口的图标。
     ...(process.platform === 'linux' ? { icon } : {}),
+
+    // 设置网页的首选项，这些设置影响渲染进程的行为。
     webPreferences: {
+      // 加载预加载脚本，该脚本在渲染进程启动前执行。
       preload: join(__dirname, '../preload/index.js'),
+      // 是否启用沙盒模式。
       sandbox: false,
+      // 是否启用 Node.js 集成。如果设置为 true，则可以在渲染进程中使用 Node.js API。
       nodeIntegration: true
     }
   })
@@ -26,13 +33,16 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  // 设置窗口打开新窗口的处理程序。
+  // 当尝试打开新窗口时，使用系统的默认浏览器打开链接，而不是在应用内打开。
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
-    return { action: 'deny' }
+    return { action: 'deny' } // 拒绝在应用内打开新窗口
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
+  // 根据环境变量和是否处于开发模式来决定加载远程 URL 或本地 HTML 文件。
+  // HMR 代表热模块替换，是一种在开发过程中不需要重新加载页面即可更新模块的技术。
+  // 如果处于开发模式，并且环境变量 ELECTRON_RENDERER_URL 存在，则加载该 URL。
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
@@ -61,6 +71,7 @@ app.whenReady().then(async () => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
+  // 调用创建服务器函数
   await startServer()
 
   // 调用创建窗口函数
