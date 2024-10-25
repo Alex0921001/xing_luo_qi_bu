@@ -19,7 +19,7 @@
       <div class="entry small-text" @click="historyRecord">
         <FileTextOutlined style="font-size: 30px" title="历史记录" />
       </div>
-      <div class="entry small-text" @click="historyRecord">
+      <div class="entry small-text" @click="clickSettings">
         <SettingOutlined style="font-size: 30px" title="设置" />
       </div>
     </div>
@@ -35,6 +35,7 @@ import {
 } from '@ant-design/icons-vue'
 import background from './background.vue'
 import stars from './stars.vue'
+import { appList } from '@renderer/api/api'
 
 const searchValue = ref('')
 
@@ -45,8 +46,13 @@ const clickAuto = () => {
 const clickNoAuto = () => {
   router.push('/noauto')
 }
-const historyRecord = () => {
+const historyRecord = async () => {
   console.log('historyRecord')
+  const resp = await appList({})
+  console.log(resp)
+}
+const clickSettings = async () => {
+  console.log('settings')
 }
 </script>
 <style scoped lang="less">

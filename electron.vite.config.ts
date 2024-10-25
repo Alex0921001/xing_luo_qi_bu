@@ -17,6 +17,15 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000/api',
+          changeOrigin: true, // 是否改变请求域名
+          rewrite: (path) => path.replace(/^\/api/, '') //将原有请求路径中的api替换为''
+        }
+      }
+    },
     css: {
       preprocessorOptions: {
         less: {
