@@ -716,32 +716,27 @@ const handleSetStars = () => {
     })
   // 判断星辰是否只填写了一个
   if (_Stars.length) {
-    if (_Stars.length > 1) return message.error('请保持当前南/北斗有且仅有一个置于命盘之上')
-    else {
-      const currentStar = _Stars[0]
-      const currentBox = item_info.value.find((item) => {
-        return item.stars.some((it) => it.Id === currentStar.Id)
-      })
-      if (NorthStars.value.some((item) => item.Id === currentStar.Id)) {
-        const firstIndex = handleNorthStars(currentStar, currentBox!.Id) // 北斗星排布
-        const tianFuIndex = ZiWeiMapTianFu[firstIndex]
-        handleSouthStars(
-          { Id: 7, type: 'star', name: '天府', subType: '南', fullName: '天府' },
-          tianFuIndex!
-        ) // 南斗星排布
-      } else if (SouthStar.value.some((item) => item.Id === currentStar.Id)) {
-        const firstIndex = handleSouthStars(currentStar, currentBox!.Id) // 南斗星排布
-        const ziWeiIndex = ZiWeiMapTianFu[firstIndex]
-        handleNorthStars(
-          { Id: 1, type: 'star', name: '紫微', subType: '北', fullName: '紫微' },
-          ziWeiIndex!
-        ) // 北斗星排布
-      } else {
-        return message.error('请保持当前南/北斗有且仅有一个置1于命盘之上')
-      }
+    const currentStar = _Stars[0]
+    const currentBox = item_info.value.find((item) => {
+      return item.stars.some((it) => it.Id === currentStar.Id)
+    })
+    if (NorthStars.value.some((item) => item.Id === currentStar.Id)) {
+      const firstIndex = handleNorthStars(currentStar, currentBox!.Id) // 北斗星排布
+      const tianFuIndex = ZiWeiMapTianFu[firstIndex]
+      handleSouthStars(
+        { Id: 7, type: 'star', name: '天府', subType: '南', fullName: '天府' },
+        tianFuIndex!
+      ) // 南斗星排布
+    } else if (SouthStar.value.some((item) => item.Id === currentStar.Id)) {
+      const firstIndex = handleSouthStars(currentStar, currentBox!.Id) // 南斗星排布
+      const ziWeiIndex = ZiWeiMapTianFu[firstIndex]
+      handleNorthStars(
+        { Id: 1, type: 'star', name: '紫微', subType: '北', fullName: '紫微' },
+        ziWeiIndex!
+      ) // 北斗星排布
+    } else {
+      return message.error('请保持当前南/北斗有且仅有一个置1于命盘之上')
     }
-  } else {
-    return message.error('请保持当前南/北斗有且仅有一个置于命盘之上')
   }
   return
 }
@@ -839,13 +834,13 @@ const handleGans = () => {
   return
 }
 
-// 布局
-const handleSet = (type: string) => {
-  if (type === 'star') return handleSetStars()
-  if (type === 'gong') return handleSetGongs()
-  if (type === 'gan') return handleGans()
-  return
-}
+// // 布局
+// const handleSet = (type: string) => {
+//   if (type === 'star') return handleSetStars()
+//   if (type === 'gong') return handleSetGongs()
+//   if (type === 'gan') return handleGans()
+//   return
+// }
 
 const currentClickBox = ref<Item | null>(null)
 const handleClickBox = (item: Item) => {
