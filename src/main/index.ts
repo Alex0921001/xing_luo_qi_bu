@@ -4,17 +4,21 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { startServer, stopServer } from './express'
 
+let mainWindow
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1000, // 设置窗口的宽度为1000像素
     height: 750, // 设置窗口的高度为750像素
     show: false, // 初始时不显示窗口，可以在窗口内容加载完成后再显示
     autoHideMenuBar: true, // 自动隐藏菜单栏。
     // frame: false, // 无边框
     // transparent: true, // 透明
-    // resizable: false, // 禁止调整窗口大小
-
+    resizable: true, // 调整窗口大小
+    maximizable: false, // 最大化窗口
+    fullscreenable: false, // 全屏
+    minWidth: 720, // 最小宽度
+    minHeight: 750, // 最小高度
     // 根据操作系统平台，可能需要设置窗口的图标。
     ...(process.platform === 'linux' ? { icon } : {}),
 

@@ -1,17 +1,17 @@
 <template>
   <div
     class="wrapper"
-    @drop="handleDrop"
-    @dragover="handleDragOver"
     :draggable="false"
-    @click="clickBox"
     :style="{
       background: getWrapperBackGroundColor
     }"
+    @drop="handleDrop"
+    @dragover="handleDragOver"
+    @click="clickBox"
   >
     <!-- 星 -->
     <div class="stars">
-      <template v-for="it in stars">
+      <template v-for="it in stars" :key="it.name">
         <div @dblclick="handleDeleteClick(it.name, 1)">
           <span
             :style="{
@@ -45,7 +45,6 @@
     </div>
     <!-- 来因 -->
     <div
-      class="lai-yin"
       v-if="
         props.ganName &&
         SHENGNIANGANNAME[props.shengNianGan] &&
@@ -53,13 +52,14 @@
         props.Id !== 1 &&
         props.Id !== 2
       "
+      class="lai-yin"
     >
       来因
     </div>
     <!-- 自化 -->
-    <template v-for="item in ziHua_clone">
-      <template v-for="sub in item">
-        <span class="zi-hua" :style="getZiHuaStyle(sub)" v-show="sub.show">
+    <template v-for="(item, index) in ziHua_clone">
+      <template v-for="(sub, subindex) in item" :key="`${index}_${subindex}`">
+        <span v-show="sub.show" class="zi-hua" :style="getZiHuaStyle(sub)">
           <ArrowUpOutlined />
         </span>
       </template>
@@ -272,7 +272,7 @@ watch(
 // 获取自化星
 function getZihuaXing(ganIndex: number) {
   const siHuaXing = SIHUA[ganIndex]
-  let zihuaXings: any[] = []
+  const zihuaXings: any[] = []
   if (siHuaXing) {
     siHuaXing.forEach((it, index) => {
       const star = props.stars.find((star) => star.Id === it)
@@ -291,7 +291,7 @@ function getZihuaXing(ganIndex: number) {
 // 获取对宫自化星
 function getDuiZihuaXing(ganIndex: number) {
   const siHuaXing = SIHUA[ganIndex]
-  let duiZihuaXings: any[] = []
+  const duiZihuaXings: any[] = []
   if (siHuaXing) {
     siHuaXing.forEach((it, index) => {
       const star = props.duiGong.stars.find((star) => star.Id === it)
@@ -310,8 +310,8 @@ function getDuiZihuaXing(ganIndex: number) {
 // 设置自化箭头
 function handleSetZiHua() {
   const ganIndex = SHENGNIANGANNAME.findIndex((it) => it === props.ganName)
-  let zihuaXings: any[] = getZihuaXing(ganIndex)
-  let duiZiHuaXings: any[] = getDuiZihuaXing(ganIndex)
+  const zihuaXings: any[] = getZihuaXing(ganIndex)
+  const duiZiHuaXings: any[] = getDuiZihuaXing(ganIndex)
   const zihuaFunc = (benIndex: number, duiIndex: number, rotate: number) => {
     ziHua_clone.value.map((item, index) => {
       // 本宫

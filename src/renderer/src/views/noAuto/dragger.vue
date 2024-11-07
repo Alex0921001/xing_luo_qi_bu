@@ -267,21 +267,12 @@
       </div>
       <div class="foot-tools">
         <div v-if="activeKey === '1'">
-          <a-button style="margin-left: 10px" type="primary" @click="handleSet('gong')"
-            >排宫</a-button
-          >
           <a-button style="margin-left: 10px" @click="handleClear('gong')">清宫</a-button>
         </div>
         <div v-if="activeKey === '2'">
-          <a-button style="margin-left: 10px" type="primary" @click="handleSet('star')"
-            >布星</a-button
-          >
           <a-button style="margin-left: 10px" @click="handleClear('star')">清星</a-button>
         </div>
         <div v-if="activeKey === '3'">
-          <a-button style="margin-left: 10px" type="primary" @click="handleSet('gan')"
-            >列干</a-button
-          >
           <a-button style="margin-left: 10px" @click="handleClear('gan')">清干</a-button>
         </div>
         <a-button style="margin-left: 10px" danger @click="handleClear()">清空</a-button>
@@ -516,6 +507,8 @@ const dropBox = (Id: number) => {
     } else {
       item_info.value[Id].everyYearName = current.fullName!
     }
+    // 自动排布
+    handleSetGongs()
   } else if (current.type === 'star') {
     const stars = item_info.value[Id].stars
     if (stars.some((it) => it.Id === current.Id)) {
@@ -523,8 +516,53 @@ const dropBox = (Id: number) => {
     }
     item_info.value[Id].stars.push(JSON.parse(JSON.stringify(current)))
     item_info.value[Id].stars = item_info.value[Id].stars.sort((a, b) => a.Id - b.Id)
+    handleSetStars()
+    // 对称排布
+    const symmetry = getSymmetry(Id, current.name)
+    if (symmetry.boxId) {
+      if (symmetry.star) {
+        item_info.value[symmetry.boxId].stars.push(JSON.parse(JSON.stringify(symmetry.star)))
+        item_info.value[symmetry.boxId].stars = item_info.value[symmetry.boxId].stars.sort(
+          (a, b) => a.Id - b.Id
+        )
+      }
+    }
   } else {
     item_info.value[Id].ganName = current.name!
+    handleGans()
+  }
+}
+
+// 丑未两宫对称排布 配置信息
+const ChouWeiLine = new Map([
+  [1, 3],
+  [2, 2],
+  [3, 1],
+  [4, 12],
+  [5, 11],
+  [6, 10],
+  [7, 9],
+  [8, 8],
+  [9, 7],
+  [10, 6],
+  [11, 5],
+  [12, 4]
+])
+const ChouWeiStar = new Map([
+  ['左辅', '右弼'],
+  ['右弼', '左辅'],
+  ['文昌', '文曲'],
+  ['文曲', '文昌']
+])
+
+// 获取昌曲，左右的对称
+const getSymmetry = function (boxId: number, xingName: string) {
+  const synStarName = ChouWeiStar.get(xingName)
+  const synBoxId = ChouWeiLine.get(boxId)
+  const star = xings.value.find((it) => it.name === synStarName)
+  return {
+    boxId: synBoxId,
+    star
   }
 }
 
@@ -590,6 +628,13 @@ const getBackgroundColor = (it) => {
 const handleDelete = (name: string, type: number, Id: number) => {
   if (type === 1) {
     item_info.value[Id].stars = item_info.value[Id].stars.filter((it) => it.name !== name)
+    // 删除对称星
+    const symmetry = getSymmetry(Id, name)
+    if (symmetry.boxId) {
+      item_info.value[symmetry.boxId].stars = item_info.value[symmetry.boxId].stars.filter(
+        (it) => it.name !== symmetry.star!.name
+      )
+    }
   } else if (type === 2) {
     item_info.value[Id].boxName = ''
   } else if (type === 3) {
