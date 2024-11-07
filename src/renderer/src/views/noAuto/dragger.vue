@@ -5,7 +5,7 @@
         class="item"
         :class="{ active: activeKey === '1' }"
         title="宫垣"
-        @click="activeKey = '1'"
+        @click="handleMemuItemsSelect('1')"
       >
         <i class="iconfont icon-xlqbsangezhengfangxing item-font"></i>
       </div>
@@ -13,7 +13,7 @@
         class="item"
         :class="{ active: activeKey === '2' }"
         title="星象"
-        @click="activeKey = '2'"
+        @click="handleMemuItemsSelect('2')"
       >
         <i class="iconfont icon-xlqbxingqiu item-font"></i>
       </div>
@@ -21,7 +21,7 @@
         class="item"
         :class="{ active: activeKey === '3' }"
         title="天干"
-        @click="activeKey = '3'"
+        @click="handleMemuItemsSelect('3')"
       >
         <i class="iconfont icon-xlqbdashujuzhengfangxing item-font"></i>
       </div>
@@ -29,7 +29,7 @@
         class="item"
         :class="{ active: activeKey === '4' }"
         title="生年"
-        @click="activeKey = '4'"
+        @click="handleMemuItemsSelect('4')"
       >
         <i class="iconfont icon-xlqbyinguofenxi item-font"></i>
       </div>
@@ -37,7 +37,7 @@
         <HomeOutlined title="返回" />
       </div>
     </div>
-    <div class="filter-items">
+    <div v-show="activeKey" class="filter-items">
       <template v-if="activeKey === '1'">
         <div class="content">
           <div class="filter">
@@ -300,7 +300,7 @@ const gongs = ref(GONGS)
 const xings = ref(XINGS)
 const gans = ref(GANS)
 
-const activeKey = ref('1')
+const activeKey = ref('')
 const filterStarText = ref('')
 const filterGongType = ref('命')
 const filterGongText = ref('')
@@ -475,6 +475,15 @@ const filterGans = computed(() => {
     })
   })
 })
+
+// 过滤类别调整
+const handleMemuItemsSelect = function (type: string) {
+  if (type === activeKey.value) {
+    activeKey.value = ''
+  } else {
+    activeKey.value = type
+  }
+}
 
 // 当前拖拽内容
 interface CurrentItem {
@@ -852,6 +861,7 @@ const logout = () => {
   .filter-items {
     height: 100%;
     width: 210px;
+    min-width: 210px;
     background-color: #f0f0f0;
     border-right: 1px solid #c5c5c5;
     padding: 10px;
@@ -908,16 +918,20 @@ const logout = () => {
     }
   }
   .paipan {
+    min-width: 650px;
     height: 100%;
-    width: calc(100% - 250px);
     display: flex;
+    flex-grow: 1;
     justify-content: center;
     align-items: center;
+    position: relative;
+    flex-direction: column; /* 让子元素纵向排列 */
     .context {
       background-color: white;
       max-height: 500px;
       min-width: 500px;
       position: relative;
+      flex-grow: 1; /* 让 context 部分填满剩余空间 */
       .line {
         position: absolute;
         top: 125px;
@@ -927,15 +941,16 @@ const logout = () => {
   }
 
   .foot-tools {
+    position: absolute; /* 绝对定位 */
+    bottom: 0; /* 定位到底部 */
+    left: 0; /* 跟左侧对齐 */
+    right: 0; /* 跟右侧对齐，宽度铺满 */
+    padding: 10px; /* 添加内边距 */
     border-top: 1px solid #c5c5c5;
-    position: absolute;
-    width: calc(100% - 260px);
     height: 50px;
-    bottom: 0;
     display: flex;
     align-items: center;
-    justify-content: right;
-    padding: 0 10px;
+    justify-content: flex-end;
   }
 }
 </style>
