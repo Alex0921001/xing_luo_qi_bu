@@ -562,18 +562,16 @@ const getSymmetry = function (boxId: number, xingName: string) {
   }
 }
 
-// 清空 0: 全部 1: 原局 2: 大限 3: 流年 4: 星
-const handleClear = (type?: string) => {
+// 清空
+const handleClear = () => {
   item_info.value.map((it) => {
-    if (!type) {
-      it.stars = []
-      it.boxName = ''
-      it.everyYearName = ''
-      it.tenYearsName = ''
-      it.ganName = ''
-      shengNianGan.value = 0
-    }
+    it.stars = []
+    it.boxName = ''
+    it.everyYearName = ''
+    it.tenYearsName = ''
+    it.ganName = ''
   })
+  shengNianGan.value = 0
 }
 // 颜色选择
 const getColor = (it) => {
