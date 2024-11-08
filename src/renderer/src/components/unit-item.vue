@@ -12,7 +12,7 @@
     <!-- 星 -->
     <div class="stars">
       <template v-for="it in stars" :key="it.name">
-        <div @dblclick="handleDeleteClick(it.name, 1)">
+        <div @dblclick="handleDeleteClick(it, 1)">
           <span
             :style="{
               color: getColor(it),
@@ -92,14 +92,15 @@ type Props = {
   ganName: string
   shengNianGan: number
   currentClickBox: Item | null
-  stars: {
-    Id: number
-    type: string
-    name: string
-    subType?: string
-    fullName?: string
-  }[]
+  stars: Star[]
   duiGong: Item
+}
+interface Star {
+  Id: number
+  type: string
+  name: string
+  subType?: string
+  fullName?: string
 }
 interface Item {
   Id: number
@@ -209,8 +210,8 @@ const getStarsFontSize = computed(() => {
   }
 })
 // 删除 type 1: 星 2: 原局 3: 大限 4: 流年
-const handleDeleteClick = (name: string, type: number) => {
-  emit('onDelete', name, type, props.Id)
+const handleDeleteClick = (item: string | Star, type: number) => {
+  emit('onDelete', item, type, props.Id)
 }
 
 // 点击盒子

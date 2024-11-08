@@ -266,16 +266,7 @@
         <div class="line"><lineCanvas :current-click-box="currentClickBox"></lineCanvas></div>
       </div>
       <div class="foot-tools">
-        <div v-if="activeKey === '1'">
-          <a-button style="margin-left: 10px" @click="handleClear('gong')">清宫</a-button>
-        </div>
-        <div v-if="activeKey === '2'">
-          <a-button style="margin-left: 10px" @click="handleClear('star')">清星</a-button>
-        </div>
-        <div v-if="activeKey === '3'">
-          <a-button style="margin-left: 10px" @click="handleClear('gan')">清干</a-button>
-        </div>
-        <a-button style="margin-left: 10px" danger @click="handleClear()">清空</a-button>
+        <a-button style="margin-left: 10px" danger @click="handleClear">清空</a-button>
       </div>
     </div>
   </div>
@@ -285,7 +276,6 @@ import unitItem from '@renderer/components/unit-item.vue'
 import lineCanvas from '@renderer/components/line-canvas.vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
 import { GONGS, XINGS, GANS } from '@renderer/enums'
-import { message } from 'ant-design-vue'
 
 const gongs = ref(GONGS)
 const xings = ref(XINGS)
@@ -300,11 +290,17 @@ const shengNianGan = ref(0)
 interface Item {
   Id: number
   fixedNumber: string
-  stars: { Id: number; type: string; name: string; subType?: string }[]
+  stars: Star[]
   boxName: string
   tenYearsName: string
   everyYearName: string
   ganName: string
+}
+interface Star {
+  Id: number
+  type: string
+  name: string
+  subType?: string
 }
 const item_info = ref<Item[]>([
   {
@@ -516,7 +512,7 @@ const dropBox = (Id: number) => {
     }
     item_info.value[Id].stars.push(JSON.parse(JSON.stringify(current)))
     item_info.value[Id].stars = item_info.value[Id].stars.sort((a, b) => a.Id - b.Id)
-    handleSetStars()
+    if (current.Id <= 14) handleSetStars() // 主星排布
     // 对称排布
     const symmetry = getSymmetry(Id, current.name)
     if (symmetry.boxId) {
@@ -568,7 +564,7 @@ const getSymmetry = function (boxId: number, xingName: string) {
 
 // 清空 0: 全部 1: 原局 2: 大限 3: 流年 4: 星
 const handleClear = (type?: string) => {
-  item_info.value.forEach((it) => {
+  item_info.value.map((it) => {
     if (!type) {
       it.stars = []
       it.boxName = ''
@@ -576,18 +572,6 @@ const handleClear = (type?: string) => {
       it.tenYearsName = ''
       it.ganName = ''
       shengNianGan.value = 0
-    } else if (type === 'gong') {
-      if (filterGongType.value === '命') {
-        it.boxName = ''
-      } else if (filterGongType.value === '限') {
-        it.tenYearsName = ''
-      } else {
-        it.everyYearName = ''
-      }
-    } else if (type === 'star') {
-      it.stars = []
-    } else if (type === 'gan') {
-      it.ganName = ''
     }
   })
 }
@@ -625,24 +609,42 @@ const getBackgroundColor = (it) => {
 }
 
 // 删除选择 type 1: 星 2: 原局 3: 大限 4: 流年
-const handleDelete = (name: string, type: number, Id: number) => {
+const handleDelete = (item: string | Star, type: number, Id: number) => {
   if (type === 1) {
-    item_info.value[Id].stars = item_info.value[Id].stars.filter((it) => it.name !== name)
     // 删除对称星
+    const name = (item as Star).name
+    const star = item as Star
     const symmetry = getSymmetry(Id, name)
-    if (symmetry.boxId) {
+    if (symmetry.star && symmetry.boxId) {
       item_info.value[symmetry.boxId].stars = item_info.value[symmetry.boxId].stars.filter(
         (it) => it.name !== symmetry.star!.name
       )
+      item_info.value[Id].stars = item_info.value[Id].stars.filter((it) => it.name !== name)
+    } else {
+      if (star.Id <= 14) {
+        item_info.value.map((it) => {
+          it.stars = it.stars.filter((it) => it.Id > 14)
+        })
+      } else {
+        item_info.value[Id].stars = item_info.value[Id].stars.filter((it) => it.name !== name)
+      }
     }
   } else if (type === 2) {
-    item_info.value[Id].boxName = ''
+    item_info.value.map((it) => {
+      it.boxName = ''
+    })
   } else if (type === 3) {
-    item_info.value[Id].tenYearsName = ''
+    item_info.value.map((it) => {
+      it.tenYearsName = ''
+    })
   } else if (type === 4) {
-    item_info.value[Id].everyYearName = ''
+    item_info.value.map((it) => {
+      it.everyYearName = ''
+    })
   } else if (type === 5) {
-    item_info.value[Id].ganName = ''
+    item_info.value.map((it) => {
+      it.ganName = ''
+    })
   }
 }
 
@@ -662,13 +664,6 @@ const handleSetGongs = () => {
       return item.everyYearName
     }
   })
-  // 判断宫位是否之填写了一个
-  if (_Gongs.length) {
-    if (_Gongs.length > 1) return message.error('请保持当前类别宫位有且仅有一个置于命盘之上')
-  } else {
-    return message.error('请保持当前类别宫位有且仅有一个置于命盘之上')
-  }
-
   const _gong = _Gongs[0]
   const _gongName =
     filterGongType.value === '命'
@@ -714,7 +709,6 @@ const handleSetStars = () => {
     .map((item) => {
       _Stars.push(...item.stars)
     })
-  // 判断星辰是否只填写了一个
   if (_Stars.length) {
     const currentStar = _Stars[0]
     const currentBox = item_info.value.find((item) => {
@@ -734,11 +728,8 @@ const handleSetStars = () => {
         { Id: 1, type: 'star', name: '紫微', subType: '北', fullName: '紫微' },
         ziWeiIndex!
       ) // 北斗星排布
-    } else {
-      return message.error('请保持当前南/北斗有且仅有一个置1于命盘之上')
     }
   }
-  return
 }
 
 // 排布北斗星
@@ -794,11 +785,6 @@ const handleSouthStars = (star: CurrentItem, position: number) => {
 const handleGans = () => {
   const _GansSort = gans.value
   const _Gans = item_info.value.filter((item) => item.ganName)
-  if (_Gans.length) {
-    if (_Gans.length > 1) return message.error('请保持宫干有且仅有一个置于命盘之上')
-  } else {
-    return message.error('请保持宫干有且仅有一个置于命盘之上')
-  }
   const _gan = _Gans[0]
   if (_gan.Id <= 2) {
     let currentGanIndex = _GansSort.findIndex((item) => item.name === _gan.ganName)
@@ -834,14 +820,7 @@ const handleGans = () => {
   return
 }
 
-// // 布局
-// const handleSet = (type: string) => {
-//   if (type === 'star') return handleSetStars()
-//   if (type === 'gong') return handleSetGongs()
-//   if (type === 'gan') return handleGans()
-//   return
-// }
-
+// 点击内容回调
 const currentClickBox = ref<Item | null>(null)
 const handleClickBox = (item: Item) => {
   if (currentClickBox.value && currentClickBox.value.Id === item.Id) {
@@ -902,8 +881,8 @@ const logout = () => {
     height: 100%;
     width: 210px;
     min-width: 210px;
-    background-color: #f0f0f0;
-    border-right: 1px solid #c5c5c5;
+    background-color: #e4e4e4;
+    // border-right: 1px solid #c5c5c5;
     padding: 10px;
     overflow: auto;
     .content {
@@ -986,7 +965,7 @@ const logout = () => {
     left: 0; /* 跟左侧对齐 */
     right: 0; /* 跟右侧对齐，宽度铺满 */
     padding: 10px; /* 添加内边距 */
-    border-top: 1px solid #c5c5c5;
+    // border-top: 1px solid #c5c5c5;
     height: 50px;
     display: flex;
     align-items: center;
