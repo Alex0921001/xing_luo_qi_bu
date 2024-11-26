@@ -32,6 +32,7 @@
     "cors": "^2.8.5",
     "electron-updater": "^6.1.7",
     "express": "^4.21.1",
+    "js-yaml": "^4.1.0",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "log4js": "^6.9.1",

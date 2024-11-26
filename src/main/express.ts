@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import path from 'path'
 import cors from 'cors'
 import loggerMiddleware from './middleware'
+import { connectDB } from './database'
 
 // 引入express框架
 const app = express()
@@ -23,6 +24,9 @@ app.use(loggerMiddleware)
 
 // 引入路由
 app.use('/api', routers)
+
+// 创建和链接数据库
+connectDB()
 
 const PORT = 3000
 // 保存服务器实例，以便在需要时可以访问
