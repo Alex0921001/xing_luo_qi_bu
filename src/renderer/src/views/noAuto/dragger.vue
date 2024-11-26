@@ -844,7 +844,7 @@ const logout = () => {
   .main-filter {
     height: 100%;
     width: 50px;
-    background-color: #494949;
+    background-color: #000000e0;
     .item {
       width: 50px;
       height: 50px;
@@ -857,7 +857,7 @@ const logout = () => {
       }
     }
     .active {
-      background-color: #f0f0f0;
+      background-color: #e4e4e4;
       border-bottom-left-radius: 10px;
       border-top-left-radius: 10px;
       .item-font {

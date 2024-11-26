@@ -52,7 +52,7 @@ const historyRecord = async () => {
   console.log(resp)
 }
 const clickSettings = async () => {
-  console.log('settings')
+  router.push('/settings')
 }
 </script>
 <style scoped lang="less">
