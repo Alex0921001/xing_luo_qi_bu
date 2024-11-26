@@ -3,6 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
 import cors from 'cors'
+import loggerMiddleware from './middleware'
 
 // 引入express框架
 const app = express()
@@ -16,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // 设置跨域
 app.use(cors())
+
+// 使用中间件
+app.use(loggerMiddleware)
 
 // 引入路由
 app.use('/api', routers)
