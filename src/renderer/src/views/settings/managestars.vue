@@ -19,15 +19,22 @@
     <div class="mt-5 mb-5 text-left">
       <a-button type="primary" class="mr-3" @click="handleAdd">新增</a-button>
     </div>
-    <div>
+    <div class="mt-5 mb-5">
       <a-table
         :data-source="starsList"
         :columns="columns"
         bordered
         size="small"
         :pagination="false"
+        :scroll="{ y: 500 }"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.dataIndex === 'subType'">
+            <a-tag v-if="record.subType === '主耀'" color="red">{{ record.subType }}</a-tag>
+            <a-tag v-else-if="record.subType === '辅耀'" color="purple">{{ record.subType }}</a-tag>
+            <a-tag v-else-if="record.subType === '煞耀'">{{ record.subType }}</a-tag>
+            <a-tag v-else color="blue">{{ record.subType }}</a-tag>
+          </template>
           <template v-if="column.dataIndex === 'position'">
             <span>经度：{{ record.x }} 纬度：{{ record.y }}</span>
           </template>

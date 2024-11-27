@@ -11,13 +11,28 @@
         autocomplete="off"
       >
         <a-form-item label="名称" name="name" :rules="[{ required: true, message: '请输入名称' }]">
-          <a-input v-model:value="formData.name" placeholder="请输入名称" allow-clear />
+          <a-input
+            v-model:value="formData.name"
+            placeholder="请输入名称"
+            allow-clear
+            :disabled="disabled"
+          />
         </a-form-item>
         <a-form-item label="类型" name="type" :rules="[{ required: true, message: '请输入类型' }]">
-          <a-input v-model:value="formData.type" placeholder="请输入类型" allow-clear readonly />
+          <a-input v-model:value="formData.type" placeholder="请输入类型" allow-clear disabled />
         </a-form-item>
         <a-form-item label="子类" name="subType">
-          <a-input v-model:value="formData.subType" placeholder="请输入子类" allow-clear />
+          <a-select
+            v-model:value="formData.subType"
+            style="width: 100%"
+            placeholder="请输入子类"
+            allow-clear
+            :disabled="disabled"
+          >
+            <a-select-option v-for="item in StarsCategroy" :key="item.value" :value="item.value">{{
+              item.label
+            }}</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item label="经度" name="x">
           <a-input v-model:value="formData.x" placeholder="请输入经度" allow-clear />
@@ -41,6 +56,7 @@
 import type { STARITEM } from '@renderer/api/interface'
 import { addStar, updateStar } from '@renderer/api/api'
 import { message } from 'ant-design-vue'
+import { StarsCategroy } from '@renderer/enums'
 
 interface Props {
   current: STARITEM | null
@@ -58,11 +74,14 @@ const title = computed(() => {
   return props.modalType === 'edit' ? '编辑星系' : '新增星系'
 })
 
-const formData = reactive<STARITEM>({
+const disabled = computed(() => {
+  return props.modalType === 'edit' && props.current && props.current?.Id <= 18
+})
+const formData = reactive<Partial<STARITEM>>({
   Id: 0,
   name: '',
   type: '星',
-  subType: '',
+  subType: undefined,
   x: '',
   y: '',
   comment: ''
@@ -87,8 +106,8 @@ watch(
         } else {
           formData.Id = 0
           formData.name = ''
-          formData.type = ''
-          formData.subType = ''
+          formData.type = '星'
+          formData.subType = undefined
           formData.x = ''
           formData.y = ''
           formData.comment = ''
