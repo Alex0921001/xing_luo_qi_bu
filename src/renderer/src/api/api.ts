@@ -5,13 +5,13 @@ const api = createAxiosByinterceptors({
 })
 
 // 测试接口
-export const appList = (params: any): Promise<any> => api.get('/noauto/about', { params })
+export const appList = (params: any): Promise<any> => api.get('/noauto/about', { data: params })
 
 // 获取全部星辰
-export const getAllStars = (params: any): Promise<any> => api.get('/settings/star/list', { params })
+export const getAllStars = (params: any): Promise<any> => api.post('/settings/star/list', params)
 
 // 获取星辰详情
-export const getStarDetail = (id: string): Promise<any> => api.get('/settings/star/detail' + id)
+export const getStarDetail = (Id: string): Promise<any> => api.post('/settings/star/detail', { Id })
 
 // 新增星辰
 export const addStar = (data: any): Promise<any> => api.post('/settings/star/add', data)
@@ -20,5 +20,5 @@ export const addStar = (data: any): Promise<any> => api.post('/settings/star/add
 export const updateStar = (data: any): Promise<any> => api.post('/settings/star/update', data)
 
 // 删除星辰
-export const deleteStar = (id: string | number): Promise<any> =>
-  api.post('/settings/star/delete', { id })
+export const deleteStar = (Id: string | number): Promise<any> =>
+  api.post('/settings/star/delete', { Id })

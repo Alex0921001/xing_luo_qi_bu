@@ -13,7 +13,7 @@ export const createAxiosByinterceptors = (config?: AxiosRequestConfig): AxiosIns
   instance.interceptors.request.use(
     function (config: any) {
       // 在发送请求之前做些什么
-      console.log('config:', config)
+      // console.log('config:', config)
       // config.headers.Authorization = vm.$Cookies.get("vue_admin_token");
       return config
     },
@@ -27,11 +27,12 @@ export const createAxiosByinterceptors = (config?: AxiosRequestConfig): AxiosIns
   instance.interceptors.response.use(
     function (response) {
       // 对响应数据做点什么
-      console.log('response:', response)
-      const { code, data, message } = response.data
-      if (code === 200) return data
+      // console.log('response:', response)
+      const { code, message } = response.data
+      if (code === 200) return response.data
       else if (code === 401) {
         // jumpLogin()
+        return Promise.reject(new Error('Unauthorized'))
       } else {
         message.error(message)
         return Promise.reject(response.data)

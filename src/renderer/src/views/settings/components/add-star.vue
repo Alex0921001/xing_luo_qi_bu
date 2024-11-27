@@ -11,22 +11,27 @@
         autocomplete="off"
       >
         <a-form-item label="名称" name="name" :rules="[{ required: true, message: '请输入名称' }]">
-          <a-input v-model:value="formData.name" placeholder="请输入名称" />
+          <a-input v-model:value="formData.name" placeholder="请输入名称" allow-clear />
         </a-form-item>
         <a-form-item label="类型" name="type" :rules="[{ required: true, message: '请输入类型' }]">
-          <a-input v-model:value="formData.type" placeholder="请输入类型" />
+          <a-input v-model:value="formData.type" placeholder="请输入类型" allow-clear readonly />
         </a-form-item>
         <a-form-item label="子类" name="subType">
-          <a-input v-model:value="formData.subType" placeholder="请输入子类" />
+          <a-input v-model:value="formData.subType" placeholder="请输入子类" allow-clear />
         </a-form-item>
         <a-form-item label="经度" name="x">
-          <a-input v-model:value="formData.x" placeholder="请输入经度" />
+          <a-input v-model:value="formData.x" placeholder="请输入经度" allow-clear />
         </a-form-item>
         <a-form-item label="纬度" name="y">
-          <a-input v-model:value="formData.y" placeholder="请输入纬度" />
+          <a-input v-model:value="formData.y" placeholder="请输入纬度" allow-clear />
         </a-form-item>
         <a-form-item label="描述" name="comment">
-          <a-textarea v-model:value="formData.comment" :rows="4" placeholder="请输入描述" />
+          <a-textarea
+            v-model:value="formData.comment"
+            :rows="4"
+            placeholder="请输入描述"
+            allow-clear
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -56,17 +61,19 @@ const title = computed(() => {
 const formData = reactive<STARITEM>({
   Id: 0,
   name: '',
-  type: '',
+  type: '星',
   subType: '',
   x: '',
   y: '',
   comment: ''
 })
 
+const formRef = ref()
 watch(
   () => open.value,
   (val) => {
     nextTick(() => {
+      formRef.value.resetFields()
       if (val) {
         if (props.modalType === 'edit') {
           if (!props.current) return
@@ -92,7 +99,7 @@ watch(
 )
 
 // 确定
-const formRef = ref()
+const emit = defineEmits(['reload'])
 const handleOk = async () => {
   const valid = await formRef.value.validate()
   if (!valid) return
@@ -104,7 +111,8 @@ const handleOk = async () => {
   }
 
   if (resp.code === 200) {
-    open.value = false
+    toggle()
+    emit('reload')
     message.success('操作成功')
   } else {
     message.error('操作失败')
