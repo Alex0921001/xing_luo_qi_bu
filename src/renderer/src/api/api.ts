@@ -1,7 +1,7 @@
 import { createAxiosByinterceptors } from './index'
 
 const api = createAxiosByinterceptors({
-  baseURL: '/api'
+  baseURL: 'http://localhost:5173/api'
 })
 
 // 测试接口

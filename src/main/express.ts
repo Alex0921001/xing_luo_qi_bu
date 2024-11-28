@@ -28,7 +28,7 @@ app.use('/api', routers)
 // 创建和链接数据库
 connectDB()
 
-const PORT = 3000
+const PORT = import.meta.env.VITE_NODE_ENV === 'development' ? 3000 : 5173
 // 保存服务器实例，以便在需要时可以访问
 let serverInstance
 export const startServer = function () {
