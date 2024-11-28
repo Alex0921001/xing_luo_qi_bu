@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, globalShortcut } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -52,6 +52,11 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // 注册全局快捷键 F12 打开开发者工具
+  globalShortcut.register('F12', () => {
+    mainWindow.webContents.toggleDevTools()
+  })
 }
 
 // 这段代码描述了一个应用程序在 Electron 框架中的初始化流程
@@ -70,6 +75,11 @@ app.whenReady().then(async () => {
   // 这个函数会接收两个参数：事件对象和新建的 BrowserWindow 实例
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
+  })
+
+  // 注销所有快捷键
+  app.on('will-quit', () => {
+    globalShortcut.unregisterAll()
   })
 
   // IPC test
