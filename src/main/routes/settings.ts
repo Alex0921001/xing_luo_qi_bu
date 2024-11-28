@@ -3,7 +3,7 @@ import { getStarsList, getStarDetail, addStar, updateStar, deleteStar } from '..
 import { getGongsList } from '../controller/gongs'
 import { getGansList } from '../controller/gans'
 import { getDizhisList } from '../controller/dizhis'
-import { getSihuasList } from '../controller/sihuas'
+import { getSihuasList, getSihuasTable, updateSihuas } from '../controller/sihuas'
 
 const settingsRouter = express.Router()
 
@@ -47,6 +47,16 @@ settingsRouter.post('/dizhi/list', async function (_req, res) {
 // 获取四化列表
 settingsRouter.post('/sihua/list', async function (_req, res) {
   await getSihuasList(_req, res)
+})
+
+// 获取四化表内容
+settingsRouter.post('/sihua/table', async function (_req, res) {
+  await getSihuasTable(_req, res)
+})
+
+// 更新四化表的内容
+settingsRouter.post('/sihua/update', async function (_req, res) {
+  await updateSihuas(_req, res)
 })
 
 export default settingsRouter

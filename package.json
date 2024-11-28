@@ -41,7 +41,8 @@
     "three": "^0.169.0",
     "unplugin-auto-import": "^0.18.3",
     "unplugin-vue-setup-extend-plus": "^1.0.1",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vxe-table": "^4.6.25"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",

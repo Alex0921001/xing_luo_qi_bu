@@ -29,7 +29,8 @@ import {
   HomeOutlined,
   RadarChartOutlined,
   BuildOutlined,
-  BranchesOutlined
+  BranchesOutlined,
+  BorderlessTableOutlined
 } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 
@@ -38,6 +39,7 @@ const siderList = [
   { name: 'managegongs', title: '宫位管理', icon: BuildOutlined },
   { name: 'managegans', title: '天干管理', icon: RadarChartOutlined },
   { name: 'managedizhis', title: '地支管理', icon: BranchesOutlined },
+  { name: 'managesihuas', title: '四化管理', icon: BorderlessTableOutlined },
   { name: 'common', title: '通用设置', icon: ToolOutlined }
 ]
 

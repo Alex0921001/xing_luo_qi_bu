@@ -45,6 +45,11 @@ export default [
         component: () => import('@renderer/views/settings/managedizhis.vue')
       },
       {
+        path: 'managesihuas',
+        name: 'managesihuas',
+        component: () => import('@renderer/views/settings/managesihuas.vue')
+      },
+      {
         path: 'common',
         name: 'common',
         component: () => import('@renderer/views/settings/common.vue')

@@ -34,3 +34,10 @@ export const getDizhisList = (): Promise<any> => api.post('/settings/dizhi/list'
 
 // 获取四化列表
 export const getSihuasList = (): Promise<any> => api.post('/settings/sihua/list')
+
+// 获取四化表内容
+export const getSihuaTable = (): Promise<any> => api.post('/settings/sihua/table')
+
+// 更新四化表的内容
+export const updateSihuaTable = (data: any): Promise<any> =>
+  api.post('/settings/sihua/update', data)

@@ -8,10 +8,12 @@ import 'ant-design-vue/dist/reset.css'
 import './assets/iconfont/iconfont.css'
 import './assets/iconfont/iconfont.js'
 import { setupRouter } from './router'
+import VxeUITable from 'vxe-table'
+import 'vxe-table/lib/style.css'
 
 const app = createApp(App)
 app.use(Antd)
-
+app.use(VxeUITable)
 // 安装router
 setupRouter(app)
 app.mount('#app')
