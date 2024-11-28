@@ -22,3 +22,15 @@ export const updateStar = (data: any): Promise<any> => api.post('/settings/star/
 // 删除星辰
 export const deleteStar = (Id: string | number): Promise<any> =>
   api.post('/settings/star/delete', { Id })
+
+// 获取宫位列表
+export const getGongsList = (): Promise<any> => api.post('/settings/box/list')
+
+// 获取天干列表
+export const getGansList = (): Promise<any> => api.post('/settings/gan/list')
+
+// 获取地支列表
+export const getDizhisList = (): Promise<any> => api.post('/settings/dizhi/list')
+
+// 获取四化列表
+export const getSihuasList = (): Promise<any> => api.post('/settings/sihua/list')

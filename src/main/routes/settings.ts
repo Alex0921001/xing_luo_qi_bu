@@ -1,5 +1,9 @@
 import express from 'express'
 import { getStarsList, getStarDetail, addStar, updateStar, deleteStar } from '../controller/stars'
+import { getGongsList } from '../controller/gongs'
+import { getGansList } from '../controller/gans'
+import { getDizhisList } from '../controller/dizhis'
+import { getSihuasList } from '../controller/sihuas'
 
 const settingsRouter = express.Router()
 
@@ -23,6 +27,26 @@ settingsRouter.post('/star/update', async function (_req, res) {
 // 删除星辰
 settingsRouter.post('/star/delete', async function (_req, res) {
   await deleteStar(_req, res)
+})
+
+// 获取宫位列表
+settingsRouter.post('/box/list', async function (_req, res) {
+  await getGongsList(_req, res)
+})
+
+// 获取天干列表
+settingsRouter.post('/gan/list', async function (_req, res) {
+  await getGansList(_req, res)
+})
+
+// 获取地支列表
+settingsRouter.post('/dizhi/list', async function (_req, res) {
+  await getDizhisList(_req, res)
+})
+
+// 获取四化列表
+settingsRouter.post('/sihua/list', async function (_req, res) {
+  await getSihuasList(_req, res)
 })
 
 export default settingsRouter

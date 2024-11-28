@@ -30,6 +30,21 @@ export default [
         component: () => import('@renderer/views/settings/managestars.vue')
       },
       {
+        path: 'managegongs',
+        name: 'managegongs',
+        component: () => import('@renderer/views/settings/managegongs.vue')
+      },
+      {
+        path: 'managegans',
+        name: 'managegans',
+        component: () => import('@renderer/views/settings/managegans.vue')
+      },
+      {
+        path: 'managedizhis',
+        name: 'managedizhis',
+        component: () => import('@renderer/views/settings/managedizhis.vue')
+      },
+      {
         path: 'common',
         name: 'common',
         component: () => import('@renderer/views/settings/common.vue')

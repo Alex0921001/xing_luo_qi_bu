@@ -1,4 +1,4 @@
-export interface STARITEM {
+export interface BASICITEM {
   Id: number
   name: string
   type: string
@@ -7,3 +7,8 @@ export interface STARITEM {
   y: string
   comment: string
 }
+
+export type STARITEM = BASICITEM
+export type BOXITEM = BASICITEM & { fullName: string }
+export type GANITEM = BASICITEM & { fullName: string }
+export type DIZHIITEM = BASICITEM & { fullName: string }

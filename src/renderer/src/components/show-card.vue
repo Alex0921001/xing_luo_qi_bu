@@ -1,8 +1,10 @@
 <template>
   <div class="show-card">
-    <div class="type" :style="{ backgroundColor: props.color }">{{ props.type }}</div>
-    <div class="name">{{ props.name }}</div>
-    <div class="sub-name">{{ props.subName }}</div>
+    <div v-if="props.type" class="type" :style="{ backgroundColor: props.color }">
+      {{ props.type }}
+    </div>
+    <div v-if="props.name" class="name">{{ props.name }}</div>
+    <div v-if="props.subName" class="sub-name">{{ props.subName }}</div>
     <div class="tool-btn">
       <slot name="tool-btn"></slot>
     </div>

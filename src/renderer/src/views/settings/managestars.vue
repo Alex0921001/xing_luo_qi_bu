@@ -33,13 +33,13 @@
               style="color: #1677ff; display: inline-flex; align-items: center"
               @click="handleEdit(item)"
             >
-              <span style="margin-left: 4px; font-size: 12px"><EditOutlined />编辑</span>
+              <span style="margin-left: 4px; font-size: 12px">编辑</span>
             </a>
             <a
               style="color: #ff4d4f; display: inline-flex; align-items: center"
               @click="handleDelete(item)"
             >
-              <span style="margin-left: 4px; font-size: 12px"><DeleteOutlined />删除</span>
+              <span style="margin-left: 4px; font-size: 12px">删除</span>
             </a>
           </template>
         </show-card>
@@ -60,7 +60,7 @@ import { reactive, createVNode } from 'vue'
 import type { UnwrapRef } from 'vue'
 import type { FormProps } from 'ant-design-vue'
 import { Modal, message } from 'ant-design-vue'
-import { ExclamationCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons-vue'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import AddStar from './components/add-star.vue'
 import ShowCard from '@renderer/components/show-card.vue'
 import type { STARITEM } from '@renderer/api/interface'
