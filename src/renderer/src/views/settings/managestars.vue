@@ -19,44 +19,31 @@
     <div class="mt-5 mb-5 text-left">
       <a-button type="primary" class="mr-3" @click="handleAdd">新增</a-button>
     </div>
-    <div class="mt-5 mb-5">
-      <a-table
-        :data-source="starsList"
-        :columns="columns"
-        bordered
-        size="small"
-        :pagination="false"
-        :scroll="{ y: 500 }"
-      >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.dataIndex === 'subType'">
-            <a-tag v-if="record.subType === '主耀'" color="red">{{ record.subType }}</a-tag>
-            <a-tag v-else-if="record.subType === '辅耀'" color="purple">{{ record.subType }}</a-tag>
-            <a-tag v-else-if="record.subType === '煞耀'">{{ record.subType }}</a-tag>
-            <a-tag v-else color="blue">{{ record.subType }}</a-tag>
-          </template>
-          <template v-if="column.dataIndex === 'position'">
-            <span>经度：{{ record.x }} 纬度：{{ record.y }}</span>
-          </template>
-          <template v-if="column.dataIndex === 'operation'">
+    <div class="mt-5 mb-5 show-list">
+      <template v-for="item in starsList" :key="item.Id">
+        <show-card
+          :name="item.name"
+          :type="item.subType"
+          :sub-name="`经：${item.x} 纬：${item.y}`"
+          :color="getColor(item)"
+        >
+          <template #tool-btn>
             <a
               class="mr-2"
               style="color: #1677ff; display: inline-flex; align-items: center"
-              @click="handleEdit(record)"
+              @click="handleEdit(item)"
             >
-              <EditOutlined />
-              <span style="margin-left: 4px">编辑</span>
+              <span style="margin-left: 4px; font-size: 12px"><EditOutlined />编辑</span>
             </a>
             <a
               style="color: #ff4d4f; display: inline-flex; align-items: center"
-              @click="handleDelete(record)"
+              @click="handleDelete(item)"
             >
-              <DeleteOutlined />
-              <span style="margin-left: 4px">删除</span>
+              <span style="margin-left: 4px; font-size: 12px"><DeleteOutlined />删除</span>
             </a>
           </template>
-        </template>
-      </a-table>
+        </show-card>
+      </template>
     </div>
   </div>
   <AddStar
@@ -73,8 +60,9 @@ import { reactive, createVNode } from 'vue'
 import type { UnwrapRef } from 'vue'
 import type { FormProps } from 'ant-design-vue'
 import { Modal, message } from 'ant-design-vue'
-import { ExclamationCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { ExclamationCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons-vue'
 import AddStar from './components/add-star.vue'
+import ShowCard from '@renderer/components/show-card.vue'
 import type { STARITEM } from '@renderer/api/interface'
 
 interface FormState {
@@ -92,51 +80,26 @@ const handleFinishFailed: FormProps['onFinishFailed'] = (errors) => {
   console.log(errors)
 }
 
-// 表格列
-const columns = ref([
-  {
-    title: '序号',
-    dataIndex: 'Id',
-    key: 'Id',
-    align: 'center',
-    width: 60
-  },
-  {
-    title: '名称',
-    dataIndex: 'name',
-    key: 'name',
-    align: 'center'
-  },
-  {
-    title: '类型',
-    dataIndex: 'type',
-    key: 'type',
-    align: 'center'
-  },
-  {
-    title: '子类',
-    dataIndex: 'subType',
-    key: 'subType',
-    align: 'center'
-  },
-  {
-    title: '位置',
-    dataIndex: 'position',
-    key: 'position',
-    minWidth: 200,
-    align: 'center'
-  },
-  {
-    title: '操作',
-    dataIndex: 'operation',
-    key: 'operation',
-    minWidth: 150,
-    align: 'center'
+const getColor = computed(() => {
+  return (item: STARITEM) => {
+    if (item.subType === '主耀') {
+      // 红色
+      return '#f5222d'
+    } else if (item.subType === '辅耀') {
+      // 紫色
+      return '#722ed1'
+    } else if (item.subType === '煞耀') {
+      // 黑色
+      return '#000'
+    } else {
+      // 蓝色
+      return '#1890ff'
+    }
   }
-])
+})
 
 // 星系列表
-const starsList = ref([])
+const starsList = ref<STARITEM[]>([])
 const getAllStarsData = async () => {
   const params = { ...formState }
   const res = await getAllStars(params)
@@ -186,4 +149,10 @@ onMounted(() => {
   getAllStarsData()
 })
 </script>
-<style scoped></style>
+<style scoped>
+.show-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 5px; /* 你可以根据需要调整这个值 */
+}
+</style>
