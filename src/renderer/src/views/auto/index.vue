@@ -47,7 +47,8 @@
           <a-input v-model:value="formState.address" placeholder="请选择出生地" readonly />
         </a-form-item>
 
-        <a-form-item :wrapper-col="{ offset: 11, span: 13 }">
+        <a-form-item :wrapper-col="24" class="text-center">
+          <a-button class="mr-2" @click="goReturn">取消</a-button>
           <a-button type="primary" html-type="submit">生成</a-button>
         </a-form-item>
       </a-form>

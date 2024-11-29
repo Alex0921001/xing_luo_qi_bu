@@ -1,8 +1,8 @@
 <template>
   <div class="history-wrapper">
     <a-tabs v-model:activeKey="activeKey" type="card" @change="changeTab">
-      <a-tab-pane key="1" tab="手动案例"></a-tab-pane>
-      <a-tab-pane key="2" tab="自动案例"></a-tab-pane>
+      <a-tab-pane key="1" tab="自动案例"></a-tab-pane>
+      <a-tab-pane key="2" tab="手动案例"></a-tab-pane>
       <template #rightExtra>
         <a-button type="text" @click="goReturn"><HomeOutlined /></a-button>
       </template>
