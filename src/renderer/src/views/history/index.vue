@@ -193,7 +193,7 @@ const goReturn = () => {
 }
 
 const handleAdd = () => {
-  router.push({ name: 'auto' })
+  router.push({ name: activeKey.value === '1' ? 'auto' : 'noauto' })
 }
 
 const goDetail = (record: any) => {

@@ -831,7 +831,7 @@ const handleClickBox = (item: Item) => {
 // 返回
 const router = useRouter()
 const logout = () => {
-  router.push('/home')
+  router.go(-1)
 }
 </script>
 <style lang="less" scoped>

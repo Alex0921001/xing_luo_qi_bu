@@ -20,7 +20,7 @@ export default [
     name: 'auto',
     component: () => import('@renderer/views/auto/index.vue'),
     meta: {
-      title: '手动排盘'
+      title: '自动排盘'
     }
   },
   {
@@ -28,7 +28,8 @@ export default [
     name: 'history',
     component: () => import('@renderer/views/history/index.vue'),
     meta: {
-      title: '历史记录'
+      title: '历史记录',
+      keepAlive: true
     }
   },
   {
