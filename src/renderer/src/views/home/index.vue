@@ -35,21 +35,18 @@ import {
 } from '@ant-design/icons-vue'
 import background from './background.vue'
 import stars from './stars.vue'
-import { appList } from '@renderer/api/api'
 
 const searchValue = ref('')
 
 const router = useRouter()
 const clickAuto = () => {
-  console.log('clickAuto')
+  router.push('/auto')
 }
 const clickNoAuto = () => {
   router.push('/noauto')
 }
 const historyRecord = async () => {
-  console.log('historyRecord')
-  const resp = await appList({})
-  console.log(resp)
+  router.push('/history')
 }
 const clickSettings = async () => {
   router.push('/settings')

@@ -16,6 +16,22 @@ export default [
     }
   },
   {
+    path: '/auto',
+    name: 'auto',
+    component: () => import('@renderer/views/auto/index.vue'),
+    meta: {
+      title: '手动排盘'
+    }
+  },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('@renderer/views/history/index.vue'),
+    meta: {
+      title: '历史记录'
+    }
+  },
+  {
     path: 'settings',
     name: 'settings',
     component: () => import('@renderer/views/settings/index.vue'),

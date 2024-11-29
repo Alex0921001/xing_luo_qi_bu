@@ -4,9 +4,6 @@ const api = createAxiosByinterceptors({
   baseURL: 'http://localhost:5173/api'
 })
 
-// 测试接口
-export const appList = (params: any): Promise<any> => api.get('/noauto/about', { data: params })
-
 // 获取全部星辰
 export const getAllStars = (params: any): Promise<any> => api.post('/settings/star/list', params)
 
