@@ -75,18 +75,19 @@ import EasyTable from '@renderer/components/easy-table.vue'
 import { HomeOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import type { UnwrapRef } from 'vue'
 import SearchForm from '@renderer/components/search-form.vue'
+import type { Dayjs } from 'dayjs'
 
 interface FormState {
   name: string
   sex?: string
-  birthday?: string[]
+  birthday?: [Dayjs, Dayjs]
   tag: string
   comment: string
 }
 const formState: UnwrapRef<FormState> = reactive({
   name: '',
   sex: undefined,
-  birthday: [],
+  birthday: undefined,
   tag: '',
   comment: ''
 })
