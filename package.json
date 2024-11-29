@@ -36,6 +36,7 @@
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "log4js": "^6.9.1",
+    "lunar-typescript": "^1.7.6",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.4",
     "three": "^0.169.0",
