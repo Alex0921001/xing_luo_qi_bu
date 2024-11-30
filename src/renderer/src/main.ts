@@ -10,8 +10,11 @@ import './assets/iconfont/iconfont.js'
 import { setupRouter } from './router'
 import VxeUITable from 'vxe-table'
 import 'vxe-table/lib/style.css'
+import { createPinia } from 'pinia'
 
 const app = createApp(App)
+const pinia = createPinia()
+app.use(pinia)
 app.use(Antd)
 app.use(VxeUITable)
 // 安装router

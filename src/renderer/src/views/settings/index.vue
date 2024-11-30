@@ -47,7 +47,7 @@ const selectedKeys = ref<string>('') // 默认选中星系管理
 
 const router = useRouter()
 const logout = () => {
-  router.go(-1)
+  router.push({ name: 'home' })
 }
 
 const handleSkip = (key: string) => {

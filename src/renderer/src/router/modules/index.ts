@@ -24,6 +24,14 @@ export default [
     }
   },
   {
+    path: '/automanage',
+    name: 'automanage',
+    component: () => import('@renderer/views/auto/auto-manage.vue'),
+    meta: {
+      title: '自动排盘'
+    }
+  },
+  {
     path: '/history',
     name: 'history',
     component: () => import('@renderer/views/history/index.vue'),
@@ -33,7 +41,7 @@ export default [
     }
   },
   {
-    path: 'settings',
+    path: '/settings',
     name: 'settings',
     component: () => import('@renderer/views/settings/index.vue'),
     redirect: '/settings/managestars',
