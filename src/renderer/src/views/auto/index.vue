@@ -5,12 +5,12 @@
         <LeftOutlined style="color: #1890ff" @click="goReturn" /> 自动排盘
       </template>
       <a-form
+        ref="formRef"
         :model="formState"
         name="basic"
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 18 }"
         autocomplete="off"
-        @finish="onFinish"
       >
         <a-row>
           <a-col :span="12">
@@ -63,8 +63,22 @@
           </a-col>
           <a-col :span="12">
             <a-form-item label="标签" name="tag">
-              <a-input v-model:value="formState.tag" placeholder="请输入标签" />
+              <a-input
+                v-model:value="formState.tag"
+                placeholder="请输入标签，选择右边快速填入"
+                allow-clear
+              />
             </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <div style="margin-left: 20px" @click="handleTag">
+              <a-tag color="pink">本人</a-tag>
+              <a-tag color="red">家人</a-tag>
+              <a-tag color="orange">朋友</a-tag>
+              <a-tag color="green">同学</a-tag>
+              <a-tag color="cyan">同事</a-tag>
+              <a-tag color="blue">客户</a-tag>
+            </div>
           </a-col>
           <a-col :span="24">
             <a-form-item
@@ -73,7 +87,9 @@
               :label-col="{ span: 3 }"
               :wrapper-col="{ span: 21 }"
             >
-              <a-input v-model:value="formState.address" placeholder="请选择出生地" readonly />
+              <div @click="clickMap">
+                <a-input v-model:value="formState.address" placeholder="请选择出生地" readonly />
+              </div>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -91,17 +107,20 @@
         <a-form-item :wrapper-col="24" class="text-center">
           <a-button class="mr-2" @click="goReturn">取消</a-button>
           <a-button class="mr-2" @click="setInitForm">重置</a-button>
-          <a-button type="primary" html-type="submit">生成</a-button>
+          <a-button class="mr-2" type="primary" @click="onFinish">生成</a-button>
+          <a-button type="primary" @click="onSave">保存</a-button>
         </a-form-item>
       </a-form>
     </a-card>
   </div>
   <CalendarModal ref="calendarRef" @ok="handleBirthday"></CalendarModal>
+  <MapView ref="mapRef" :lng="formState.lng" :lat="formState.lat" @ok="handleAddress" />
 </template>
 
 <script setup lang="ts">
 import { LeftOutlined } from '@ant-design/icons-vue'
 import CalendarModal from '@renderer/components/calendar-modal.vue'
+import MapView from '@renderer/components/map-view.vue'
 import { useFormStore } from '@renderer/store/add-auto' // 引入创建的 store
 
 interface FormState {
@@ -112,6 +131,8 @@ interface FormState {
   sex: string // 性别
   tag: string // 标签
   commnet: string // 备注
+  lng: number | undefined // 经度
+  lat: number | undefined // 纬度
 }
 const formStore = useFormStore() // 创建 store 实例
 const formState = reactive<FormState>({
@@ -121,7 +142,9 @@ const formState = reactive<FormState>({
   address: formStore.address,
   sex: formStore.sex,
   tag: formStore.tag,
-  commnet: formStore.commnet
+  commnet: formStore.commnet,
+  lng: undefined,
+  lat: undefined
 })
 const router = useRouter()
 const goReturn = () => {
@@ -135,7 +158,9 @@ const setInitForm = () => {
     address: '',
     sex: '男',
     tag: '',
-    commnet: ''
+    commnet: '',
+    lng: undefined,
+    lat: undefined
   }
   Object.assign(formState, { ...initFormData })
   formStore.setFormState({
@@ -143,7 +168,11 @@ const setInitForm = () => {
   })
 }
 
-const onFinish = () => {
+// 生成表单
+const formRef = ref()
+const onFinish = async () => {
+  const isValid = await formRef.value.validate()
+  if (!isValid) return
   // 保存表单信息到 store
   formStore.setFormState({
     name: formState.name,
@@ -152,19 +181,47 @@ const onFinish = () => {
     address: formState.address,
     sex: formState.sex,
     tag: formState.tag,
-    commnet: formState.commnet
+    commnet: formState.commnet,
+    lng: formState.lng,
+    lat: formState.lat
   })
   router.push({
     name: 'automanage'
   })
 }
 
+// 标签处理
+const handleTag = (e: MouseEvent) => {
+  const target = e.target as HTMLElement
+  if (target.className.includes('ant-tag')) {
+    formState.tag = target.innerText
+  }
+}
+
+// 日历处理
 const calendarRef = ref()
 const handleBirthday = (val: string) => {
   formState.birthday = val
 }
 const clickBirthday = () => {
   calendarRef.value.toggle()
+}
+
+// 地图处理
+const mapRef = ref()
+const clickMap = () => {
+  mapRef.value.toggle()
+}
+const handleAddress = (val: { lng: number; lat: number; address: string }) => {
+  formState.address = val.address
+  formState.lng = val.lng
+  formState.lat = val.lat
+}
+
+// 保存数据
+const onSave = async () => {
+  const isValid = await formRef.value.validate()
+  if (!isValid) return
 }
 </script>
 <style scoped>

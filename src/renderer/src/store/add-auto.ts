@@ -8,6 +8,8 @@ interface FormState {
   sex: string
   tag: string
   commnet: string
+  lng?: number
+  lat?: number
 }
 export const useFormStore = defineStore('form', {
   state: (): FormState => ({
@@ -17,7 +19,9 @@ export const useFormStore = defineStore('form', {
     address: '',
     sex: '男',
     tag: '',
-    commnet: ''
+    commnet: '',
+    lng: undefined,
+    lat: undefined
   }),
   actions: {
     setFormState(formData: FormState) {
