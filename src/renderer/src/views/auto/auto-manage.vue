@@ -9,13 +9,14 @@
     </div>
     <div class="main">
       <div class="content"><AutoContent /></div>
-      <div class="footer">footer</div>
+      <div class="footer"><AutoFooter /></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import AutoContent from './components/auto-content.vue'
+import AutoFooter from './components/auto-footer.vue'
 import {
   SettingOutlined,
   StarOutlined,
@@ -70,8 +71,8 @@ const handleOk = () => {
     }
     .footer {
       width: 690px;
-      height: 100px;
-      border-top: 1px solid #dbdbdb;
+      /* height: 100px; */
+      /* border-top: 1px solid #dbdbdb; */
       background-color: #fff;
     }
   }

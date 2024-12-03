@@ -97,8 +97,9 @@
         <div class="info">
           <a-row :gutter="16" class="mb-5">
             <a-col :span="12"
-              ><b>{{ formStore.$state.name }}</b></a-col
-            >
+              ><b>{{ formStore.$state.name }}</b>
+              <template v-if="formStore.$state.tag">({{ formStore.$state.tag }})</template>
+            </a-col>
             <a-col :span="12"
               ><b>{{
                 getYingYang +
@@ -121,6 +122,9 @@
           </a-row>
           <a-row :gutter="16" class="mb-3">
             <a-col :span="24"> 农历：{{ getLunar }}</a-col>
+          </a-row>
+          <a-row v-if="formStore.$state.address" :gutter="16" class="mb-3">
+            <a-col :span="24"> {{ formStore.$state.address }}</a-col>
           </a-row>
         </div>
         <div class="line"><lineCanvas :current-click-box="currentClickBox"></lineCanvas></div>
