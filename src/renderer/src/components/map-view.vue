@@ -61,6 +61,8 @@ watch(open, async (val) => {
         mapInstance.on('click', function (ev) {
           //触发事件的地理坐标，AMap.LngLat 类型
           const { lng, lat } = ev.lnglat
+          currentLocation.lng = lng
+          currentLocation.lat = lat
           creatMarker(lng, lat)
         })
       })
@@ -99,8 +101,7 @@ const creatMarker = async (lng: number, lat: number) => {
       const markerContent = `<div style="text-align:center;">位置: ${address}</div>`
       infoWindow.setContent(markerContent) // 设置信息窗口内容
       infoWindow.open(mapInstance, marker.getPosition()) // 打开信息窗口
-      currentLocation.lng = lng
-      currentLocation.lat = lat
+
       currentLocation.address = address
     } else {
       console.log('获取位置信息失败', result)

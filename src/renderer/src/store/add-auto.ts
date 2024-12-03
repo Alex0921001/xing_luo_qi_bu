@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
+import type { Dayjs } from 'dayjs'
 
 interface FormState {
   name: string
   birthday: string
-  birthtime: string
+  birthtime?: Dayjs
   address: string
   sex: string
   tag: string
@@ -15,7 +16,7 @@ export const useFormStore = defineStore('form', {
   state: (): FormState => ({
     name: '',
     birthday: '',
-    birthtime: '',
+    birthtime: undefined,
     address: '',
     sex: '男',
     tag: '',
@@ -23,6 +24,7 @@ export const useFormStore = defineStore('form', {
     lng: undefined,
     lat: undefined
   }),
+  persist: true,
   actions: {
     setFormState(formData: FormState) {
       this.$patch(formData)

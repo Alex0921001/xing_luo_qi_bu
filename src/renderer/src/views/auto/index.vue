@@ -122,11 +122,13 @@ import { LeftOutlined } from '@ant-design/icons-vue'
 import CalendarModal from '@renderer/components/calendar-modal.vue'
 import MapView from '@renderer/components/map-view.vue'
 import { useFormStore } from '@renderer/store/add-auto' // 引入创建的 store
+import dayjs from 'dayjs'
+import type { Dayjs } from 'dayjs'
 
 interface FormState {
   name: string // 姓名
   birthday: string // 出生日期
-  birthtime: string // 出生时间
+  birthtime?: Dayjs // 出生时间
   address: string // 地址
   sex: string // 性别
   tag: string // 标签
@@ -138,23 +140,24 @@ const formStore = useFormStore() // 创建 store 实例
 const formState = reactive<FormState>({
   name: formStore.name,
   birthday: formStore.birthday,
-  birthtime: formStore.birthtime,
+  birthtime: formStore.birthtime ? dayjs(formStore.birthtime) : undefined,
   address: formStore.address,
   sex: formStore.sex,
   tag: formStore.tag,
   commnet: formStore.commnet,
-  lng: undefined,
-  lat: undefined
+  lng: formStore.lng,
+  lat: formStore.lat
 })
 const router = useRouter()
 const goReturn = () => {
+  setInitForm()
   router.go(-1)
 }
 const setInitForm = () => {
   const initFormData = {
     name: '',
     birthday: '',
-    birthtime: '',
+    birthtime: undefined,
     address: '',
     sex: '男',
     tag: '',

@@ -8,13 +8,14 @@
       <div title="设置"><SettingOutlined /></div>
     </div>
     <div class="main">
-      <div class="content">content</div>
+      <div class="content"><AutoContent /></div>
       <div class="footer">footer</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import AutoContent from './components/auto-content.vue'
 import {
   SettingOutlined,
   StarOutlined,
@@ -62,13 +63,14 @@ const handleOk = () => {
 
   .main {
     .content {
-      width: 600px;
-      height: 600px;
+      min-width: 650px;
+      /* height: 600px; */
+      padding: 20px;
       background-color: #fff;
     }
     .footer {
-      width: 600px;
-      height: 60px;
+      width: 690px;
+      height: 100px;
       border-top: 1px solid #dbdbdb;
       background-color: #fff;
     }

@@ -814,6 +814,93 @@ export const GANS = [
   }
 ]
 
+export const DIZHIS = [
+  {
+    Id: 1,
+    type: 'gan',
+    name: '子',
+    subType: '',
+    fullName: '子鼠'
+  },
+  {
+    Id: 2,
+    type: 'gan',
+    name: '丑',
+    subType: '',
+    fullName: '丑牛'
+  },
+  {
+    Id: 3,
+    type: 'gan',
+    name: '寅',
+    subType: '',
+    fullName: '寅虎'
+  },
+  {
+    Id: 4,
+    type: 'gan',
+    name: '卯',
+    subType: '',
+    fullName: '卯兔'
+  },
+  {
+    Id: 5,
+    type: 'gan',
+    name: '辰',
+    subType: '',
+    fullName: '辰龙'
+  },
+  {
+    Id: 6,
+    type: 'gan',
+    name: '巳',
+    subType: '',
+    fullName: '巳蛇'
+  },
+  {
+    Id: 7,
+    type: 'gan',
+    name: '午',
+    subType: '',
+    fullName: '午马'
+  },
+  {
+    Id: 8,
+    type: 'gan',
+    name: '未',
+    subType: '',
+    fullName: '未羊'
+  },
+  {
+    Id: 9,
+    type: 'gan',
+    name: '申',
+    subType: '',
+    fullName: '申猴'
+  },
+  {
+    Id: 10,
+    type: 'gan',
+    name: '酉',
+    subType: '',
+    fullName: '酉鸡'
+  },
+  {
+    Id: 11,
+    type: 'gan',
+    name: '戌',
+    subType: '',
+    fullName: '戌狗'
+  },
+  {
+    Id: 12,
+    type: 'gan',
+    name: '亥',
+    subType: '',
+    fullName: '亥猪'
+  }
+]
+
 export const SIHUA = [
   [],
   [6, 14, 4, 3], //甲廉破武阳
