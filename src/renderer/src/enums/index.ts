@@ -1188,6 +1188,50 @@ export const STATUS = [
   ['', '陷', '平', '庙', '旺', '陷', '平', '庙', '旺', '陷', '平', '庙', '旺'] //铃星
 ]
 
+// 水二局、木三局、金四局、土五局以及火六局
+export const WUXINGJU = [
+  {
+    Id: 1,
+    ganIds: [1, 2],
+    names: ['甲', '乙'],
+    wuxing: '金',
+    number: 4,
+    numberText: '四'
+  },
+  {
+    Id: 2,
+    ganIds: [3, 4],
+    names: ['丙', '丁'],
+    wuxing: '水',
+    number: 2,
+    numberText: '二'
+  },
+  {
+    Id: 3,
+    ganIds: [5, 6],
+    names: ['戊', '己'],
+    wuxing: '火',
+    number: 6,
+    numberText: '六'
+  },
+  {
+    Id: 4,
+    ganIds: [7, 8],
+    names: ['庚', '辛'],
+    wuxing: '土',
+    number: 5,
+    numberText: '五'
+  },
+  {
+    Id: 5,
+    ganIds: [9, 10],
+    names: ['壬', '癸'],
+    wuxing: '木',
+    number: 3,
+    numberText: '三'
+  }
+]
+
 export const StarsCategroy = [
   { value: '主耀', label: '主耀' },
   { value: '辅耀', label: '辅耀' },

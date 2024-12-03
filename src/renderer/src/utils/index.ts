@@ -1,5 +1,5 @@
 import { Lunar } from 'lunar-typescript'
-import { GANS, DIZHIS, GONGS } from '@renderer/enums'
+import { GANS, DIZHIS, GONGS, WUXINGJU } from '@renderer/enums'
 // 五虎遁月决
 // 甲己之年丙作首
 // 乙庚之年戊作首
@@ -88,4 +88,31 @@ export const handleGongsList = (startIndex: number, type: string = '命') => {
   })
   // 根据ganId升序
   return list.sort((a, b) => a.diZhiId - b.diZhiId)
+}
+
+// 阳性天干：甲、丙、戊、庚、壬；分别是4、6、8、0、2等结尾的年份。如2008年，就是戊年。也说是说，年数的最后一个是偶数的，就是阳年。
+// 阴性天干：乙、丁、己、辛、癸。分别是5、7、9、1、3等结尾的年份。年数的最后一个数字是奇数的，就是阴年。
+export const getYingYangYear = (year: number) => {
+  const isYing = year % 2
+  if (isYing) {
+    return '阴'
+  } else {
+    return '阳'
+  }
+}
+
+// 计算五行局
+// 从天干位置开始，两两重合，以三为限排地支，排到第三次就返回原地，最终排到当年地支为止，就是当年的纳音五行。
+export const getWuxingju = (ganId: number, diZhiId: number) => {
+  // 将WUXINGJU组成环形结构，找出ganId所有在的集合，以及其后继两个集合数据
+  const ganList = WUXINGJU.filter((item) => item.ganIds.includes(ganId))
+  const nextGanList = WUXINGJU.filter((item) => item.ganIds.includes((ganId + 2) % 10 || 10))
+  const nextNextGanList = WUXINGJU.filter((item) => item.ganIds.includes((ganId + 4) % 10 || 10))
+  const ganListAll = [...ganList, ...nextGanList, ...nextNextGanList]
+  // diZhiId / 2 向上取整
+  let diZhiIndex = Math.ceil(diZhiId / 2)
+  // %3
+  diZhiIndex = diZhiIndex % 3 || 3
+  const data = ganListAll[diZhiIndex - 1]
+  return data
 }

@@ -100,7 +100,14 @@
               ><b>{{ formStore.$state.name }}</b></a-col
             >
             <a-col :span="12"
-              ><b>{{ formStore.$state.sex }}</b></a-col
+              ><b>{{
+                getYingYang +
+                formStore.$state.sex +
+                ' ' +
+                getWuxing?.wuxing +
+                getWuxing?.numberText +
+                '局'
+              }}</b></a-col
             >
           </a-row>
           <a-row :gutter="16" class="mb-3">
@@ -125,7 +132,14 @@
 <script setup lang="ts">
 import unitItem from '@renderer/components/unit-item.vue'
 import lineCanvas from '@renderer/components/line-canvas.vue'
-import { getWuHuDun, handleGanList, handleGongsList, handleMingGongIndex } from '@renderer/utils'
+import {
+  getWuHuDun,
+  handleGanList,
+  handleGongsList,
+  handleMingGongIndex,
+  getYingYangYear,
+  getWuxingju
+} from '@renderer/utils'
 import { useFormStore } from '@renderer/store/add-auto'
 import { GANS, GONGS, DIZHIS } from '@renderer/enums'
 import { Lunar } from 'lunar-typescript'
@@ -267,6 +281,25 @@ const item_info = ref<Item[]>([
   }
 ])
 const shengNianGan = ref(0)
+// 获取阴阳年
+const getYingYang = computed(() => {
+  const d = Lunar.fromDate(new Date(formStore.$state.birthday))
+  return getYingYangYear(Number(d.getYearInChinese()))
+})
+// 获取五行局
+const getWuxing = computed(() => {
+  const data = item_info.value.find((it) => it.boxName === '命宫')
+  if (data) {
+    const gan = GANS.find((it) => it.name === data.ganName)
+    if (gan) {
+      const wuxing = getWuxingju(gan.Id, data.Id)
+      if (wuxing) {
+        return wuxing
+      }
+    }
+  }
+  return undefined
+})
 // 获取农历生辰
 const getLunar = computed(() => {
   const d = Lunar.fromDate(new Date(formStore.$state.birthday))
@@ -313,7 +346,9 @@ const handleSetGongs = () => {
   const birthTime = formStore.$state.birthtime
   const d = Lunar.fromDate(new Date(birthday))
   const month = d.getMonth()
-  const time = Lunar.fromDate(new Date(birthTime!.format('YYYY-MM-DD HH:mm:ss'))).getTimeZhi()
+  const time = Lunar.fromDate(
+    new Date(dayjs(birthTime)!.format('YYYY-MM-DD HH:mm:ss'))
+  ).getTimeZhi()
   const timeIndex = DIZHIS.find((item) => item.name === time)?.Id || 0
   const index = handleMingGongIndex(month, timeIndex)
   const list = handleGongsList(index)
