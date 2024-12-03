@@ -138,10 +138,15 @@ import {
   handleGongsList,
   handleMingGongIndex,
   getYingYangYear,
-  getWuxingju
+  getWuxingju,
+  getZiWeiIndex,
+  setBeiDouStar,
+  setNanDouStar,
+  setZuofuStar,
+  setWenChangStar
 } from '@renderer/utils'
 import { useFormStore } from '@renderer/store/add-auto'
-import { GANS, GONGS, DIZHIS } from '@renderer/enums'
+import { GANS, GONGS, DIZHIS, XINGS, ZiWeiMapTianFu } from '@renderer/enums'
 import { Lunar } from 'lunar-typescript'
 import dayjs from 'dayjs'
 
@@ -280,11 +285,11 @@ const item_info = ref<Item[]>([
     ganName: ''
   }
 ])
-const shengNianGan = ref(0)
+
 // 获取阴阳年
 const getYingYang = computed(() => {
   const d = Lunar.fromDate(new Date(formStore.$state.birthday))
-  return getYingYangYear(Number(d.getYearInChinese()))
+  return getYingYangYear(Number(d.getYear()))
 })
 // 获取五行局
 const getWuxing = computed(() => {
@@ -299,6 +304,12 @@ const getWuxing = computed(() => {
     }
   }
   return undefined
+})
+
+watch(getWuxing, (newValue) => {
+  if (newValue) {
+    handleSetStars()
+  }
 })
 // 获取农历生辰
 const getLunar = computed(() => {
@@ -325,6 +336,13 @@ const handleClickBox = (item: Item) => {
   } else {
     currentClickBox.value = item
   }
+}
+// 设置来因宫
+const shengNianGan = ref(0)
+const handleSetLaiIn = () => {
+  const d = Lunar.fromDate(new Date(formStore.$state.birthday))
+  const gan = d.getYearGan()
+  shengNianGan.value = GANS.findIndex((it) => it.name === gan) + 1
 }
 
 // 设置天干内容
@@ -358,9 +376,37 @@ const handleSetGongs = () => {
   })
 }
 
+// 设置星辰内容
+const handleSetStars = () => {
+  const diZhiId = getZiWeiIndex(formStore.$state.birthday, getWuxing.value?.number)
+
+  // 安置北斗星
+  const list = setBeiDouStar(1, diZhiId)
+
+  // 安置南斗星
+  const tianFuIndex = ZiWeiMapTianFu[diZhiId]
+  const list2 = setNanDouStar(7, tianFuIndex!)
+  list.push(...list2)
+
+  // 安置左辅右弼
+  const list3 = setZuofuStar(formStore.$state.birthday)
+  list.push(...list3)
+
+  // 安置文昌文曲
+  const list4 = setWenChangStar(formStore.$state.birthtime)
+  list.push(...list4)
+  list.forEach((item) => {
+    const starId = item.starId
+    const star = XINGS.find((xing) => xing.Id === starId)
+    if (star) {
+      item_info.value[item.diZhiId].stars.push(star)
+    }
+  })
+}
 onMounted(() => {
   handleSetGans()
   handleSetGongs()
+  handleSetLaiIn()
 })
 </script>
 <style scoped>

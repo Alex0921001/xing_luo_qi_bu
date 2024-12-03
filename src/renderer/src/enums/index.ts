@@ -1238,3 +1238,31 @@ export const StarsCategroy = [
   { value: '煞耀', label: '煞耀' },
   { value: '小星', label: '小星' }
 ]
+
+// 北斗星顺序
+export const NorthStarSort = [1, 2, null, 3, 4, 5, null, null, 6]
+// 南斗星顺序
+export const SouthStarSort = [7, 8, 9, 10, 11, 12, 13, null, null, null, 14]
+// 南北斗转换
+export const ZiWeiMapTianFu = [null, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6]
+// 丑未两宫对称排布 配置信息
+export const ChouWeiLine = new Map([
+  [1, 3],
+  [2, 2],
+  [3, 1],
+  [4, 12],
+  [5, 11],
+  [6, 10],
+  [7, 9],
+  [8, 8],
+  [9, 7],
+  [10, 6],
+  [11, 5],
+  [12, 4]
+])
+export const ChouWeiStar = new Map([
+  ['左辅', '右弼'],
+  ['右弼', '左辅'],
+  ['文昌', '文曲'],
+  ['文曲', '文昌']
+])

@@ -1,5 +1,13 @@
 import { Lunar } from 'lunar-typescript'
-import { GANS, DIZHIS, GONGS, WUXINGJU } from '@renderer/enums'
+import {
+  GANS,
+  DIZHIS,
+  GONGS,
+  WUXINGJU,
+  NorthStarSort,
+  SouthStarSort,
+  ChouWeiLine
+} from '@renderer/enums'
 // 五虎遁月决
 // 甲己之年丙作首
 // 乙庚之年戊作首
@@ -34,7 +42,6 @@ export const getWuHuDun = (date: string) => {
       return ''
   }
 }
-
 // 找出对应天干地支
 export const handleGanList = (ganId: number, diZhiId: number) => {
   if (diZhiId == 1 || diZhiId == 2) {
@@ -89,9 +96,9 @@ export const handleGongsList = (startIndex: number, type: string = '命') => {
   // 根据ganId升序
   return list.sort((a, b) => a.diZhiId - b.diZhiId)
 }
-
 // 阳性天干：甲、丙、戊、庚、壬；分别是4、6、8、0、2等结尾的年份。如2008年，就是戊年。也说是说，年数的最后一个是偶数的，就是阳年。
 // 阴性天干：乙、丁、己、辛、癸。分别是5、7、9、1、3等结尾的年份。年数的最后一个数字是奇数的，就是阴年。
+// year: 年份 农历
 export const getYingYangYear = (year: number) => {
   const isYing = year % 2
   if (isYing) {
@@ -100,7 +107,6 @@ export const getYingYangYear = (year: number) => {
     return '阳'
   }
 }
-
 // 计算五行局
 // 从天干位置开始，两两重合，以三为限排地支，排到第三次就返回原地，最终排到当年地支为止，就是当年的纳音五行。
 export const getWuxingju = (ganId: number, diZhiId: number) => {
@@ -115,4 +121,109 @@ export const getWuxingju = (ganId: number, diZhiId: number) => {
   diZhiIndex = diZhiIndex % 3 || 3
   const data = ganListAll[diZhiIndex - 1]
   return data
+}
+
+// 计算紫薇星位置
+// 生日数整除局数得之
+// 1、 能被整除，直接取这个数的商
+// 2、 不能被整除，使得（生日数 + 最小数）/ 五行局数 = 商，使得商是整数
+// 若[最小数]是奇数，则商减[最小数]，为答案数
+// 若[最小数]是偶数，则商加[最小数]，为答案数
+// dateTime: 生日日期 阳历
+// type: 五行局
+// 返回值：紫薇星地支索引位置
+export const getZiWeiIndex = (dateTime: string, type: number = 2) => {
+  const d = Lunar.fromDate(new Date(dateTime))
+  const day = d.getDay()
+  const index = day % type
+  if (index === 0) {
+    const gap = day / type
+    return (3 + gap - 1) % 12 || 12
+  } else {
+    const minNum = type - index
+    // 向上取整
+    let gap = Math.ceil(day / type)
+    if (minNum % 2 === 0) {
+      gap = gap + minNum
+      return (3 + gap - 1) % 12 || 12
+    } else {
+      gap = gap - minNum
+      return (3 + 12 + gap - 1) % 12 || 12
+    }
+  }
+}
+
+// 安置北斗星
+export const setBeiDouStar = (starId: number, diZhiId: number) => {
+  const starIndex = NorthStarSort.findIndex((item) => item === starId)
+  const list: any[] = []
+  NorthStarSort.forEach((item, index) => {
+    const gap = starIndex - index
+    if (item) {
+      const params = {
+        starId: item,
+        diZhiId: (diZhiId + 12 + gap) % 12 || 12
+      }
+      list.push(params)
+    }
+  })
+  return list
+}
+
+// 安置南斗星
+export const setNanDouStar = (starId: number, diZhiId: number) => {
+  const starIndex = NorthStarSort.findIndex((item) => item === starId)
+  const list: any[] = []
+  SouthStarSort.forEach((item, index) => {
+    const gap = starIndex - index
+    if (item) {
+      const params = {
+        starId: item,
+        diZhiId: (diZhiId + 12 - gap - 1) % 12 || 12
+      }
+      list.push(params)
+    }
+  })
+  return list
+}
+
+// 安置左辅右弼
+// 左辅星由辰宫顺数月份排布
+// 右弼星由戌宫逆数月份排布
+export const setZuofuStar = (dateTime: string) => {
+  const d = Lunar.fromDate(new Date(dateTime))
+  const month = d.getMonth()
+  const index = (4 + month) % 12 || 12
+  const otherIndex = ChouWeiLine.get(index)
+  return [
+    {
+      starId: 15,
+      diZhiId: index
+    },
+    {
+      starId: 16,
+      diZhiId: otherIndex
+    }
+  ]
+}
+
+// 安置文昌文曲
+// 文昌星由辰宫顺数月份排布
+// 文曲星由戌宫逆数月份排布
+export const setWenChangStar = (dateTime: any) => {
+  const d = Lunar.fromDate(new Date(dateTime))
+  const time = d.getTimeZhi()
+  const timeIndex = DIZHIS.findIndex((item) => item.name === time)
+  const index = (5 + timeIndex) % 12 || 12
+  const otherIndex = ChouWeiLine.get(index)
+  return [
+    {
+      starId: 18,
+      diZhiId: index
+    },
+    {
+      starId: 17,
+      diZhiId: otherIndex
+    }
+  ]
 }
