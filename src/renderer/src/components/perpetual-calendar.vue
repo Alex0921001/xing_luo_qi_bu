@@ -194,7 +194,8 @@ watch(
 )
 
 defineExpose({
-  state
+  state,
+  buildDay
 })
 </script>
 

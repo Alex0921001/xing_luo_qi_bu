@@ -94,6 +94,28 @@
             @on-click="handleClickBox"
           ></unitItem>
         </div>
+        <div class="info">
+          <a-row :gutter="16" class="mb-5">
+            <a-col :span="12"
+              ><b>{{ formStore.$state.name }}</b></a-col
+            >
+            <a-col :span="12"
+              ><b>{{ formStore.$state.sex }}</b></a-col
+            >
+          </a-row>
+          <a-row :gutter="16" class="mb-3">
+            <a-col :span="24">
+              阳历：{{
+                formStore.$state.birthday +
+                ' ' +
+                dayjs(formStore.$state.birthtime!).format('HH:mm:ss')
+              }}</a-col
+            >
+          </a-row>
+          <a-row :gutter="16" class="mb-3">
+            <a-col :span="24"> 农历：{{ getLunar }}</a-col>
+          </a-row>
+        </div>
         <div class="line"><lineCanvas :current-click-box="currentClickBox"></lineCanvas></div>
       </div>
     </div>
@@ -107,6 +129,7 @@ import { getWuHuDun, handleGanList, handleGongsList, handleMingGongIndex } from 
 import { useFormStore } from '@renderer/store/add-auto'
 import { GANS, GONGS, DIZHIS } from '@renderer/enums'
 import { Lunar } from 'lunar-typescript'
+import dayjs from 'dayjs'
 
 const formStore = useFormStore()
 interface Item {
@@ -244,7 +267,23 @@ const item_info = ref<Item[]>([
   }
 ])
 const shengNianGan = ref(0)
-
+// 获取农历生辰
+const getLunar = computed(() => {
+  const d = Lunar.fromDate(new Date(formStore.$state.birthday))
+  let t = dayjs(formStore.$state.birthtime!).format('YYYY-MM-DD HH:mm:ss')
+  t = Lunar.fromDate(new Date(t)).getTimeZhi()
+  return (
+    d.getYearInChinese() +
+    '年' +
+    d.getMonthInChinese() +
+    '月' +
+    d.getDayInChinese() +
+    '日' +
+    ' ' +
+    t +
+    '时'
+  )
+})
 // 点击内容回调
 const currentClickBox = ref<Item | null>(null)
 const handleClickBox = (item: Item) => {
@@ -283,6 +322,7 @@ const handleSetGongs = () => {
     item_info.value[item.diZhiId].boxName = boxName || ''
   })
 }
+
 onMounted(() => {
   handleSetGans()
   handleSetGongs()
@@ -308,6 +348,17 @@ onMounted(() => {
       position: absolute;
       top: 125px;
       left: 150px;
+    }
+    .info {
+      position: absolute;
+      top: 125px;
+      left: 150px;
+      padding: 25px;
+      height: 250px;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 }

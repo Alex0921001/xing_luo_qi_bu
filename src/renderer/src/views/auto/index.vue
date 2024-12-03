@@ -113,7 +113,11 @@
       </a-form>
     </a-card>
   </div>
-  <CalendarModal ref="calendarRef" @ok="handleBirthday"></CalendarModal>
+  <CalendarModal
+    ref="calendarRef"
+    :date-time="formState.birthday"
+    @ok="handleBirthday"
+  ></CalendarModal>
   <MapView ref="mapRef" :lng="formState.lng" :lat="formState.lat" @ok="handleAddress" />
 </template>
 
