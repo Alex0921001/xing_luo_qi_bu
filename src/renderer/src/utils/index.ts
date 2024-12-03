@@ -71,14 +71,18 @@ export const handleGanList = (ganId: number, diZhiId: number) => {
     return list.sort((a, b) => a.diZhiId - b.diZhiId)
   }
 }
-
+// 找出顺数生月，逆数生时的点位
+export const handleMingGongIndex = (month: number, time: number) => {
+  const index = (month + 15 - time) % 12 || 12
+  return index
+}
 // 找出月份对应的宫位信息
 export const handleGongsList = (startIndex: number, type: string = '命') => {
   const list: any[] = []
   GONGS.filter((gong) => gong.subType === type).forEach((item, index) => {
     const params = {
       gongId: item.Id,
-      diZhiId: ((startIndex + 12 - index) % 12) + 1
+      diZhiId: (startIndex + 12 - index) % 12 || 12
     }
     list.push(params)
   })

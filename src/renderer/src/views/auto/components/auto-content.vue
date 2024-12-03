@@ -103,9 +103,9 @@
 <script setup lang="ts">
 import unitItem from '@renderer/components/unit-item.vue'
 import lineCanvas from '@renderer/components/line-canvas.vue'
-import { getWuHuDun, handleGanList, handleGongsList } from '@renderer/utils'
+import { getWuHuDun, handleGanList, handleGongsList, handleMingGongIndex } from '@renderer/utils'
 import { useFormStore } from '@renderer/store/add-auto'
-import { GANS, GONGS } from '@renderer/enums'
+import { GANS, GONGS, DIZHIS } from '@renderer/enums'
 import { Lunar } from 'lunar-typescript'
 
 const formStore = useFormStore()
@@ -270,10 +270,14 @@ const handleSetGans = () => {
 
 // 设置宫位内容
 const handleSetGongs = () => {
-  const date = formStore.$state.birthday
-  const d = Lunar.fromDate(new Date(date))
+  const birthday = formStore.$state.birthday
+  const birthTime = formStore.$state.birthtime
+  const d = Lunar.fromDate(new Date(birthday))
   const month = d.getMonth()
-  const list = handleGongsList(month)
+  const time = Lunar.fromDate(new Date(birthTime!.format('YYYY-MM-DD HH:mm:ss'))).getTimeZhi()
+  const timeIndex = DIZHIS.find((item) => item.name === time)?.Id || 0
+  const index = handleMingGongIndex(month, timeIndex)
+  const list = handleGongsList(index)
   list.forEach((item) => {
     const boxName = GONGS.find((gong) => gong.Id === item.gongId)?.name
     item_info.value[item.diZhiId].boxName = boxName || ''
