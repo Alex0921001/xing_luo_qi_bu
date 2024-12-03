@@ -84,168 +84,168 @@ export const GONGS = [
     fullName: '父母宫'
   },
   {
-    Id: 21,
+    Id: 13,
     type: 'box',
     name: '限命',
     subType: '限',
     fullName: '限命'
   },
   {
-    Id: 22,
+    Id: 14,
     type: 'box',
     name: '限兄',
     subType: '限',
     fullName: '限兄'
   },
   {
-    Id: 23,
+    Id: 15,
     type: 'box',
     name: '限夫',
     subType: '限',
     fullName: '限夫'
   },
   {
-    Id: 24,
+    Id: 16,
     type: 'box',
     name: '限子',
     subType: '限',
     fullName: '限子'
   },
   {
-    Id: 25,
+    Id: 17,
     type: 'box',
     name: '限财',
     subType: '限',
     fullName: '限财'
   },
   {
-    Id: 26,
+    Id: 18,
     type: 'box',
     name: '限疾',
     subType: '限',
     fullName: '限疾'
   },
   {
-    Id: 27,
+    Id: 19,
     type: 'box',
     name: '限迁',
     subType: '限',
     fullName: '限迁'
   },
   {
-    Id: 28,
+    Id: 20,
     type: 'box',
     name: '限友',
     subType: '限',
     fullName: '限友'
   },
   {
-    Id: 29,
+    Id: 21,
     type: 'box',
     name: '限官',
     subType: '限',
     fullName: '限官'
   },
   {
-    Id: 30,
+    Id: 22,
     type: 'box',
     name: '限田',
     subType: '限',
     fullName: '限田'
   },
   {
-    Id: 31,
+    Id: 23,
     type: 'box',
     name: '限福',
     subType: '限',
     fullName: '限福'
   },
   {
-    Id: 32,
+    Id: 24,
     type: 'box',
     name: '限父',
     subType: '限',
     fullName: '限父'
   },
   {
-    Id: 41,
+    Id: 25,
     type: 'box',
     name: '年命',
     subType: '年',
     fullName: '年命'
   },
   {
-    Id: 42,
+    Id: 26,
     type: 'box',
     name: '年兄',
     subType: '年',
     fullName: '年兄'
   },
   {
-    Id: 43,
+    Id: 27,
     type: 'box',
     name: '年夫',
     subType: '年',
     fullName: '年夫'
   },
   {
-    Id: 44,
+    Id: 28,
     type: 'box',
     name: '年子',
     subType: '年',
     fullName: '年子'
   },
   {
-    Id: 45,
+    Id: 29,
     type: 'box',
     name: '年财',
     subType: '年',
     fullName: '年财'
   },
   {
-    Id: 46,
+    Id: 30,
     type: 'box',
     name: '年疾',
     subType: '年',
     fullName: '年疾'
   },
   {
-    Id: 47,
+    Id: 31,
     type: 'box',
     name: '年迁',
     subType: '年',
     fullName: '年迁'
   },
   {
-    Id: 48,
+    Id: 32,
     type: 'box',
     name: '年友',
     subType: '年',
     fullName: '年友'
   },
   {
-    Id: 49,
+    Id: 33,
     type: 'box',
     name: '年官',
     subType: '年',
     fullName: '年官'
   },
   {
-    Id: 50,
+    Id: 34,
     type: 'box',
     name: '年田',
     subType: '年',
     fullName: '年田'
   },
   {
-    Id: 51,
+    Id: 35,
     type: 'box',
     name: '年福',
     subType: '年',
     fullName: '年福'
   },
   {
-    Id: 52,
+    Id: 36,
     type: 'box',
     name: '年父',
     subType: '年',

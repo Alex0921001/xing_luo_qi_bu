@@ -103,9 +103,10 @@
 <script setup lang="ts">
 import unitItem from '@renderer/components/unit-item.vue'
 import lineCanvas from '@renderer/components/line-canvas.vue'
-import { getWuHuDun, handleGanList } from '@renderer/utils'
+import { getWuHuDun, handleGanList, handleGongsList } from '@renderer/utils'
 import { useFormStore } from '@renderer/store/add-auto'
-import { GANS } from '@renderer/enums'
+import { GANS, GONGS } from '@renderer/enums'
+import { Lunar } from 'lunar-typescript'
 
 const formStore = useFormStore()
 interface Item {
@@ -254,6 +255,7 @@ const handleClickBox = (item: Item) => {
   }
 }
 
+// 设置天干内容
 const handleSetGans = () => {
   const data = getWuHuDun(formStore.$state.birthday)
   const currentGan = GANS.find((gan) => gan.name === data)
@@ -265,8 +267,21 @@ const handleSetGans = () => {
     })
   }
 }
+
+// 设置宫位内容
+const handleSetGongs = () => {
+  const date = formStore.$state.birthday
+  const d = Lunar.fromDate(new Date(date))
+  const month = d.getMonth()
+  const list = handleGongsList(month)
+  list.forEach((item) => {
+    const boxName = GONGS.find((gong) => gong.Id === item.gongId)?.name
+    item_info.value[item.diZhiId].boxName = boxName || ''
+  })
+}
 onMounted(() => {
   handleSetGans()
+  handleSetGongs()
 })
 </script>
 <style scoped>

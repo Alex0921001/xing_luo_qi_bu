@@ -104,7 +104,7 @@
           </a-col>
         </a-row>
 
-        <a-form-item :wrapper-col="24" class="text-center">
+        <a-form-item :wrapper-col="{ span: 24 }" class="text-center">
           <a-button class="mr-2" @click="goReturn">取消</a-button>
           <a-button class="mr-2" @click="setInitForm">重置</a-button>
           <a-button class="mr-2" type="primary" @click="onFinish">生成</a-button>

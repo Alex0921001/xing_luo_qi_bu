@@ -1,5 +1,5 @@
 import { Lunar } from 'lunar-typescript'
-import { GANS, DIZHIS } from '@renderer/enums'
+import { GANS, DIZHIS, GONGS } from '@renderer/enums'
 // 五虎遁月决
 // 甲己之年丙作首
 // 乙庚之年戊作首
@@ -35,6 +35,7 @@ export const getWuHuDun = (date: string) => {
   }
 }
 
+// 找出对应天干地支
 export const handleGanList = (ganId: number, diZhiId: number) => {
   if (diZhiId == 1 || diZhiId == 2) {
     const gap = diZhiId
@@ -69,4 +70,18 @@ export const handleGanList = (ganId: number, diZhiId: number) => {
     // 根据ganId升序
     return list.sort((a, b) => a.diZhiId - b.diZhiId)
   }
+}
+
+// 找出月份对应的宫位信息
+export const handleGongsList = (startIndex: number, type: string = '命') => {
+  const list: any[] = []
+  GONGS.filter((gong) => gong.subType === type).forEach((item, index) => {
+    const params = {
+      gongId: item.Id,
+      diZhiId: ((startIndex + 12 - index) % 12) + 1
+    }
+    list.push(params)
+  })
+  // 根据ganId升序
+  return list.sort((a, b) => a.diZhiId - b.diZhiId)
 }
