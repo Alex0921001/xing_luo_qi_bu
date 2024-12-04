@@ -15,7 +15,16 @@
     </div>
     <div v-if="yearList.length" class="line">
       <div>流年</div>
-      <div v-for="item in yearList" :key="item">{{ item }}</div>
+      <div
+        v-for="item in yearList"
+        :key="item"
+        :class="{
+          active: currentYear === item
+        }"
+        @click="clickYear(item)"
+      >
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +42,7 @@ import { useFormStore } from '@renderer/store/add-auto'
 import { GANS, GONGS, DIZHIS } from '@renderer/enums'
 import { Lunar } from 'lunar-typescript'
 import dayjs from 'dayjs'
+import { EventBus } from '@renderer/utils/event-bus'
 
 const formStore = useFormStore()
 interface Item {
@@ -218,13 +228,59 @@ const currentDaxian = reactive({
 })
 const yearList = ref<number[]>([])
 const clickDaxian = (item: any) => {
+  currentYear.value = 0
+  EventBus.emit('clear-every-year')
+  if (item.index === currentDaxian.index) {
+    currentDaxian.statAge = 0
+    currentDaxian.endAge = 0
+    currentDaxian.index = 0
+    yearList.value = []
+    EventBus.emit('clear-ten-years')
+    return
+  }
   currentDaxian.statAge = item.statAge
   currentDaxian.endAge = item.endAge
   currentDaxian.index = item.index
+  // 填充流年内容
   yearList.value = []
   const d = Lunar.fromDate(new Date(formStore.$state.birthday))
   for (let i = currentDaxian.statAge; i <= currentDaxian.endAge; i++) {
     yearList.value.push(Number(d.getYear() + i - 1))
+  }
+
+  // 设置大限内容
+  let list: any[] = []
+  const mingGong = item_info.value.find((it) => it.boxName === '命宫')
+  if (mingGong) {
+    if (
+      (getYingYang.value === '阳' && formStore.$state.sex === '男') ||
+      (getYingYang.value === '阴' && formStore.$state.sex === '女')
+    ) {
+      const startIndex = (mingGong?.Id + 12 + currentDaxian.index - 1) % 12 || 12
+      list = handleGongsList(startIndex, '限')
+    } else {
+      const startIndex = (mingGong?.Id + 12 - currentDaxian.index - 1) % 12 || 12
+      list = handleGongsList(startIndex, '限')
+    }
+    EventBus.emit('update-ten-years', list)
+  }
+}
+
+// 设置流年内容
+const currentYear = ref(0)
+const clickYear = (item: any) => {
+  if (item === currentYear.value) {
+    currentYear.value = 0
+    EventBus.emit('clear-every-year')
+    return
+  } else {
+    currentYear.value = item
+    const d = Lunar.fromDate(new Date(item + '-05-05'))
+    const diZhiId = DIZHIS.find((item) => item.name === d.getYearZhi())?.Id || 0
+    const gong = item_info.value.find((it) => it.Id === diZhiId)
+    const startIndex = gong?.Id || 0
+    const list = handleGongsList(startIndex, '年')
+    EventBus.emit('update-every-year', list)
   }
 }
 
@@ -284,7 +340,7 @@ onMounted(() => {
       }
     }
     .active {
-      background-color: #cecece;
+      background-color: #cecece !important;
     }
   }
 }

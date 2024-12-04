@@ -3,7 +3,7 @@
     <div class="tool">
       <div title="返回" @click="handleCancel"><RollbackOutlined /></div>
       <div title="保存" @click="handleOk"><SaveOutlined /></div>
-      <div title="关注"><StarOutlined /></div>
+      <!-- <div title="关注"><StarOutlined /></div> -->
       <div title="预览"><EyeOutlined /></div>
       <div title="设置"><SettingOutlined /></div>
     </div>
@@ -19,11 +19,12 @@ import AutoContent from './components/auto-content.vue'
 import AutoFooter from './components/auto-footer.vue'
 import {
   SettingOutlined,
-  StarOutlined,
+  // StarOutlined,
   RollbackOutlined,
   SaveOutlined,
   EyeOutlined
 } from '@ant-design/icons-vue'
+
 const router = useRouter()
 const handleCancel = () => {
   router.go(-1)

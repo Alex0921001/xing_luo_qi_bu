@@ -153,6 +153,7 @@ import { useFormStore } from '@renderer/store/add-auto'
 import { GANS, GONGS, DIZHIS, XINGS, ZiWeiMapTianFu } from '@renderer/enums'
 import { Lunar } from 'lunar-typescript'
 import dayjs from 'dayjs'
+import { EventBus } from '@renderer/utils/event-bus'
 
 const formStore = useFormStore()
 interface Item {
@@ -407,10 +408,41 @@ const handleSetStars = () => {
     }
   })
 }
+
+// 设置大限内容
+const setTenYears = (list: { gongId: number; diZhiId: number }[]) => {
+  list.forEach((item) => {
+    const boxName = GONGS.find((gong) => gong.Id === item.gongId)?.name
+    item_info.value[item.diZhiId].tenYearsName = boxName || ''
+  })
+}
+// 清理大限
+const clearTenYears = () => {
+  item_info.value.map((item) => {
+    item.tenYearsName = ''
+  })
+}
+// 设置流年内容
+const setEveryYear = (list: { gongId: number; diZhiId: number }[]) => {
+  list.forEach((item) => {
+    const boxName = GONGS.find((gong) => gong.Id === item.gongId)?.name
+    item_info.value[item.diZhiId].everyYearName = boxName || ''
+  })
+}
+// 清理流年
+const clearEveryYear = () => {
+  item_info.value.map((item) => {
+    item.everyYearName = ''
+  })
+}
 onMounted(() => {
   handleSetGans()
   handleSetGongs()
   handleSetLaiIn()
+  EventBus.on('update-ten-years', setTenYears)
+  EventBus.on('clear-ten-years', clearTenYears)
+  EventBus.on('update-every-year', setEveryYear)
+  EventBus.on('clear-every-year', clearEveryYear)
 })
 </script>
 <style scoped>
