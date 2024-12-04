@@ -8,7 +8,7 @@ interface FormState {
   address: string
   sex: string
   tag: string
-  commnet: string
+  comment: string
   lng?: number
   lat?: number
 }
@@ -20,7 +20,7 @@ export const useFormStore = defineStore('form', {
     address: '',
     sex: '男',
     tag: '',
-    commnet: '',
+    comment: '',
     lng: undefined,
     lat: undefined
   }),

@@ -38,3 +38,18 @@ export const getSihuaTable = (): Promise<any> => api.post('/settings/sihua/table
 // 更新四化表的内容
 export const updateSihuaTable = (data: any): Promise<any> =>
   api.post('/settings/sihua/update', data)
+
+// 获取自动排列列表
+export const getAutoList = (params: any): Promise<any> => api.post('/auto/list', params)
+
+// 获取自动排列明细
+export const getAutoDetail = (Id: string | number): Promise<any> => api.post('/auto/detail', { Id })
+
+// 新增自动排列内容
+export const addAuto = (params: any): Promise<any> => api.post('/auto/create', params)
+
+// 修改自动排列内容
+export const updateAuto = (params: any): Promise<any> => api.post('/auto/update', params)
+
+// 删除自动排列内容
+export const deleteAuto = (Id: string | number): Promise<any> => api.post('/auto/delete', { Id })

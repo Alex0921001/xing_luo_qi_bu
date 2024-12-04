@@ -95,11 +95,11 @@
           <a-col :span="24">
             <a-form-item
               label="备注"
-              name="commnet"
+              name="comment"
               :label-col="{ span: 3 }"
               :wrapper-col="{ span: 21 }"
             >
-              <a-textarea v-model:value="formState.commnet" placeholder="请输入备注" />
+              <a-textarea v-model:value="formState.comment" placeholder="请输入备注" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -128,6 +128,8 @@ import MapView from '@renderer/components/map-view.vue'
 import { useFormStore } from '@renderer/store/add-auto' // 引入创建的 store
 import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
+import { addAuto } from '@renderer/api/api'
+import { message } from 'ant-design-vue'
 
 interface FormState {
   name: string // 姓名
@@ -136,7 +138,7 @@ interface FormState {
   address: string // 地址
   sex: string // 性别
   tag: string // 标签
-  commnet: string // 备注
+  comment: string // 备注
   lng: number | undefined // 经度
   lat: number | undefined // 纬度
 }
@@ -148,7 +150,7 @@ const formState = reactive<FormState>({
   address: formStore.address,
   sex: formStore.sex,
   tag: formStore.tag,
-  commnet: formStore.commnet,
+  comment: formStore.comment,
   lng: formStore.lng,
   lat: formStore.lat
 })
@@ -165,7 +167,7 @@ const setInitForm = () => {
     address: '',
     sex: '男',
     tag: '',
-    commnet: '',
+    comment: '',
     lng: undefined,
     lat: undefined
   }
@@ -188,7 +190,7 @@ const onFinish = async () => {
     address: formState.address,
     sex: formState.sex,
     tag: formState.tag,
-    commnet: formState.commnet,
+    comment: formState.comment,
     lng: formState.lng,
     lat: formState.lat
   })
@@ -229,6 +231,22 @@ const handleAddress = (val: { lng: number; lat: number; address: string }) => {
 const onSave = async () => {
   const isValid = await formRef.value.validate()
   if (!isValid) return
+  // 保存表单信息到 store
+  formStore.setFormState({
+    name: formState.name,
+    birthday: formState.birthday,
+    birthtime: formState.birthtime,
+    address: formState.address,
+    sex: formState.sex,
+    tag: formState.tag,
+    comment: formState.comment,
+    lng: formState.lng,
+    lat: formState.lat
+  })
+  const resp = await addAuto(formState)
+  if (resp.code === 200) {
+    message.success('保存成功')
+  }
 }
 </script>
 <style scoped>

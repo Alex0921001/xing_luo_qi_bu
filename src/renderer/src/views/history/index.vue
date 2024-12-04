@@ -55,6 +55,14 @@
       <a-button type="primary" @click="handleAdd"> 新增 </a-button>
     </div>
     <EasyTable ref="tableRef" bordered :data-fn="getData" :columns="colunms" size="small">
+      <template #birthday="{ record }">
+        <span
+          >{{ dayjs(record.birthday).format('YYYY-MM-DD') }}
+          {{ dayjs(record.birthtime).format('HH:mm:ss') }}</span
+        >
+        （<span>{{ getLunar(record) }}</span
+        >）
+      </template>
       <template #operation="{ record }">
         <a-button size="small" title="查看详情" type="text" @click="goDetail(record)"
           ><EyeOutlined
@@ -75,7 +83,10 @@ import EasyTable from '@renderer/components/easy-table.vue'
 import { HomeOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import type { UnwrapRef } from 'vue'
 import SearchForm from '@renderer/components/search-form.vue'
+import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
+import { getAutoList } from '@renderer/api/api'
+import { Lunar } from 'lunar-typescript'
 
 interface FormState {
   name: string
@@ -118,6 +129,11 @@ const colunms = ref([
     align: 'center'
   },
   {
+    title: '地址',
+    dataIndex: 'address',
+    align: 'center'
+  },
+  {
     title: '类别',
     dataIndex: 'tag',
     align: 'center',
@@ -125,7 +141,8 @@ const colunms = ref([
   },
   {
     title: '备注',
-    dataIndex: 'comment'
+    dataIndex: 'comment',
+    width: 300
   },
   {
     title: '操作',
@@ -136,39 +153,22 @@ const colunms = ref([
   }
 ])
 
-const getData = () => {
-  console.log('getData')
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        code: 200,
-        data: {
-          list: [
-            {
-              Id: 1,
-              name: '案例',
-              sex: '男',
-              lunar: '2009年1月1日 13:15:30',
-              birthday: '2009年1月1日 13:15:30',
-              tag: '系统案例',
-              comment: '系统案例'
-            },
-            {
-              Id: 1,
-              name: '案例',
-              sex: '男',
-              lunar: '2009年1月1日 13:15:30',
-              birthday: '2009年1月1日 13:15:30',
-              tag: '系统案例',
-              comment: '系统案例'
-            }
-          ],
-          total: 100
-        },
-        message: 'success'
-      })
-    }, 1000)
-  })
+const getLunar = computed(() => {
+  return (record: any) => {
+    const d = Lunar.fromDate(
+      new Date(
+        dayjs(record.birthday).format('YYYY-MM-DD') +
+          ' ' +
+          dayjs(record.birthtime).format('HH:mm:ss')
+      )
+    )
+
+    return d + ' ' + d.getTimeZhi() + '时'
+  }
+})
+const getData = async (params: any) => {
+  const resp = await getAutoList(params)
+  return resp
 }
 
 const tableRef = ref()
