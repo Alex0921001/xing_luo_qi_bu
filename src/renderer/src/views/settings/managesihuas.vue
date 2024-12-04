@@ -72,7 +72,7 @@
         </template>
       </vxe-column>
 
-      <vxe-column title="操作" width="160" align="center">
+      <!-- <vxe-column title="操作" width="160" align="center">
         <template #default="{ row }">
           <template v-if="hasEditStatus(row)">
             <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
@@ -82,15 +82,17 @@
             <vxe-button @click="editRowEvent(row)">编辑</vxe-button>
           </template>
         </template>
-      </vxe-column>
+      </vxe-column> -->
     </vxe-table>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { VxeUI, VxeTablePropTypes, VxeTableInstance } from 'vxe-table'
-import { getAllStars, getSihuaTable, updateSihuaTable } from '@renderer/api/api'
+// import { VxeUI, VxeTablePropTypes, VxeTableInstance } from 'vxe-table'
+// import { getAllStars, getSihuaTable, updateSihuaTable } from '@renderer/api/api'
+import { VxeTablePropTypes, VxeTableInstance } from 'vxe-table'
+import { getAllStars, getSihuaTable } from '@renderer/api/api'
 import type { STARITEM, SIHUATABLEITEM } from '@renderer/api/interface'
 
 const tableRef = ref<VxeTableInstance<GanItem>>()
@@ -105,49 +107,49 @@ const editConfig = ref<VxeTablePropTypes.EditConfig>({
 const loading = ref(false)
 const tableData = ref<GanItem[]>([])
 
-const editRowEvent = async (row: GanItem) => {
-  const $table = tableRef.value
-  if ($table) {
-    await $table.setEditRow(row)
-  }
-}
+// const editRowEvent = async (row: GanItem) => {
+//   const $table = tableRef.value
+//   if ($table) {
+//     await $table.setEditRow(row)
+//   }
+// }
 
-const hasEditStatus = (row: GanItem) => {
-  const $table = tableRef.value
-  if ($table) {
-    return $table.isEditByRow(row)
-  }
+// const hasEditStatus = (row: GanItem) => {
+//   const $table = tableRef.value
+//   if ($table) {
+//     return $table.isEditByRow(row)
+//   }
 
-  return false
-}
+//   return false
+// }
 
-// 保存编辑
-const saveRowEvent = async (row: GanItem) => {
-  const $table = tableRef.value
-  if ($table) {
-    await $table.clearEdit()
+// // 保存编辑
+// const saveRowEvent = async (row: GanItem) => {
+//   const $table = tableRef.value
+//   if ($table) {
+//     await $table.clearEdit()
 
-    const resp = await updateSihuaTable(row)
-    if (resp.code == 200) {
-      getInitData()
-      // 重新加载行
-      await $table.reloadRow(row, {})
-      VxeUI.modal.message({ content: '修改成功', status: 'success' })
-    } else {
-      cancelRowEvent(row)
-    }
-  }
-}
+//     const resp = await updateSihuaTable(row)
+//     if (resp.code == 200) {
+//       getInitData()
+//       // 重新加载行
+//       await $table.reloadRow(row, {})
+//       VxeUI.modal.message({ content: '修改成功', status: 'success' })
+//     } else {
+//       cancelRowEvent(row)
+//     }
+//   }
+// }
 
-// 取消编辑
-const cancelRowEvent = async (row: GanItem) => {
-  const $table = tableRef.value
-  if ($table) {
-    await $table.clearEdit()
-    // 还原数据
-    await $table.revertData(row)
-  }
-}
+// // 取消编辑
+// const cancelRowEvent = async (row: GanItem) => {
+//   const $table = tableRef.value
+//   if ($table) {
+//     await $table.clearEdit()
+//     // 还原数据
+//     await $table.revertData(row)
+//   }
+// }
 
 // 星系列表
 const starsList = ref<STARITEM[]>([])
