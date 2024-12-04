@@ -10,7 +10,7 @@
         }"
         @click="clickDaxian(item)"
       >
-        {{ item.statAge }}-{{ item.endAge }}
+        {{ item.startAge }}-{{ item.endAge }}
       </div>
     </div>
     <div v-if="yearList.length" class="line">
@@ -208,10 +208,10 @@ watch(
       daxianList.value = []
       const startAge = val.number
       for (let i = 0; i < 10; i++) {
-        const statAge = startAge + i * 10
+        const startAgeIndex = startAge + i * 10
         const endAge = startAge + (i + 1) * 10 - 1
         const daxian = {
-          statAge,
+          startAge: startAgeIndex,
           endAge,
           index: i + 1
         }
@@ -222,7 +222,7 @@ watch(
 )
 
 const currentDaxian = reactive({
-  statAge: 0,
+  startAge: 0,
   endAge: 0,
   index: 0
 })
@@ -231,22 +231,26 @@ const clickDaxian = (item: any) => {
   currentYear.value = 0
   EventBus.emit('clear-every-year')
   if (item.index === currentDaxian.index) {
-    currentDaxian.statAge = 0
+    currentDaxian.startAge = 0
     currentDaxian.endAge = 0
     currentDaxian.index = 0
     yearList.value = []
     EventBus.emit('clear-ten-years')
+    EventBus.emit('clear-years-text')
+
     return
   }
-  currentDaxian.statAge = item.statAge
+  currentDaxian.startAge = item.startAge
   currentDaxian.endAge = item.endAge
   currentDaxian.index = item.index
   // 填充流年内容
   yearList.value = []
   const d = Lunar.fromDate(new Date(formStore.$state.birthday))
-  for (let i = currentDaxian.statAge; i <= currentDaxian.endAge; i++) {
+  for (let i = currentDaxian.startAge; i <= currentDaxian.endAge; i++) {
     yearList.value.push(Number(d.getYear() + i - 1))
   }
+
+  setYearTextList()
 
   // 设置大限内容
   let list: any[] = []
@@ -266,17 +270,40 @@ const clickDaxian = (item: any) => {
   }
 }
 
+// 设置大限每年年度预览
+const setYearTextList = () => {
+  const yearAndAgeList: any[] = []
+  yearList.value.forEach((year) => {
+    const d = Lunar.fromDate(new Date(year + '-05-05'))
+    const diZhiId = DIZHIS.find((it) => it.name === d.getYearZhi())?.Id || 0
+    const gong = item_info.value.find((it) => it.Id === diZhiId)
+    const yearText = year
+    const birthday = dayjs(formStore.$state.birthday).format('YYYY')
+    const ageText = year - Number(birthday) + 1
+    const params = {
+      gongId: gong?.Id || 0,
+      yearText,
+      ageText
+    }
+    yearAndAgeList.push(params)
+  })
+  EventBus.emit('clear-years-text')
+  EventBus.emit('update-years-text', yearAndAgeList)
+}
+
 // 设置流年内容
 const currentYear = ref(0)
 const clickYear = (item: any) => {
   if (item === currentYear.value) {
     currentYear.value = 0
     EventBus.emit('clear-every-year')
+    setYearTextList()
     return
   } else {
+    EventBus.emit('clear-years-text')
     currentYear.value = item
     const d = Lunar.fromDate(new Date(item + '-05-05'))
-    const diZhiId = DIZHIS.find((item) => item.name === d.getYearZhi())?.Id || 0
+    const diZhiId = DIZHIS.find((it) => it.name === d.getYearZhi())?.Id || 0
     const gong = item_info.value.find((it) => it.Id === diZhiId)
     const startIndex = gong?.Id || 0
     const list = handleGongsList(startIndex, '年')

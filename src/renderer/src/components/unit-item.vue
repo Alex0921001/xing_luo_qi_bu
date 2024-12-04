@@ -43,6 +43,10 @@
     <div class="every-year" @dblclick="handleDeleteClick(props.everyYearName, 4)">
       {{ props.everyYearName }}
     </div>
+    <!-- 年份 -->
+    <div v-if="props.yearText" class="year-text">
+      {{ props.yearText }}<template v-if="props.ageText">({{ props.ageText }}岁)</template>
+    </div>
     <!-- 来因 -->
     <div
       v-if="
@@ -54,7 +58,7 @@
       "
       class="lai-yin"
     >
-      来因
+      因
     </div>
     <!-- 自化 -->
     <template v-for="(item, index) in ziHua_clone">
@@ -70,7 +74,7 @@
         {{ props.ganName || ' ' }}
       </div>
       <!-- 原局 -->
-      <div class="name font-bold" @dblclick="handleDeleteClick(props.boxName, 2)">
+      <div class="font-bold name" @dblclick="handleDeleteClick(props.boxName, 2)">
         {{ props.boxName }}
       </div>
       <!-- 地支 -->
@@ -94,6 +98,8 @@ type Props = {
   currentClickBox: Item | null
   stars: Star[]
   duiGong: Item
+  yearText?: number
+  ageText?: number
 }
 interface Star {
   Id: number
@@ -403,12 +409,21 @@ function handleSetZiHua() {
     color: #097aff;
     cursor: pointer;
   }
+  .year-text {
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    bottom: 40px;
+    right: 2px;
+    font-size: 10px;
+    cursor: pointer;
+  }
   .lai-yin {
     display: inline-block;
     text-align: center;
     position: absolute;
     writing-mode: vertical-lr;
-    bottom: 40px;
+    bottom: 60px;
     right: 10px;
     font-size: 13px;
     color: white;

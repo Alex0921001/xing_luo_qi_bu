@@ -164,6 +164,8 @@ interface Item {
   tenYearsName: string
   everyYearName: string
   ganName: string
+  yearText: number
+  ageText: number
 }
 interface Star {
   Id: number
@@ -179,7 +181,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 1,
@@ -188,7 +192,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 2,
@@ -197,7 +203,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 3,
@@ -206,7 +214,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 4,
@@ -215,7 +225,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 5,
@@ -224,7 +236,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 6,
@@ -233,7 +247,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 7,
@@ -242,7 +258,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 8,
@@ -251,7 +269,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 9,
@@ -260,7 +280,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 10,
@@ -269,7 +291,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 11,
@@ -278,7 +302,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   },
   {
     Id: 12,
@@ -287,7 +313,9 @@ const item_info = ref<Item[]>([
     boxName: '',
     tenYearsName: '',
     everyYearName: '',
-    ganName: ''
+    ganName: '',
+    yearText: 0,
+    ageText: 0
   }
 ])
 
@@ -435,6 +463,23 @@ const clearEveryYear = () => {
     item.everyYearName = ''
   })
 }
+// 设置大限每年显示
+const setTenYearsText = (list: { gongId: number; yearText: number; ageText: number }[]) => {
+  list.forEach((item) => {
+    const box = item_info.value.find((box) => box.Id === item.gongId)
+    if (box) {
+      box.yearText = item.yearText
+      box.ageText = item.ageText
+    }
+  })
+}
+// 清理大限每年显示
+const clearYearText = () => {
+  item_info.value.map((item) => {
+    item.yearText = 0
+    item.ageText = 0
+  })
+}
 onMounted(() => {
   handleSetGans()
   handleSetGongs()
@@ -443,6 +488,8 @@ onMounted(() => {
   EventBus.on('clear-ten-years', clearTenYears)
   EventBus.on('update-every-year', setEveryYear)
   EventBus.on('clear-every-year', clearEveryYear)
+  EventBus.on('update-years-text', setTenYearsText)
+  EventBus.on('clear-years-text', clearYearText)
 })
 </script>
 <style scoped>
