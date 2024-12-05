@@ -115,13 +115,14 @@ const colunms = ref([
   {
     title: '名称',
     dataIndex: 'name',
-    align: 'center'
+    align: 'center',
+    width: 70
   },
   {
     title: '性别',
     dataIndex: 'sex',
     align: 'center',
-    width: 100
+    width: 50
   },
   {
     title: '生辰',
@@ -142,7 +143,7 @@ const colunms = ref([
   {
     title: '备注',
     dataIndex: 'comment',
-    width: 300
+    width: 150
   },
   {
     title: '操作',
