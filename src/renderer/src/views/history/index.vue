@@ -201,16 +201,19 @@ const handleAdd = () => {
 }
 
 const goDetail = (record: any) => {
-  console.log('goDetail', record)
+  formStore.setFormState({
+    ...record
+  })
+  router.push({ name: 'automanage', query: { id: record.Id } })
 }
 
 const formStore = useFormStore()
 const editRecord = (record: any) => {
   if (activeKey.value === '1') {
-    router.push({ name: 'auto', query: { id: record.Id } })
     formStore.setFormState({
       ...record
     })
+    router.push({ name: 'auto', query: { id: record.Id } })
   }
 }
 

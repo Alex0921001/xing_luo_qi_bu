@@ -163,6 +163,7 @@ const goReturn = () => {
 }
 const setInitForm = () => {
   const initFormData = {
+    Id: undefined,
     name: '',
     birthday: '',
     birthtime: undefined,
@@ -186,6 +187,7 @@ const onFinish = async () => {
   if (!isValid) return
   // 保存表单信息到 store
   formStore.setFormState({
+    Id: formState.Id,
     name: formState.name,
     birthday: formState.birthday,
     birthtime: formState.birthtime,
@@ -245,6 +247,7 @@ const onSave = async () => {
   if (!isValid) return
   // 保存表单信息到 store
   formStore.setFormState({
+    Id: formState.Id,
     name: formState.name,
     birthday: formState.birthday,
     birthtime: formState.birthtime,
