@@ -4,7 +4,7 @@
       <div title="返回" @click="handleCancel"><RollbackOutlined /></div>
       <div title="保存" @click="handleOk"><SaveOutlined /></div>
       <!-- <div title="关注"><StarOutlined /></div> -->
-      <div title="预览"><EyeOutlined /></div>
+      <!-- <div title="预览"><EyeOutlined /></div> -->
       <div title="设置"><SettingOutlined /></div>
     </div>
     <div class="main">
@@ -17,20 +17,42 @@
 <script setup lang="ts">
 import AutoContent from './components/auto-content.vue'
 import AutoFooter from './components/auto-footer.vue'
+import { addAuto, updateAuto } from '@renderer/api/api'
+import { message } from 'ant-design-vue'
+import { useFormStore } from '@renderer/store/add-auto'
+
 import {
   SettingOutlined,
   // StarOutlined,
   RollbackOutlined,
-  SaveOutlined,
-  EyeOutlined
+  SaveOutlined
+  // EyeOutlined
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
 const handleCancel = () => {
   router.go(-1)
 }
-const handleOk = () => {
-  console.log('保存')
+
+const route = useRoute()
+const formStore = useFormStore()
+const handleOk = async () => {
+  const formState = formStore.$state
+  if (route.query.id) {
+    const resp = await updateAuto(formState)
+    if (resp.code === 200) {
+      message.success('更新成功')
+    } else {
+      message.error('更新失败')
+    }
+  } else {
+    const resp = await addAuto(formState)
+    if (resp.code === 200) {
+      message.success('保存成功')
+    } else {
+      message.error('保存失败')
+    }
+  }
 }
 </script>
 <style scoped>

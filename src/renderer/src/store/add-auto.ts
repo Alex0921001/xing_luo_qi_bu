@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { Dayjs } from 'dayjs'
 
 interface FormState {
+  Id?: number
   name: string
   birthday: string
   birthtime?: Dayjs
@@ -14,6 +15,7 @@ interface FormState {
 }
 export const useFormStore = defineStore('form', {
   state: (): FormState => ({
+    Id: undefined,
     name: '',
     birthday: '',
     birthtime: undefined,

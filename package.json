@@ -1,7 +1,7 @@
 {
   "name": "xing_luo_qi_bu",
   "version": "1.0.0",
-  "description": "紫薇斗数排盘软件",
+  "description": "星罗棋布",
   "main": "./out/main/index.js",
   "author": "丁鹏",
   "homepage": "https://electron-vite.org",

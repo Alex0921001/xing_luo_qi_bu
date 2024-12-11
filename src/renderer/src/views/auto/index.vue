@@ -125,13 +125,14 @@
 import { LeftOutlined } from '@ant-design/icons-vue'
 import CalendarModal from '@renderer/components/calendar-modal.vue'
 import MapView from '@renderer/components/map-view.vue'
-import { useFormStore } from '@renderer/store/add-auto' // 引入创建的 store
+import { useFormStore } from '@renderer/store/add-auto'
 import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
-import { addAuto } from '@renderer/api/api'
+import { addAuto, updateAuto } from '@renderer/api/api'
 import { message } from 'ant-design-vue'
 
 interface FormState {
+  Id?: number // ID
   name: string // 姓名
   birthday: string // 出生日期
   birthtime?: Dayjs // 出生时间
@@ -139,11 +140,12 @@ interface FormState {
   sex: string // 性别
   tag: string // 标签
   comment: string // 备注
-  lng: number | undefined // 经度
-  lat: number | undefined // 纬度
+  lng?: number // 经度
+  lat?: number // 纬度
 }
-const formStore = useFormStore() // 创建 store 实例
+const formStore = useFormStore()
 const formState = reactive<FormState>({
+  Id: formStore.Id,
   name: formStore.name,
   birthday: formStore.birthday,
   birthtime: formStore.birthtime ? dayjs(formStore.birthtime) : undefined,
@@ -194,9 +196,18 @@ const onFinish = async () => {
     lng: formState.lng,
     lat: formState.lat
   })
-  router.push({
-    name: 'automanage'
-  })
+  if (route.query.id) {
+    router.push({
+      name: 'automanage',
+      query: {
+        id: route.query.id
+      }
+    })
+  } else {
+    router.push({
+      name: 'automanage'
+    })
+  }
 }
 
 // 标签处理
@@ -228,6 +239,7 @@ const handleAddress = (val: { lng: number; lat: number; address: string }) => {
 }
 
 // 保存数据
+const route = useRoute()
 const onSave = async () => {
   const isValid = await formRef.value.validate()
   if (!isValid) return
@@ -243,9 +255,20 @@ const onSave = async () => {
     lng: formState.lng,
     lat: formState.lat
   })
-  const resp = await addAuto(formState)
-  if (resp.code === 200) {
-    message.success('保存成功')
+  if (route.query.id) {
+    const resp = await updateAuto(formState)
+    if (resp.code === 200) {
+      message.success('更新成功')
+    } else {
+      message.error('更新失败')
+    }
+  } else {
+    const resp = await addAuto(formState)
+    if (resp.code === 200) {
+      message.success('保存成功')
+    } else {
+      message.error('保存失败')
+    }
   }
 }
 </script>

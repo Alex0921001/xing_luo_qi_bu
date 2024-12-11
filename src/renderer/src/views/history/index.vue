@@ -80,13 +80,22 @@
 
 <script setup lang="ts">
 import EasyTable from '@renderer/components/easy-table.vue'
-import { HomeOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import {
+  HomeOutlined,
+  EyeOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined
+} from '@ant-design/icons-vue'
 import type { UnwrapRef } from 'vue'
 import SearchForm from '@renderer/components/search-form.vue'
 import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
-import { getAutoList } from '@renderer/api/api'
+import { getAutoList, deleteAuto } from '@renderer/api/api'
 import { Lunar } from 'lunar-typescript'
+import { Modal, message } from 'ant-design-vue'
+import { createVNode } from 'vue'
+import { useFormStore } from '@renderer/store/add-auto'
 
 interface FormState {
   name: string
@@ -106,12 +115,6 @@ const formState: UnwrapRef<FormState> = reactive({
 const activeKey = ref('1')
 
 const colunms = ref([
-  {
-    title: '序',
-    dataIndex: 'Id',
-    align: 'center',
-    width: 50
-  },
   {
     title: '名称',
     dataIndex: 'name',
@@ -201,13 +204,36 @@ const goDetail = (record: any) => {
   console.log('goDetail', record)
 }
 
+const formStore = useFormStore()
 const editRecord = (record: any) => {
-  console.log('editRecord', record)
+  if (activeKey.value === '1') {
+    router.push({ name: 'auto', query: { id: record.Id } })
+    formStore.setFormState({
+      ...record
+    })
+  }
 }
 
 const deleteRecord = (record: any) => {
-  console.log('deleteRecord', record)
+  Modal.confirm({
+    title: '再次确认',
+    icon: createVNode(ExclamationCircleOutlined),
+    content: '是否要删除选中案例？',
+    onOk: async () => {
+      const resp = await deleteAuto(record.Id)
+      if (resp.code === 200) {
+        reload()
+        message.success('删除成功')
+      } else {
+        message.error('删除失败')
+      }
+    }
+  })
 }
+
+onActivated(() => {
+  reload()
+})
 </script>
 <style scoped>
 .history-wrapper {
