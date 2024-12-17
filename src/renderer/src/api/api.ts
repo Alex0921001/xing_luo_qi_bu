@@ -53,3 +53,20 @@ export const updateAuto = (params: any): Promise<any> => api.post('/auto/update'
 
 // 删除自动排列内容
 export const deleteAuto = (Id: string | number): Promise<any> => api.post('/auto/delete', { Id })
+
+// 获取手动排列列表
+export const getNoAutoList = (params: any): Promise<any> => api.post('/noauto/list', params)
+
+// 获取手动排列明细
+export const getNoAutoDetail = (Id: string | number): Promise<any> =>
+  api.post('/noauto/detail', { Id })
+
+// 新增手动排列内容
+export const addNoAuto = (params: any): Promise<any> => api.post('/noauto/create', params)
+
+// 修改手动排列内容
+export const updateNoAuto = (params: any): Promise<any> => api.post('/noauto/update', params)
+
+// 删除手动排列内容
+export const deleteNoAuto = (Id: string | number): Promise<any> =>
+  api.post('/noauto/delete', { Id })

@@ -266,9 +266,17 @@
         <div class="line"><lineCanvas :current-click-box="currentClickBox"></lineCanvas></div>
       </div>
       <div class="foot-tools">
-        <a-button style="margin-left: 10px" danger @click="handleClear">清空</a-button>
+        <a-button style="margin-left: 10px" @click="handleClear">清空</a-button>
+        <a-button style="margin-left: 10px" type="primary" @click="handleSave">保存</a-button>
       </div>
     </div>
+
+    <SaveModal
+      ref="saveModalRef"
+      :modal-type="modalType"
+      :current-item="currentData"
+      :sheng-nian-gan="shengNianGan"
+    ></SaveModal>
   </div>
 </template>
 <script lang="ts" setup name="dragger">
@@ -276,6 +284,8 @@ import unitItem from '@renderer/components/unit-item.vue'
 import lineCanvas from '@renderer/components/line-canvas.vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
 import { GONGS, XINGS, GANS } from '@renderer/enums'
+import SaveModal from './components/save-modal.vue'
+import { getNoAutoDetail } from '@renderer/api/api'
 
 const gongs = ref(GONGS)
 const xings = ref(XINGS)
@@ -828,11 +838,57 @@ const handleClickBox = (item: Item) => {
   }
 }
 
+// 保存内容
+const modalType = ref<'add' | 'edit'>('add')
+const route = useRoute()
+const saveModalRef = ref()
+const handleSave = () => {
+  if (route.query.id) {
+    modalType.value = 'edit'
+  } else {
+    modalType.value = 'add'
+  }
+  currentData.settings = JSON.stringify(item_info.value)
+  saveModalRef.value.toggle()
+}
+
 // 返回
 const router = useRouter()
 const logout = () => {
   router.go(-1)
 }
+
+interface CurrentData {
+  Id?: number
+  name: string
+  sex: '男' | '女'
+  tag: string
+  comment: string
+  settings: string
+  shengniangan?: number
+}
+const currentData = reactive<CurrentData>({
+  Id: undefined,
+  name: '',
+  sex: '男',
+  tag: '',
+  comment: '',
+  settings: '',
+  shengniangan: 0
+})
+const initFormData = async () => {
+  const resp = await getNoAutoDetail(route.query.id as string)
+  if (resp.code === 200) {
+    Object.assign(currentData, resp.data)
+    if (currentData.settings) item_info.value = JSON.parse(currentData.settings)
+    if (currentData.shengniangan) shengNianGan.value = currentData.shengniangan
+  }
+}
+onMounted(() => {
+  if (route.query.id) {
+    initFormData()
+  }
+})
 </script>
 <style lang="less" scoped>
 .ziwei {

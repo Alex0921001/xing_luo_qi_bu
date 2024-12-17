@@ -10,20 +10,20 @@ export const getAutoList = async function (req, res) {
 
   // 根据查询参数构建条件
   if (name) {
-    sql += ` AND name = ?`
-    params.push(name)
+    sql += ` AND name LIKE ?`
+    params.push(`%${name}%`)
   }
   if (address) {
-    sql += ` AND address = ?`
-    params.push(address)
+    sql += ` AND address LIKE ?`
+    params.push(`%${address}%`)
   }
   if (sex) {
     sql += ` AND sex = ?`
     params.push(sex)
   }
   if (tag) {
-    sql += ` AND tag = ?`
-    params.push(tag)
+    sql += ` AND tag LIKE ?`
+    params.push(`%${tag}%`)
   }
   if (comment) {
     sql += ` AND comment LIKE ?`

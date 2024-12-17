@@ -1,20 +1,32 @@
 import express from 'express'
-import { connection } from '../database'
+import {
+  getNoAutoList,
+  getNoAutoById,
+  createNoAuto,
+  updateNoAuto,
+  deleteNoAuto
+} from '../controller/noauto'
+const autoRouter = express.Router()
 
-const noautoRouter = express.Router()
-
-noautoRouter.get('/get', function (_req, res) {
-  res.send('Index Page')
+// 分页查询
+autoRouter.post('/list', async function (_req, res) {
+  await getNoAutoList(_req, res)
+})
+// 单条记录查询
+autoRouter.post('/detail', async function (_req, res) {
+  await getNoAutoById(_req, res)
+})
+// 创建
+autoRouter.post('/create', async function (_req, res) {
+  await createNoAuto(_req, res)
+})
+// 编辑
+autoRouter.post('/update', async function (_req, res) {
+  await updateNoAuto(_req, res)
+})
+// 删除
+autoRouter.post('/delete', async function (_req, res) {
+  await deleteNoAuto(_req, res)
 })
 
-noautoRouter.get('/about', async function (_req, res) {
-  const [data] = await connection.query('SELECT * FROM `xiangs`')
-  const resp = {
-    data,
-    message: 'About Page',
-    code: 200
-  }
-  res.send(resp)
-})
-
-export default noautoRouter
+export default autoRouter

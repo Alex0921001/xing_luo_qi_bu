@@ -36,7 +36,7 @@
                 </a-input>
               </a-form-item>
             </a-col>
-            <a-col :span="12">
+            <a-col v-if="activeKey === '1'" :span="12">
               <a-form-item>
                 <a-range-picker
                   v-model:value="formState.birthday"
@@ -64,7 +64,12 @@
         >）
       </template>
       <template #operation="{ record }">
-        <a-button size="small" title="查看详情" type="text" @click="goDetail(record)"
+        <a-button
+          v-if="activeKey === '1'"
+          size="small"
+          title="查看详情"
+          type="text"
+          @click="goDetail(record)"
           ><EyeOutlined
         /></a-button>
         <a-button size="small" title="编辑" type="text" @click="editRecord(record)"
@@ -91,7 +96,7 @@ import type { UnwrapRef } from 'vue'
 import SearchForm from '@renderer/components/search-form.vue'
 import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
-import { getAutoList, deleteAuto } from '@renderer/api/api'
+import { getAutoList, deleteAuto, getNoAutoList, deleteNoAuto } from '@renderer/api/api'
 import { Lunar } from 'lunar-typescript'
 import { Modal, message } from 'ant-design-vue'
 import { createVNode } from 'vue'
@@ -114,48 +119,85 @@ const formState: UnwrapRef<FormState> = reactive({
 
 const activeKey = ref('1')
 
-const colunms = ref([
-  {
-    title: '名称',
-    dataIndex: 'name',
-    align: 'center',
-    width: 70
-  },
-  {
-    title: '性别',
-    dataIndex: 'sex',
-    align: 'center',
-    width: 50
-  },
-  {
-    title: '生辰',
-    dataIndex: 'birthday',
-    align: 'center'
-  },
-  {
-    title: '地址',
-    dataIndex: 'address',
-    align: 'center'
-  },
-  {
-    title: '类别',
-    dataIndex: 'tag',
-    align: 'center',
-    width: 100
-  },
-  {
-    title: '备注',
-    dataIndex: 'comment',
-    width: 150
-  },
-  {
-    title: '操作',
-    dataIndex: 'operation',
-    align: 'center',
-    width: 150,
-    fixed: 'right'
+const colunms = computed(() => {
+  if (activeKey.value === '1') {
+    return [
+      {
+        title: '名称',
+        dataIndex: 'name',
+        align: 'center',
+        width: 70
+      },
+      {
+        title: '性别',
+        dataIndex: 'sex',
+        align: 'center',
+        width: 50
+      },
+      {
+        title: '生辰',
+        dataIndex: 'birthday',
+        align: 'center'
+      },
+      {
+        title: '地址',
+        dataIndex: 'address',
+        align: 'center'
+      },
+      {
+        title: '类别',
+        dataIndex: 'tag',
+        align: 'center',
+        width: 100
+      },
+      {
+        title: '备注',
+        dataIndex: 'comment',
+        width: 150
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+        align: 'center',
+        width: 150,
+        fixed: 'right'
+      }
+    ]
+  } else {
+    return [
+      {
+        title: '名称',
+        dataIndex: 'name',
+        align: 'center',
+        width: 70
+      },
+      {
+        title: '性别',
+        dataIndex: 'sex',
+        align: 'center',
+        width: 50
+      },
+      {
+        title: '类别',
+        dataIndex: 'tag',
+        align: 'center',
+        width: 100
+      },
+      {
+        title: '备注',
+        dataIndex: 'comment',
+        width: 150
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+        align: 'center',
+        width: 80,
+        fixed: 'right'
+      }
+    ]
   }
-])
+})
 
 const getLunar = computed(() => {
   return (record: any) => {
@@ -171,8 +213,13 @@ const getLunar = computed(() => {
   }
 })
 const getData = async (params: any) => {
-  const resp = await getAutoList(params)
-  return resp
+  if (activeKey.value === '1') {
+    const resp = await getAutoList(params)
+    return resp
+  } else {
+    const resp = await getNoAutoList(params)
+    return resp
+  }
 }
 
 const tableRef = ref()
@@ -214,6 +261,8 @@ const editRecord = (record: any) => {
       ...record
     })
     router.push({ name: 'auto', query: { id: record.Id } })
+  } else {
+    router.push({ name: 'noauto', query: { id: record.Id } })
   }
 }
 
@@ -223,7 +272,12 @@ const deleteRecord = (record: any) => {
     icon: createVNode(ExclamationCircleOutlined),
     content: '是否要删除选中案例？',
     onOk: async () => {
-      const resp = await deleteAuto(record.Id)
+      let resp: any
+      if (activeKey.value === '1') {
+        resp = await deleteAuto(record.Id)
+      } else {
+        resp = await deleteNoAuto(record.Id)
+      }
       if (resp.code === 200) {
         reload()
         message.success('删除成功')
