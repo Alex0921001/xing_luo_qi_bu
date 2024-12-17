@@ -24,7 +24,7 @@
         />
       </a-form-item>
       <a-form-item label="备注" name="comment">
-        <a-textarea v-model:value="formState.comment" placeholder="请输入备注" />
+        <a-textarea v-model:value="formState.comment" placeholder="请输入备注" :rows="6" />
       </a-form-item>
     </a-form>
   </a-modal>

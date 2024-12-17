@@ -213,11 +213,15 @@ const getLunar = computed(() => {
   }
 })
 const getData = async (params: any) => {
+  const options = {
+    ...params,
+    ...formState
+  }
   if (activeKey.value === '1') {
-    const resp = await getAutoList(params)
+    const resp = await getAutoList(options)
     return resp
   } else {
-    const resp = await getNoAutoList(params)
+    const resp = await getNoAutoList(options)
     return resp
   }
 }
