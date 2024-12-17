@@ -63,7 +63,7 @@ const formState = reactive<FormState>({
   tag: '',
   comment: '',
   settings: '',
-  shengniangan: props.shengNianGan
+  shengniangan: 0
 })
 
 watch(

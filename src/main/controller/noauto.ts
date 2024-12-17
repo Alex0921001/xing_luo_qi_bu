@@ -84,7 +84,7 @@ export const createNoAuto = async function (req, res) {
 
   const sql = `
     INSERT INTO \`noautolist\` (name, sex, tag, comment, settings, shengniangan)
-    VALUES (?, ?, ?, ? ,? )`
+    VALUES (?, ?, ?, ? ,?, ? )`
 
   const params = [name, sex, tag, comment, settings, shengniangan] // 将数据放入数组中
 
