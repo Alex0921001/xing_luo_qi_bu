@@ -263,7 +263,7 @@ const clickDaxian = (item: any) => {
       const startIndex = (mingGong?.Id + 12 + currentDaxian.index - 1) % 12 || 12
       list = handleGongsList(startIndex, '限')
     } else {
-      const startIndex = (mingGong?.Id + 12 - currentDaxian.index - 1) % 12 || 12
+      const startIndex = (mingGong?.Id + 12 - currentDaxian.index + 1) % 12 || 12
       list = handleGongsList(startIndex, '限')
     }
     EventBus.emit('update-ten-years', list)
