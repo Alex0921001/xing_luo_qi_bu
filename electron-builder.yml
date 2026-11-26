@@ -1,5 +1,7 @@
-appId: com.electron.app
-productName: xing_luo_qi_bu
+appId: com.xingluoqibu.app
+# 安装目录层用的名字：用户选定目录（如 D:\）后，实际装到 D:\星罗棋布
+# 快捷方式名不受影响，由 nsis.shortcutName 控制
+productName: 星罗棋布
 directories:
   buildResources: build
 files:
@@ -16,9 +18,16 @@ asarUnpack:
 win:
   executableName: xing_luo_qi_bu
 nsis:
+  # 关掉一键静默安装，弹出完整安装向导
+  oneClick: false
+  # 允许用户在向导里自选安装目录
+  allowToChangeInstallationDirectory: true
+  # 按当前用户安装，不弹 UAC
+  perMachine: false
   artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
+  # 桌面与开始菜单的快捷方式显示名用中文
+  shortcutName: 星罗棋布
+  uninstallDisplayName: 星罗棋布
   createDesktopShortcut: always
 mac:
   entitlementsInherit: build/entitlements.mac.plist
