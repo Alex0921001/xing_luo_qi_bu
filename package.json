@@ -5,6 +5,10 @@
   "main": "./out/main/index.js",
   "author": "丁鹏",
   "homepage": "https://electron-vite.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alex0921001/xing_luo_qi_bu.git"
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",

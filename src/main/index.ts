@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { startServer, stopServer } from './express'
 import { closeDatabase, initDatabase } from './database'
+import { setupUpdater } from './updater'
 
 let mainWindow
 function createWindow(): void {
@@ -58,6 +59,9 @@ function createWindow(): void {
   globalShortcut.register('F12', () => {
     mainWindow.webContents.toggleDevTools()
   })
+
+  // 窗口就绪后接入自动更新（内部会在打包环境下延迟检查）
+  mainWindow.once('ready-to-show', () => setupUpdater(mainWindow))
 }
 
 // 这段代码描述了一个应用程序在 Electron 框架中的初始化流程
