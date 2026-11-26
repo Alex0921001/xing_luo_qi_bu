@@ -36,16 +36,16 @@ export const getSihuasTable = async function (_req, res) {
 export const updateSihuas = async function (req, res) {
   const { Id, moneyId, powerId, cultureId, dangerId } = req.body
   const arr = [moneyId, powerId, cultureId, dangerId]
-  arr.forEach(async (item, index) => {
+  // 原写法用 forEach + async，没法等待更新完成就先返回响应，这里改成顺序 await
+  for (let index = 0; index < arr.length; index++) {
     const xiangId = index + 1
     const sql = `
     UPDATE sihuas
     SET starId = ?
     WHERE ganId = ? AND xiangId = ?
   `
-    const params = [item, Id, xiangId]
-    await connection.query(sql, params)
-  })
+    await connection.query(sql, [arr[index], Id, xiangId])
+  }
 
   res.send({
     code: 200,

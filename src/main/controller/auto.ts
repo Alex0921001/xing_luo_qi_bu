@@ -30,9 +30,9 @@ export const getAutoList = async function (req, res) {
     params.push(`%${comment}%`) // 使用通配符进行模糊查询
   }
 
-  // 添加生辰的条件
+  // 添加生辰的条件（SQLite 没有 CONCAT / TIME_FORMAT，用 || 拼接并从 ISO 时间串里取出时分秒）
   if (startTime && endTime) {
-    sql += ` AND CONCAT(birthday, ' ', TIME_FORMAT(birthtime, '%H:%i:%s')) BETWEEN ? AND ?`
+    sql += ` AND (birthday || ' ' || CASE WHEN instr(birthtime, 'T') > 0 THEN substr(birthtime, instr(birthtime, 'T') + 1, 8) ELSE birthtime END) BETWEEN ? AND ?`
     params.push(startTime, endTime)
   }
 

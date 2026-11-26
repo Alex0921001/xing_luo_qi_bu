@@ -3,3 +3,7 @@ dist
 out
 .DS_Store
 *.log*
+# 本地 SQLite 数据库与临时文件
+*.db
+*.db.tmp
+logs

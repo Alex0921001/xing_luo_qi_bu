@@ -1,0 +1,10 @@
+nodeLinker: hoisted
+
+allowBuilds:
+  better-sqlite3: true
+  canvas: false
+  core-js: true
+  electron: true
+  es5-ext: true
+  esbuild: true
+  vue-demi: true

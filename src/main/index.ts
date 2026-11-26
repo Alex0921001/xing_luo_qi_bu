@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { startServer, stopServer } from './express'
+import { closeDatabase, initDatabase } from './database'
 
 let mainWindow
 function createWindow(): void {
@@ -85,6 +86,9 @@ app.whenReady().then(async () => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
+  // 初始化本地 SQLite 数据库（建表 + 首次灌入字典种子数据）
+  await initDatabase()
+
   // 调用创建服务器函数
   await startServer()
 
@@ -109,7 +113,10 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('will-quit', stopServer)
+app.on('will-quit', () => {
+  stopServer()
+  closeDatabase()
+})
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

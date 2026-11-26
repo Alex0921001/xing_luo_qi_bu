@@ -10,7 +10,8 @@ export const getNoAutoList = async function (req, res) {
 
   // 根据查询参数构建条件
   if (name) {
-    sql += ` AND name = ?`
+    // 原写法用等号配模糊串，搜索永远不命中，顺手改成 LIKE
+    sql += ` AND name LIKE ?`
     params.push(`%${name}%`)
   }
   if (sex) {

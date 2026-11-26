@@ -11,6 +11,8 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+  # sql.js 的 wasm 必须解包到 asar 外，否则运行时加载不到
+  - node_modules/sql.js/dist/**
 win:
   executableName: xing_luo_qi_bu
 nsis:
